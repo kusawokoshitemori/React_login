@@ -1,7 +1,9 @@
-import "./index.css";
+// src/pages/index.tsx
 import { useForm } from "react-hook-form";
 import { validationSchema } from "../utils/validationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import "./index.css";
 
 interface LoginForm {
   name: string;
@@ -9,7 +11,7 @@ interface LoginForm {
   password: string;
 }
 
-function App() {
+const App = () => {
   const {
     register,
     handleSubmit,
@@ -19,8 +21,20 @@ function App() {
     resolver: zodResolver(validationSchema),
   });
 
-  const onSubmit = (data: LoginForm) => {
-    console.log(data);
+  const onSubmit = async (data: LoginForm) => {
+    try {
+      const response = await axios.post("http://localhost:3000/api/login", {
+        email: data.email,
+        password: data.password,
+      });
+      console.log(response.data.message); // ログイン成功メッセージを表示
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(error.response?.data.message); // エラーメッセージを表示
+      } else {
+        console.error("Unexpected error:", error);
+      }
+    }
   };
 
   return (
@@ -36,11 +50,10 @@ function App() {
         <label htmlFor="パスワード">パスワード</label>
         <input id="password" type="password" {...register("password")} />
         <p>{errors.password?.message as React.ReactNode}</p>
-
         <button type="submit">送信</button>
       </form>
     </div>
   );
-}
+};
 
 export default App;
