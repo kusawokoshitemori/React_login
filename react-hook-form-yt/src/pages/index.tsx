@@ -1,6 +1,6 @@
-import "./App.css";
+import "./index.css";
 import { useForm } from "react-hook-form";
-import { validationSchema } from "./utils/validationSchema";
+import { validationSchema } from "../utils/validationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 interface LoginForm {
