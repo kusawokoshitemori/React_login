@@ -1,35 +1,54 @@
 import "./App.css";
 import { useForm } from "react-hook-form";
 
-// フォームデータの型定義
-interface FormData {
-  example: string;
+interface LoginForm {
+  name: string;
+  email: string;
+  password: string;
 }
 
 function App() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
-  } = useForm<FormData>();
-  const onSubmit = (data: FormData) => console.log(data);
+  } = useForm<LoginForm>({ mode: "onChange" });
 
-  console.log(watch("example"));
+  const onSubmit = (data: LoginForm) => {
+    console.log(data);
+  };
 
   return (
     <div className="form-container">
       <h1>Login Form</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="名前">名前</label>
-        <input id="name" type="text" {...register("example")} />
+        <input
+          id="name"
+          type="text"
+          {...register("name", {
+            required: "名前は必須です",
+            minLength: { value: 4, message: "4文字以上で入力してください" },
+          })}
+        />
+        <p>{errors.name?.message as React.ReactNode}</p>
         <label htmlFor="メールアドレス">メールアドレス</label>
-        <input id="email" type="email" {...register("example")} />
+        <input
+          id="email"
+          type="email"
+          {...register("email", { required: "Emailは必須です" })}
+        />
+        <p>{errors.email?.message as React.ReactNode}</p>
         <label htmlFor="パスワード">パスワード</label>
-        <input id="password" type="password" {...register("example")} />
-
-        {/* エラーメッセージの表示 */}
-        {errors.example?.message && <p>{String(errors.example.message)}</p>}
+        <input
+          id="password"
+          type="password"
+          {...register("password", {
+            required: "パスワードは必須です",
+            minLength: { value: 6, message: "6文字以上で入力してください" },
+          })}
+        />
+        <p>{errors.password?.message as React.ReactNode}</p>
 
         <button type="submit">送信</button>
       </form>
