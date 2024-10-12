@@ -1,36 +1,42 @@
-//Next.js のクライアントコンポーネントとして指定
+// src/app/register.tsx
 "use client";
 
 import { useForm } from "react-hook-form";
-import { validationSchema } from "../app/utils/validationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import axios from "axios";
 import "./page.css";
-import Link from "next/link";
 
-interface LoginForm {
+interface RegisterForm {
   name: string;
   email: string;
   password: string;
 }
 
-const App = () => {
+const schema = z.object({
+  name: z.string().min(1, "名前を入力してください"),
+  email: z.string().email("有効なメールアドレスを入力してください"),
+  password: z.string().min(6, "パスワードは6文字以上である必要があります"),
+});
+
+const Register = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginForm>({
+  } = useForm<RegisterForm>({
     mode: "onChange",
-    resolver: zodResolver(validationSchema),
+    resolver: zodResolver(schema),
   });
 
-  const onSubmit = async (data: LoginForm) => {
+  const onSubmit = async (data: RegisterForm) => {
     try {
-      const response = await axios.post("http://localhost:3000/api/login", {
+      const response = await axios.post("http://localhost:3000/api/register", {
+        name: data.name,
         email: data.email,
         password: data.password,
       });
-      console.log(response.data.message); // ログイン成功メッセージを表示
+      console.log(response.data.message); // 登録成功メッセージを表示
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error(error.response?.data.message); // エラーメッセージを表示
@@ -42,7 +48,7 @@ const App = () => {
 
   return (
     <div className="form-container">
-      <h1>Login Form</h1>
+      <h1>新規登録フォーム</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="名前">名前</label>
         <input id="name" type="text" {...register("name")} />
@@ -53,11 +59,10 @@ const App = () => {
         <label htmlFor="パスワード">パスワード</label>
         <input id="password" type="password" {...register("password")} />
         <p>{errors.password?.message as React.ReactNode}</p>
-        <button type="submit">送信</button>
+        <button type="submit">登録</button>
       </form>
-      <Link href="/register">新規登録</Link>
     </div>
   );
 };
 
-export default App;
+export default Register;
