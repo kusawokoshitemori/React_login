@@ -1,6 +1,6 @@
 // src/pages/index.tsx
 import { useForm } from "react-hook-form";
-import { validationSchema } from "../utils/validationSchema";
+import { validationSchema } from "../app/utils/validationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import "./index.css";
