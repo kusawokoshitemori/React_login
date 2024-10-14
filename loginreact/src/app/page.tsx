@@ -8,6 +8,7 @@ const FirstPage = () => {
       <Link href="/register">新規登録</Link>
       <Link href="/login">ログイン</Link>
       <Link href="/post">投稿画面</Link>
+      <Link href="/HomePage">テスト画面</Link>
     </div>
   );
 };

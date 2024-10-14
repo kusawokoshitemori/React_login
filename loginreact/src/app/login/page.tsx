@@ -33,11 +33,15 @@ const App = () => {
 
   const onSubmit = async (data: LoginForm) => {
     try {
-      const response = await axios.post("http://localhost:3000/api/login", {
+      const response = await axios.post("/api/login", {
         email: data.email,
         password: data.password,
       });
       console.log(response.data.message); // ログイン成功メッセージを表示
+
+      // JWTトークンをlocalStorageに保存
+      localStorage.setItem("token", response.data.token);
+
       setLoginSuccess(true);
       setLoginError(null);
       // HomePageにリダイレクトする

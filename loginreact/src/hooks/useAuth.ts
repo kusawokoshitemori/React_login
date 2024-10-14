@@ -1,0 +1,39 @@
+import { useState, useEffect } from "react";
+import axios from "axios";
+
+interface User {
+  id: string;
+  email: string;
+}
+
+const useAuth = () => {
+  const [user, setUser] = useState<User | null>(null);
+
+  const fetchUser = async () => {
+    try {
+      const token = localStorage.getItem("token"); // トークンを取得
+      const response = await axios.get("/api/auth/user", {
+        headers: {
+          Authorization: `Bearer ${token}`, // トークンをAuthorizationヘッダーに設定
+        },
+      });
+      if (response.data) {
+        setUser({
+          id: response.data.id,
+          email: response.data.email,
+        });
+      }
+    } catch (error) {
+      console.error("ユーザー情報の取得に失敗しました", error);
+      setUser(null);
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+  return user;
+};
+
+export default useAuth;
