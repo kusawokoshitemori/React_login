@@ -12,6 +12,11 @@ const useAuth = () => {
   const fetchUser = async () => {
     try {
       const token = localStorage.getItem("token"); // トークンを取得
+      if (!token) {
+        console.error("トークンが存在しません");
+        return;
+      }
+
       const response = await axios.get("/api/auth/user", {
         headers: {
           Authorization: `Bearer ${token}`, // トークンをAuthorizationヘッダーに設定
