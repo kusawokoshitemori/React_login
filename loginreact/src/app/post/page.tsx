@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useForm } from "react-hook-form";
+import { supabase } from "../../lib/supabaseClient";
 
 const ProverbForm = () => {
   const {
@@ -10,9 +11,22 @@ const ProverbForm = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data: any) => {
-    console.log(data);
-    // ここでデータをAPIに送信する処理を追加
+  const onSubmit = async (data: any) => {
+    const { error } = await supabase.from("posts").insert([
+      {
+        proverb: data.proverb,
+        explanation: data.explanation,
+        userid: "user99999", // 適宜ユーザーIDを取得するロジックに変更
+        good: 1,
+        comment: 0,
+      },
+    ]);
+
+    if (error) {
+      console.error("Error inserting data:", error.message);
+    } else {
+      console.log("データが正常に挿入されました");
+    }
   };
 
   return (
@@ -27,11 +41,11 @@ const ProverbForm = () => {
       </div>
       <div>
         <textarea
-          {...register("explanation", { required: true, maxLength: 70 })}
-          placeholder="説明 (最大70文字)"
+          {...register("explanation", { required: true, maxLength: 50 })}
+          placeholder="説明 (最大50文字)"
           className="w-full p-2 border rounded"
         />
-        {errors.explanation && <span>説明は必須です（最大70文字）</span>}
+        {errors.explanation && <span>説明は任意です（最大50文字）</span>}
       </div>
       <button
         type="submit"

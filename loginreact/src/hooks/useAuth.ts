@@ -22,10 +22,12 @@ const useAuth = () => {
           Authorization: `Bearer ${token}`, // トークンをAuthorizationヘッダーに設定
         },
       });
-      if (response.data) {
+
+      console.log("Axios Response:", response); // レスポンスを確認
+      if (response.data && response.data.user) {
         setUser({
-          id: response.data.id,
-          email: response.data.email,
+          id: response.data.user.id, // response.data.user から取得
+          email: response.data.user.email, // response.data.user から取得
         });
       }
     } catch (error) {
