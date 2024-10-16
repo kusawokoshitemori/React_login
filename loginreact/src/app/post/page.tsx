@@ -1,23 +1,36 @@
 "use client"; // クライアントコンポーネントとしてマーク
 
 import React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { supabase } from "../../lib/supabaseClient";
+import useAuth from "../../hooks/useAuth";
+
+//formの型定義
+interface ProverbFormData {
+  proverb: string;
+  explanation: string;
+}
 
 const ProverbForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<ProverbFormData>();
 
-  const onSubmit = async (data: any) => {
+  const user = useAuth(); // ユーザー情報を取得
+
+  const onSubmit: SubmitHandler<ProverbFormData> = async (data) => {
+    if (!user) {
+      console.error("ユーザーが認証されていません");
+      return;
+    }
     const { error } = await supabase.from("posts").insert([
       {
         proverb: data.proverb,
         explanation: data.explanation,
-        userid: "user99999", // 適宜ユーザーIDを取得するロジックに変更
-        good: 1,
+        userid: "user" + user.id,
+        good: 0,
         comment: 0,
       },
     ]);
