@@ -22,6 +22,7 @@ const HomePage = () => {
         <p>ユーザー情報を読み込んでいます...</p>
       )}
       <Link href="/post">投稿画面</Link>
+      <Link href="/profile">プロフィール</Link>
     </div>
   );
 };
