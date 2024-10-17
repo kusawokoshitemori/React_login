@@ -1,13 +1,22 @@
+"use client";
+
+import useAuth from "@/hooks/useAuth";
 import ProfileTop from "@/components/profileTop";
 import ProfileSecond from "@/components/profileSecond";
 
-const profile = () => {
+const Profile = () => {
+  const user = useAuth();
+
   return (
     <div className="w-full">
       <ProfileTop />
-      <ProfileSecond />
+      {user?.id ? (
+        <ProfileSecond userId={user.id} />
+      ) : (
+        <div>Loading...</div> // ローディング中の表示
+      )}
     </div>
   );
 };
 
-export default profile;
+export default Profile;
