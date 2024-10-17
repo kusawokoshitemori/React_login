@@ -14,13 +14,9 @@ const ProfileSecond = ({ userId }) => {
   useEffect(() => {
     const fetchCounts = async () => {
       try {
-        console.log(`Fetching counts for userId: ${userId}`);
         const response = await axios.get(`/api/follow?userId=${userId}`); //ここ変えた
-        console.log("Response:", response.data); // レスポンスを確認
         setFollowersCount(response.data.followersCount);
         setFollowCount(response.data.followCount);
-        console.log("レスポンス返す");
-        console.log(response);
       } catch (error) {
         console.error(
           "フォロワー数またはフォロー数の取得に失敗しました",

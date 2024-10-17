@@ -3,6 +3,7 @@
 import useAuth from "@/hooks/useAuth";
 import ProfileTop from "@/components/profileTop";
 import ProfileSecond from "@/components/profileSecond";
+import Introduce from "@/components/Introduce";
 
 const Profile = () => {
   const user = useAuth();
@@ -15,6 +16,7 @@ const Profile = () => {
       ) : (
         <div>Loading...</div> // ローディング中の表示
       )}
+      <Introduce />
     </div>
   );
 };
