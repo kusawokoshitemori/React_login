@@ -8,9 +8,9 @@ const Button = () => {
   return (
     <button
       onClick={handleClick}
-      className="text-white bg-blue-500 rounded-lg hover:bg-blue-700 p-4"
+      className="text-white bg-blue-500 rounded-lg hover:bg-blue-700 whitespace-nowrap p-4 text-lg"
     >
-      プロフィールを編集
+      プロフィール編集
     </button>
   );
 };
