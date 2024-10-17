@@ -8,7 +8,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className="w-full">
-        <div className="min-w-[320px]">{children}</div>
+        <div className="min-w-[320px] w-full">{children}</div>
       </body>
     </html>
   );
