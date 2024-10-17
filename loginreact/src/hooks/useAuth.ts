@@ -4,6 +4,7 @@ import axios from "axios";
 interface User {
   id: string;
   email: string;
+  name: string;
 }
 
 const useAuth = () => {
@@ -28,6 +29,7 @@ const useAuth = () => {
         setUser({
           id: response.data.user.id, // response.data.user から取得
           email: response.data.user.email, // response.data.user から取得
+          name: response.data.user.name,
         });
       }
     } catch (error) {
