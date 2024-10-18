@@ -16,7 +16,11 @@ const Profile = () => {
       ) : (
         <div>Loading...</div> // ローディング中の表示
       )}
-      <Introduce />
+      {user?.id ? (
+        <Introduce userId={user.id} />
+      ) : (
+        <div>Loading...</div> // ローディング中の表示
+      )}
     </div>
   );
 };

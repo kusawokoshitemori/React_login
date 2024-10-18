@@ -5,8 +5,6 @@ import { supabase } from "@/lib/supabaseClient";
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const userId = searchParams.get("userId");
-  console.log(userId);
-  console.log("正しいよ");
 
   //フォローの数を返す
   const { count: followCount, error: followError } = await supabase

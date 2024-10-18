@@ -15,6 +15,7 @@ const ProfileSecond = ({ userId }) => {
     const fetchCounts = async () => {
       try {
         const response = await axios.get(`/api/follow?userId=${userId}`); //ここ変えた
+
         setFollowersCount(response.data.followersCount);
         setFollowCount(response.data.followCount);
       } catch (error) {
