@@ -43,7 +43,7 @@ const Contents = () => {
             height={40}
             className="rounded-full mr-4 ml-1 m-1"
           />
-          <p text-lg>1</p>
+          <p className="text-lg">1</p>
         </div>
         <div className="flex items-center">
           <Image
@@ -53,7 +53,7 @@ const Contents = () => {
             height={50}
             className="rounded-full mr-4 ml-1 m-1"
           />
-          <p text-lg>0</p>
+          <p className="text-lg">0</p>
         </div>
         <div>
           <Image
