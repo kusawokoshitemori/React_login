@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import axios from "axios";
-import "./page.css";
 
 interface RegisterForm {
   name: string;
@@ -47,19 +46,54 @@ const Register = () => {
   };
 
   return (
-    <div className="form-container">
-      <h1>新規登録フォーム</h1>
+    <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
+      <h1 className="mb-5 text-2xl font-bold text-center">新規登録フォーム</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <label htmlFor="名前">名前</label>
-        <input id="name" type="text" {...register("name")} />
-        <p>{errors.name?.message as React.ReactNode}</p>
-        <label htmlFor="メールアドレス">メールアドレス</label>
-        <input id="email" type="email" {...register("email")} />
-        <p>{errors.email?.message as React.ReactNode}</p>
-        <label htmlFor="パスワード">パスワード</label>
-        <input id="password" type="password" {...register("password")} />
-        <p>{errors.password?.message as React.ReactNode}</p>
-        <button type="submit">登録</button>
+        <label htmlFor="name" className="block text-sm mb-1">
+          名前
+        </label>
+        <input
+          id="name"
+          type="text"
+          {...register("name")}
+          className="w-full p-2 border border-gray-300 rounded mb-2"
+        />
+        <p className="text-red-600 text-xs mb-4">
+          {errors.name?.message as React.ReactNode}
+        </p>
+
+        <label htmlFor="email" className="block text-sm mb-1">
+          メールアドレス
+        </label>
+        <input
+          id="email"
+          type="email"
+          {...register("email")}
+          className="w-full p-2 border border-gray-300 rounded mb-2"
+        />
+        <p className="text-red-600 text-xs mb-4">
+          {errors.email?.message as React.ReactNode}
+        </p>
+
+        <label htmlFor="password" className="block text-sm mb-1">
+          パスワード
+        </label>
+        <input
+          id="password"
+          type="password"
+          {...register("password")}
+          className="w-full p-2 border border-gray-300 rounded mb-2"
+        />
+        <p className="text-red-600 text-xs mb-4">
+          {errors.password?.message as React.ReactNode}
+        </p>
+
+        <button
+          type="submit"
+          className="w-full p-2 font-bold text-white bg-blue-600 rounded hover:bg-blue-700 transition"
+        >
+          登録
+        </button>
       </form>
     </div>
   );

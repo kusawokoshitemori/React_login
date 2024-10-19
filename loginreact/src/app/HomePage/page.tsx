@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import "./page.css";
 import useAuth from "../../hooks/useAuth"; // ユーザーフックをインポート
 import Link from "next/link";
 
@@ -11,7 +10,7 @@ const HomePage = () => {
   console.log("User data:", user);
 
   return (
-    <div className="home-page">
+    <div className="text-4xl">
       <h1>ようこそ！</h1>
       {user ? (
         <div>
@@ -21,6 +20,7 @@ const HomePage = () => {
       ) : (
         <p>ユーザー情報を読み込んでいます...</p>
       )}
+      <br />
       <Link href="/post">投稿画面</Link>
       <Link href="/profile">プロフィール</Link>
     </div>
