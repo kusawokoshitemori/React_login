@@ -41,7 +41,7 @@ const Contents = () => {
             alt="ハートの画像"
             width={40}
             height={40}
-            className="rounded-full mr-4 ml-1 m-1"
+            className="rounded-full mr-4 ml-1 m-1 w-auto h-auto"
           />
           <p className="text-lg">1</p>
         </div>
@@ -51,7 +51,7 @@ const Contents = () => {
             alt="コメントの画像"
             width={50}
             height={50}
-            className="rounded-full mr-4 ml-1 m-1"
+            className="rounded-full mr-4 ml-1 m-1  w-auto h-auto"
           />
           <p className="text-lg">0</p>
         </div>

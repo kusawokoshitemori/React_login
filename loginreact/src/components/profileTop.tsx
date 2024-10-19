@@ -10,10 +10,10 @@ const ProfileTop = () => {
         <Image
           src="/karukaru.png"
           alt="test用画像"
-          layout="responsive"
           width={100}
           height={100}
           className="rounded-full w-2/5 mr-4"
+          priority
         />
         <Button />
       </div>
