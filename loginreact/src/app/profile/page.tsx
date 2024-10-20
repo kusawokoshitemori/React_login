@@ -23,7 +23,7 @@ const Profile = () => {
         <div>Loading...</div> // ローディング中の表示
       )}
       {user?.id ? (
-        <Contents userId={user.id} />
+        <Contents postId={2} />
       ) : (
         <div>Loading...</div> // ローディング中の表示
       )}
