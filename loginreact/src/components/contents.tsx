@@ -13,10 +13,15 @@ interface Post {
   good: number;
   comment: number;
 }
+interface User {
+  id: number; // ユーザーのID
+  name: string; // 名前
+}
 
 const Contents = ({ postId }) => {
   const [isOpenDetail, setIsOpenDetail] = useState(false);
-  const [post, setPost] = useState<Post | null>(null); // 単一の投稿を管理
+  const [post, setPost] = useState<Post | null>(null); //投稿,名前を管理
+  const [user, setUser] = useState<User | null>(null);
 
   const toggleAccordion = () => {
     setIsOpenDetail(!isOpenDetail);
@@ -35,6 +40,23 @@ const Contents = ({ postId }) => {
       } else {
         console.log("Fetched post:", data);
         setPost(data as Post);
+        // useridを使用してnameを取り出す
+        fetchUserById(data.userid);
+      }
+    };
+    // nameを取り出す関数
+    const fetchUserById = async (userId: string) => {
+      const { data, error } = await supabase
+        .from("users")
+        .select("name")
+        .eq("id", userId)
+        .single();
+
+      if (error) {
+        console.error("Error fetching user:", error);
+      } else {
+        console.log("Fetched user:", data);
+        setUser(data as User);
       }
     };
 
@@ -48,7 +70,7 @@ const Contents = ({ postId }) => {
   }
 
   return (
-    <div className="w-5/6 mx-auto border-4 rounded-lg border-blue-300">
+    <div className="w-5/6 mx-auto my-2 border-4 rounded-lg border-blue-300">
       <div className="w-full flex items-center border-b-4 border-green-500">
         <Image
           src="/karukaru.png"
@@ -57,7 +79,9 @@ const Contents = ({ postId }) => {
           height={50}
           className="rounded-full mr-4 ml-1 m-1"
         />
-        <p className="whitespace-nowrap text-lg">ここに名前入る</p>
+        <p className="whitespace-nowrap text-lg">
+          {user ? user.name : "名前を取得中..."}
+        </p>
       </div>
       <p className="text-2xl sm:text-4xl flex items-center justify-center mt-2">
         {post.proverb}

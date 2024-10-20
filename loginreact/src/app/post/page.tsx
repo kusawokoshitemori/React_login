@@ -29,7 +29,7 @@ const ProverbForm = () => {
       {
         proverb: data.proverb,
         explanation: data.explanation,
-        userid: "user" + user.id,
+        userid: user.id,
         good: 0,
         comment: 0,
       },
