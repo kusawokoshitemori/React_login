@@ -5,7 +5,6 @@ import ProfileTop from "@/components/profileTop";
 import ProfileSecond from "@/components/profileSecond";
 import Introduce from "@/components/Introduce";
 import Contents from "@/components/contents";
-import FetchPosts from "@/components/test";
 
 const Profile = () => {
   const user = useAuth();
@@ -23,9 +22,8 @@ const Profile = () => {
       ) : (
         <div>Loading...</div> // ローディング中の表示
       )}
-      <Contents />
       {user?.id ? (
-        <FetchPosts userId={user.id} />
+        <Contents userId={user.id} />
       ) : (
         <div>Loading...</div> // ローディング中の表示
       )}

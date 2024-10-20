@@ -12,7 +12,7 @@ const ProfileTop = () => {
           alt="test用画像"
           width={100}
           height={100}
-          className="rounded-full w-2/5 mr-4"
+          className="rounded-full w-2/5 mx-4"
           priority
         />
         <Button />
