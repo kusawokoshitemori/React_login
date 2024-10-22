@@ -2,7 +2,6 @@
 
 import Comment from "./Comment";
 import CommentPost from "./CommentPost";
-import ButtonComment from "./ButtonComment";
 
 interface Comment {
   content: string; // コメントの内容
@@ -26,7 +25,6 @@ const CommentSection = ({ comments }: CommentsProps) => {
       </div>
       <div>
         <CommentPost />
-        <ButtonComment />
       </div>
     </div>
   );
