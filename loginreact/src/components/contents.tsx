@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
+import Comments from "./comments";
 
 interface Post {
   id: number;
@@ -20,49 +21,70 @@ interface User {
 
 const Contents = ({ postId }) => {
   const [isOpenDetail, setIsOpenDetail] = useState(false);
-  const [post, setPost] = useState<Post | null>(null); //投稿,名前を管理
+  const [isOpenComment, setIsOpenComment] = useState(false);
+  const [post, setPost] = useState<Post | null>(null); // 投稿, 名前を管理
   const [user, setUser] = useState<User | null>(null);
+  const [comments, setComments] = useState<{ content: any }[]>([]);
 
-  const toggleAccordion = () => {
+  const ClickArrow = () => {
     setIsOpenDetail(!isOpenDetail);
+  };
+  const ClickComment = () => {
+    setIsOpenComment(!isOpenComment);
   };
 
   useEffect(() => {
-    const fetchPostById = async () => {
-      const { data, error } = await supabase
-        .from("posts")
-        .select("*")
-        .eq("id", postId)
-        .single(); // 特定の投稿を取得
+    const fetchData = async () => {
+      if (!postId) return;
 
-      if (error) {
-        console.error("Error fetching post:", error);
-      } else {
-        console.log("Fetched post:", data);
-        setPost(data as Post);
-        // useridを使用してnameを取り出す
-        fetchUserById(data.userid);
+      try {
+        // 特定の投稿を取得
+        const { data: postData, error: postError } = await supabase
+          .from("posts")
+          .select("*")
+          .eq("id", postId)
+          .single();
+
+        if (postError) {
+          console.error("Error fetching post:", postError);
+          return;
+        }
+
+        console.log("Fetched post:", postData);
+        setPost(postData as Post);
+
+        // ユーザー名を取得
+        const { data: userData, error: userError } = await supabase
+          .from("users")
+          .select("name")
+          .eq("id", postData.userid)
+          .single();
+
+        if (userError) {
+          console.error("Error fetching user:", userError);
+        } else {
+          console.log("Fetched user:", userData);
+          setUser(userData as User);
+        }
+
+        // コメントを取得
+        const { data: commentsData, error: commentsError } = await supabase
+          .from("comments")
+          .select("content")
+          .eq("post_id", postId);
+
+        if (commentsError) {
+          console.error("Error fetching comments:", commentsError);
+          return;
+        }
+
+        setComments(commentsData);
+      } catch (error) {
+        console.error("Error in fetchData:", error);
       }
     };
-    // nameを取り出す関数
-    const fetchUserById = async (userId: string) => {
-      const { data, error } = await supabase
-        .from("users")
-        .select("name")
-        .eq("id", userId)
-        .single();
 
-      if (error) {
-        console.error("Error fetching user:", error);
-      } else {
-        console.log("Fetched user:", data);
-        setUser(data as User);
-      }
-    };
-
-    if (postId) {
-      fetchPostById();
-    }
+    fetchData();
   }, [postId]);
 
   if (!post) {
@@ -111,6 +133,7 @@ const Contents = ({ postId }) => {
             width={50}
             height={50}
             className="rounded-full mr-4 ml-1 m-1  w-auto h-auto"
+            onClick={ClickComment}
           />
           <p className="text-lg">{post.comment}</p>
         </div>
@@ -123,10 +146,12 @@ const Contents = ({ postId }) => {
             className={`rounded-full mr-4 ml-1 m-1 cursor-pointer transition-transform duration-500 ease-in-out ${
               isOpenDetail ? "rotate-90" : "rotate-0"
             }`}
-            onClick={toggleAccordion}
+            onClick={ClickArrow}
           />
         </div>
       </div>
+      {/* コメントを出す */}
+      {isOpenComment && <Comments comments={comments} />}
     </div>
   );
 };
