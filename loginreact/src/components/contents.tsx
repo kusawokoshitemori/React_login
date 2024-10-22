@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
-import Comments from "./comments";
+import Comments from "./CommentSection";
 
 interface Post {
   id: number;
