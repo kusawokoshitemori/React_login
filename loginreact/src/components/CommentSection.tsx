@@ -9,9 +9,10 @@ interface Comment {
 
 interface CommentsProps {
   comments: Comment[]; // コメントの配列
+  postId: number;
 }
 
-const CommentSection = ({ comments }: CommentsProps) => {
+const CommentSection = ({ comments, postId }: CommentsProps) => {
   return (
     <div>
       <div>
@@ -24,7 +25,7 @@ const CommentSection = ({ comments }: CommentsProps) => {
         )}
       </div>
       <div>
-        <CommentPost />
+        <CommentPost postId={postId} />
       </div>
     </div>
   );

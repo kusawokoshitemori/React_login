@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
-import Comments from "./CommentSection";
+import CommentSection from "./CommentSection";
 
 interface Post {
   id: number;
@@ -151,7 +151,7 @@ const Contents = ({ postId }) => {
         </div>
       </div>
       {/* コメントを出す */}
-      {isOpenComment && <Comments comments={comments} />}
+      {isOpenComment && <CommentSection comments={comments} postId={postId} />}
     </div>
   );
 };
