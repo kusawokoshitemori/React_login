@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import CommentSection from "./CommentSection";
+import useAuth from "@/hooks/useAuth";
 
 interface Post {
   id: number;
@@ -20,6 +21,7 @@ interface User {
 }
 
 const Contents = ({ postId }) => {
+  const PlayerUser = useAuth();
   const [isOpenDetail, setIsOpenDetail] = useState(false);
   const [isOpenComment, setIsOpenComment] = useState(false);
   const [post, setPost] = useState<Post | null>(null); // 投稿, 名前を管理
@@ -91,6 +93,37 @@ const Contents = ({ postId }) => {
     return <p>Loading...</p>;
   }
 
+  // いいね機能
+  const ClickHeart = async (userId, postId) => {
+    if (!userId) {
+      userId = PlayerUser ? PlayerUser.id : null; // 引数がnullの場合のみ設定 ここがおかしくなるかも
+    } // PlayerUserがnullの場合はnullを代入
+
+    if (!userId) {
+      console.error("ユーザーが認証されていないか、IDが取得できません。");
+      return; // ユーザーが認証されていない場合は処理を中止
+    }
+
+    try {
+      const response = await fetch("/api/likes", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId, postId }),
+      });
+
+      if (response.ok) {
+        console.log("いいねが追加されました");
+        // 必要に応じて状態を更新して、ボタンのスタイルを変更するなどの処理を追加
+      } else {
+        console.error("いいねの追加に失敗しました");
+      }
+    } catch (error) {
+      console.error("エラーが発生しました:", error);
+    }
+  };
+
   return (
     <div className="w-5/6 mx-auto my-2 border-4 rounded-lg border-blue-300">
       <div className="w-full flex items-center border-b-4 border-green-500">
@@ -123,6 +156,7 @@ const Contents = ({ postId }) => {
             width={40}
             height={40}
             className="rounded-full mr-4 ml-1 m-1 w-auto h-auto"
+            onClick={() => ClickHeart(PlayerUser.id, post.id)}
           />
           <p className="text-lg">{post.good}</p>
         </div>
