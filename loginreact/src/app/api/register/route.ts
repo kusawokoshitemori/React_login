@@ -14,6 +14,7 @@ export async function POST(request: Request) {
     .insert([{ name, email, password: hashedPassword }]);
 
   if (error) {
+    console.error("Supabase Error:", error);
     return NextResponse.json(
       { message: "ユーザー登録に失敗しました。" },
       { status: 500 }
