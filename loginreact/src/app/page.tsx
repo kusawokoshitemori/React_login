@@ -10,6 +10,7 @@ const FirstPage = () => {
       <Link href="/HomePage">テスト画面</Link>
       <Link href="/profile">プロフィール</Link>
       <Link href="/main">メインページ</Link>
+      <Link href="/test">テスト</Link>
     </div>
   );
 };
