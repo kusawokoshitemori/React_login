@@ -6,6 +6,7 @@ interface TestProps {
   postId: number;
 }
 
+// forwardRefの型指定を修正
 const Test = forwardRef<HTMLDivElement, TestProps>(({ postId }, ref) => {
   return (
     <div ref={ref} className="test-component">
