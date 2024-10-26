@@ -128,6 +128,7 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
     return (
       <div
         ref={ref}
+        id={`post-${postId}`}
         className="w-5/6 mx-auto my-2 border-4 rounded-lg border-blue-300"
       >
         <div className="w-full flex items-center border-b-4 border-green-500">
