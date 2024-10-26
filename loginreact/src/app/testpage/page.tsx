@@ -2,16 +2,22 @@
 
 import { useEffect } from "react";
 
+// 一回だけデータを送る
+let isRequesting = false;
+
 const TestComponent = () => {
   useEffect(() => {
     const testFetch = async () => {
+      if (isRequesting) return; // すでにリクエスト中なら戻る
+      isRequesting = true;
+
       try {
         const response = await fetch("/api/seems", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ user_id: 2, post_id: 1 }),
+          body: JSON.stringify({ userId: 2, postId: 1 }),
         });
 
         // レスポンスのステータスコードを確認

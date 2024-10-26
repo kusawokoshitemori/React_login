@@ -16,35 +16,40 @@ const Main = () => {
   );
 
   // APIを呼び出す関数
-  const handleIntersection = async (userId: string, postId: number) => {
+  const fetchIntersectionData = async (user_id, post_id) => {
+    console.log("fetchIntersectionDataまで動いてはいる");
     try {
       const response = await fetch("/api/seems", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userId, postId }),
+        body: JSON.stringify({ user_id, post_id }),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to save to database");
+        throw new Error(`Error: ${response.status}`);
       }
 
       const data = await response.json();
-      console.log("データが保存されました:", data);
+      console.log(data);
     } catch (error) {
-      console.error("エラーが発生しました:", error);
+      console.error("Fetch error:", error);
     }
   };
 
-  // IntersectionObserver フックを使用
+  // IntersectionObserverフックを使用
   useIntersectionObserver(elementRefs.current, (postId) => {
-    if (PlayerUser) {
-      // ユーザーが認証されている場合のみ
-      handleIntersection(PlayerUser.id, postId);
-    } else {
-      console.error("ユーザーが認証されていないため、データを保存できません。");
+    console.log("表示機能は動いたよ");
+    if (!PlayerUser || !PlayerUser.id) {
+      console.error("NULLだからログインしてねー");
+      return; // PlayerUserがnullまたはIDがない場合は何もしない
     }
+    const userId = PlayerUser.id;
+    console.log(`userId: ${userId} postId: ${postId}`);
+
+    // ここで直接APIを呼び出す
+    fetchIntersectionData(userId, postId);
   });
 
   return (
