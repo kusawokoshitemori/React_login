@@ -20,6 +20,8 @@ interface User {
   name: string; // 名前
 }
 
+// ClickHeartを別のとこで定義したほうがきれいなコードになるかも
+
 const Contents = forwardRef<HTMLDivElement, { postId: number }>(
   ({ postId }, ref) => {
     const PlayerUser = useAuth();

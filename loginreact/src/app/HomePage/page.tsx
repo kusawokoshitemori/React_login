@@ -24,6 +24,7 @@ const HomePage = () => {
       <Link href="/post">投稿画面</Link>
       <Link href="/profile">プロフィール</Link>
       <Link href="/main">メインページ</Link>
+      <Link href="/testpage">マジもんのテスト</Link>
     </div>
   );
 };

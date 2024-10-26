@@ -3,7 +3,7 @@ import { useEffect, RefObject } from "react";
 
 const useIntersectionObserver = (
   refs: RefObject<HTMLElement>[],
-  callback: () => void,
+  callback: (postId: number) => void,
   threshold: number = 0.1
 ) => {
   useEffect(() => {
@@ -11,7 +11,8 @@ const useIntersectionObserver = (
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting && entry.intersectionRatio >= threshold) {
-            callback();
+            const postId = parseInt(entry.target.id.split("-")[1], 10);
+            callback(postId);
           }
         });
       },
