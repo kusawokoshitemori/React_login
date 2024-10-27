@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import useAuth from "../../hooks/useAuth"; // ユーザーフックをインポート
+import useAuth from "@/hooks/useAuth"; // ユーザーフックをインポート
 import Link from "next/link";
 
 const HomePage = () => {

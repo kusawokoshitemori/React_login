@@ -17,7 +17,6 @@ const Main = () => {
 
   // APIを呼び出す関数
   const fetchIntersectionData = async (user_id, post_id) => {
-    console.log("fetchIntersectionDataまで動いてはいる");
     try {
       const response = await fetch("/api/seems", {
         method: "POST",
