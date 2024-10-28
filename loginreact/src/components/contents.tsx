@@ -118,7 +118,24 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
 
         if (response.ok) {
           console.log("いいねが追加されました");
-          // 必要に応じて状態を更新して、ボタンのスタイルを変更するなどの処理を追加
+
+          // ここでpostsテーブルの`good`カウントを1増やすリクエストを追加
+          const updateResponse = await fetch(
+            `/api/postReaction/${postId}/GoodIncrement`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+
+          if (updateResponse.ok) {
+            console.log("投稿の`good`カウントが1増えました");
+          } else {
+            console.error("投稿の`good`カウントを増やすのに失敗しました");
+          }
+          // ここまで
         } else {
           console.error("いいねの追加に失敗しました");
         }
