@@ -5,6 +5,7 @@ import { useEffect, useState, forwardRef } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import CommentSection from "./CommentSection";
 import useAuth from "@/hooks/useAuth";
+import { handleLike } from "@/lib/handleLike";
 
 interface Post {
   id: number;
@@ -19,8 +20,6 @@ interface User {
   id: number; // ユーザーのID
   name: string; // 名前
 }
-
-// ClickHeartを別のとこで定義したほうがきれいなコードになるかも
 
 const Contents = forwardRef<HTMLDivElement, { postId: number }>(
   ({ postId }, ref) => {
@@ -96,54 +95,6 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
       return <p>Loading...</p>;
     }
 
-    // いいね機能
-    const ClickHeart = async (userId, postId) => {
-      if (!userId) {
-        userId = PlayerUser ? PlayerUser.id : null; // 引数がnullの場合のみ設定 ここがおかしくなるかも
-      } // PlayerUserがnullの場合はnullを代入
-
-      if (!userId) {
-        console.error("ユーザーが認証されていないか、IDが取得できません。");
-        return; // ユーザーが認証されていない場合は処理を中止
-      }
-
-      try {
-        const response = await fetch("/api/likes", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ userId, postId }),
-        });
-
-        if (response.ok) {
-          console.log("いいねが追加されました");
-
-          // ここでpostsテーブルの`good`カウントを1増やすリクエストを追加
-          const updateResponse = await fetch(
-            `/api/postReaction/${postId}/GoodIncrement`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
-
-          if (updateResponse.ok) {
-            console.log("投稿の`good`カウントが1増えました");
-          } else {
-            console.error("投稿の`good`カウントを増やすのに失敗しました");
-          }
-          // ここまで
-        } else {
-          console.error("いいねの追加に失敗しました");
-        }
-      } catch (error) {
-        console.error("エラーが発生しました:", error);
-      }
-    };
-
     return (
       <div
         ref={ref}
@@ -180,7 +131,9 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
               width={40}
               height={40}
               className="rounded-full mr-4 ml-1 m-1 w-auto h-auto"
-              onClick={() => ClickHeart(PlayerUser.id, post.id)}
+              onClick={() =>
+                PlayerUser?.id && handleLike(PlayerUser.id, post.id)
+              }
             />
             <p className="text-lg">{post.good}</p>
           </div>
