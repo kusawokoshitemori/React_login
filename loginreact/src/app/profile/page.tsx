@@ -3,6 +3,7 @@
 import useAuth from "@/hooks/useAuth";
 import ProfileTop from "@/components/profileTop";
 import ProfileSecond from "@/components/profileSecond";
+import ProfileNoPost from "@/components/ProfileNoPost";
 import Introduce from "@/components/Introduce";
 import Contents from "@/components/contents"; // 修正：コンポーネント名の修正
 import { supabase } from "@/lib/supabaseClient";
@@ -68,7 +69,7 @@ const Profile = () => {
         </>
       ) : (
         <div className="flex items-center justify-center">
-          まだ投稿がありません
+          <ProfileNoPost />
         </div> // 投稿が見つからない場合の表示
       )}
     </div>
