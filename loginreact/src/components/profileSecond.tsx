@@ -14,7 +14,7 @@ const ProfileSecond = ({ userId }: { userId: number }) => {
   useEffect(() => {
     const fetchCounts = async () => {
       try {
-        const response = await axios.get(`/api/follow?userId=${userId}`); //ここ変えた
+        const response = await axios.get(`/api/follow?userId=${userId}`);
 
         setFollowersCount(response.data.followersCount);
         setFollowCount(response.data.followCount);

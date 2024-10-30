@@ -5,7 +5,7 @@ import Button from "./Button";
 const ProfileTop = () => {
   return (
     <div>
-      3Word
+      {/* 3Word */}
       <div className="flex items-center">
         <Image
           src="/karukaru.png"

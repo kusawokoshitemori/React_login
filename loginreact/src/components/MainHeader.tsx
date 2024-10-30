@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const MainHeader = () => {
   return (
-    <div className="bg-green-300 flex items-center ">
+    <div className="bg-green-300 flex items-center h-24">
       <Image
         src="/original_proverb.png"
         alt="アイコン"

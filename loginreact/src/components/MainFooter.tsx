@@ -8,7 +8,7 @@ const MainFooter = () => {
     /* 画面が大きいときはwidth調節して画像の右側にスペース入れたい。(画像大きく) */
   }
   return (
-    <div className="flex justify-between bg-gray-300">
+    <div className="flex justify-between bg-gray-300 h-32">
       <Link href="/main">
         <div className="flex flex-col items-center">
           <Image

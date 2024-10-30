@@ -10,7 +10,9 @@ import useAuth from "@/hooks/useAuth";
 const Main = () => {
   const PlayerUser = useAuth();
   // おすすめの投稿のIDを格納する配列
-  const [recommendedPosts, setRecommendedPosts] = useState<number[]>([4, 3]); // 初期値として[4, 3]を設定
+  const [recommendedPosts, setRecommendedPosts] = useState<number[]>([
+    4, 3, 2, 1,
+  ]); // 初期値として[4, 3]を設定
   const elementRefs = useRef<RefObject<HTMLDivElement>[]>(
     recommendedPosts.map(() => React.createRef<HTMLDivElement>())
   );
@@ -52,17 +54,25 @@ const Main = () => {
   });
 
   return (
-    <div className="w-full">
-      <MainHeader />
-      {/* recommendedPosts配列の各postIdに対してContentsコンポーネントを表示 */}
-      {recommendedPosts.map((postId, index) => (
-        <Contents
-          key={postId}
-          postId={postId}
-          ref={elementRefs.current[index]}
-        />
-      ))}
-      <MainFooter />
+    <div className="w-full h-screen">
+      <header className="fixed top-0 left-0 right-0 z-10">
+        <MainHeader />
+      </header>
+
+      <div className="pt-24 pb-32">
+        {/* recommendedPosts配列の各postIdに対してContentsコンポーネントを表示 */}
+        {recommendedPosts.map((postId, index) => (
+          <Contents
+            key={postId}
+            postId={postId}
+            ref={elementRefs.current[index]}
+          />
+        ))}
+      </div>
+
+      <footer className="fixed bottom-0 left-0 right-0">
+        <MainFooter />
+      </footer>
     </div>
   );
 };
