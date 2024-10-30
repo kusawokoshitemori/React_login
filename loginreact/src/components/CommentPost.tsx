@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import useAuth from "@/hooks/useAuth";
+import { handleComment } from "@/lib/handleComment";
 
 interface CommentPostProps {
   postId: number; // 投稿IDを受け取る
@@ -35,7 +36,13 @@ const CommentPost = ({ postId }: CommentPostProps) => {
         return;
       }
 
+      // postテーブルのcommentを1増やす
+      handleComment(postId);
       alert("コメントが保存されました");
+
+      // postテーブルのcommentを1増やす
+      handleComment(postId);
+
       setContent(""); // フォームをリセット
     } catch (error) {
       console.error("Error:", error);

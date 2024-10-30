@@ -16,45 +16,45 @@ export async function POST(
   }
 
   try {
-    // `good` カウントを1増やす
+    // `comment` カウントを1増やす
     const { data, error: fetchError } = await supabase
       .from("posts")
-      .select("good")
+      .select("comment")
       .eq("id", postId)
       .single();
 
     if (fetchError) {
       console.error(fetchError);
       return NextResponse.json(
-        { message: "Failed to fetch good count" },
+        { message: "postsテーブルのcommentを取れなかった" },
         { status: 500 }
       );
     }
 
-    const newGoodCount = (data?.good || 0) + 1;
+    const newCommentCount = (data?.comment || 0) + 1;
 
     const { error: updateError } = await supabase
       .from("posts")
-      .update({ good: newGoodCount })
+      .update({ comment: newCommentCount })
       .eq("id", postId);
 
     if (updateError) {
       console.error(updateError);
       return NextResponse.json(
-        { message: "Failed to increment good count" },
+        { message: "コメントの数を増やせなかった" },
         { status: 500 }
       );
     }
 
     // 成功レスポンスを返す
     return NextResponse.json(
-      { message: "Good count incremented successfully" },
+      { message: "コメントの数増やせた" },
       { status: 200 }
     );
   } catch (error) {
     console.error(error);
     return NextResponse.json(
-      { message: "An unexpected error occurred" },
+      { message: "コメント増やす時にエラー" },
       { status: 500 }
     );
   }
