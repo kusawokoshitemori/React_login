@@ -25,7 +25,7 @@ const CommentPost = ({ postId }: CommentPostProps) => {
     }
 
     try {
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from("comments")
         .insert([{ content, user_id: userId, post_id: postId }]);
 

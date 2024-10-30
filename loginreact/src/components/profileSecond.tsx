@@ -4,7 +4,7 @@ import useAuth from "@/hooks/useAuth";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const ProfileSecond = ({ userId }) => {
+const ProfileSecond = ({ userId }: { userId: number }) => {
   const user = useAuth(); // useAuthでデータ取得
 
   //フォロー,フォロワー数を送ってもらうやつ

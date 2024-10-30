@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const Introduce = ({ userId }) => {
+const Introduce = ({ userId }: { userId: number }) => {
   const [introduce, setIntroduce] = useState<string | null>(null); // 自己紹介取り出す
 
   useEffect(() => {

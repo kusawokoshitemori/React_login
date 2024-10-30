@@ -28,7 +28,7 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
     const [isOpenComment, setIsOpenComment] = useState(false);
     const [post, setPost] = useState<Post | null>(null); // 投稿, 名前を管理
     const [user, setUser] = useState<User | null>(null);
-    const [comments, setComments] = useState<{ content: any }[]>([]);
+    const [comments, setComments] = useState<{ content: string }[]>([]);
 
     const ClickArrow = () => {
       setIsOpenDetail(!isOpenDetail);
