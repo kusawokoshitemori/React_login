@@ -20,10 +20,17 @@ const MainFooter = () => {
           <p className="text-sm">ホーム</p>
         </div>
       </Link>
-      <div className="flex flex-col items-center">
-        <Image src="/search.png" alt="投稿アイコン" width={80} height={80} />
-        <p className="text-sm">サーチ</p>
-      </div>
+      <Link href="/search">
+        <div className="flex flex-col items-center">
+          <Image
+            src="/search.png"
+            alt="虫眼鏡アイコン"
+            width={80}
+            height={80}
+          />
+          <p className="text-sm">新着順</p>
+        </div>
+      </Link>
       <Link href="/post">
         <div className="flex flex-col items-center">
           <Image src="/post.png" alt="投稿アイコン" width={80} height={80} />

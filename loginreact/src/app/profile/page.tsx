@@ -5,6 +5,8 @@ import ProfileTop from "@/components/profileTop";
 import ProfileSecond from "@/components/profileSecond";
 import ProfileNoPost from "@/components/ProfileNoPost";
 import Introduce from "@/components/Introduce";
+import MainHeader from "@/components/MainHeader";
+import MainFooter from "@/components/MainFooter";
 import Contents from "@/components/contents"; // 修正：コンポーネント名の修正
 import { supabase } from "@/lib/supabaseClient";
 import { useEffect, useState } from "react";
@@ -47,31 +49,41 @@ const Profile = () => {
   }, [user]);
 
   return (
-    <div className="w-full">
-      <ProfileTop />
-      {user?.id ? (
-        <ProfileSecond userId={user.id} />
-      ) : (
-        <div>Loading...</div> // ローディング中の表示
-      )}
-      {user?.id ? (
-        <Introduce userId={user.id} />
-      ) : (
-        <div>Loading...</div> // ローディング中の表示
-      )}
-      {loading ? (
-        <div>Loading...</div> // ローディング中の表示
-      ) : posts.length > 0 ? ( // 投稿があるか確認
-        <>
-          {posts.map((post) => (
-            <Contents key={post.id} postId={post.id} /> // 取得した各投稿のpostIdをContentsに渡す
-          ))}
-        </>
-      ) : (
-        <div className="flex items-center justify-center">
-          <ProfileNoPost />
-        </div> // 投稿が見つからない場合の表示
-      )}
+    <div className="w-full h-screen">
+      <header className="fixed top-0 left-0 right-0 z-10">
+        <MainHeader />
+      </header>
+
+      <div className="w-full pt-24 pb-32">
+        <ProfileTop />
+        {user?.id ? (
+          <ProfileSecond userId={user.id} />
+        ) : (
+          <div>Loading...</div> // ローディング中の表示
+        )}
+        {user?.id ? (
+          <Introduce userId={user.id} />
+        ) : (
+          <div>Loading...</div> // ローディング中の表示
+        )}
+        {loading ? (
+          <div>Loading...</div> // ローディング中の表示
+        ) : posts.length > 0 ? ( // 投稿があるか確認
+          <>
+            {posts.map((post) => (
+              <Contents key={post.id} postId={post.id} /> // 取得した各投稿のpostIdをContentsに渡す
+            ))}
+          </>
+        ) : (
+          <div className="flex items-center justify-center">
+            <ProfileNoPost />
+          </div> // 投稿が見つからない場合の表示
+        )}
+      </div>
+
+      <footer className="fixed bottom-0 left-0 right-0">
+        <MainFooter />
+      </footer>
     </div>
   );
 };

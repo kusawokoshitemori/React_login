@@ -9,12 +9,10 @@ import useAuth from "@/hooks/useAuth";
 
 const Main = () => {
   const PlayerUser = useAuth();
-  // おすすめの投稿のIDを格納する配列
-  const [recommendedPosts, setRecommendedPosts] = useState<number[]>([
-    4, 3, 2, 1,
-  ]); // 初期値として[4, 3]を設定
+  // 検索後のIDを格納する配列
+  const [searchedPosts, setSearchedPosts] = useState<number[]>([4, 3]); // 初期値として[4, 3]を設定
   const elementRefs = useRef<RefObject<HTMLDivElement>[]>(
-    recommendedPosts.map(() => React.createRef<HTMLDivElement>())
+    searchedPosts.map(() => React.createRef<HTMLDivElement>())
   );
 
   // seemsのAPIを呼び出す関数
@@ -59,9 +57,9 @@ const Main = () => {
         <MainHeader />
       </header>
 
-      <div className="pt-24 pb-32">
-        {/* recommendedPosts配列の各postIdに対してContentsコンポーネントを表示 */}
-        {recommendedPosts.map((postId, index) => (
+      <div className="pt-24 pb-32 bg-pink-50">
+        {/* searchedPosts配列の各postIdに対してContentsコンポーネントを表示 */}
+        {searchedPosts.map((postId, index) => (
           <Contents
             key={postId}
             postId={postId}
