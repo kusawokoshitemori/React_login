@@ -10,7 +10,7 @@ import useAuth from "@/hooks/useAuth";
 const SearchScreen = () => {
   const PlayerUser = useAuth();
   // 新着順のIDを格納する配列
-  const [searchedPosts, setSearchedPosts] = useState<number[]>([]); // 初期値として[4, 3]を設定
+  const [searchedPosts, setSearchedPosts] = useState<number[]>([]);
   useEffect(() => {
     const fetchPosts = async () => {
       try {
