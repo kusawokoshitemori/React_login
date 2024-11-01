@@ -24,7 +24,8 @@ const SearchScreen = () => {
         console.log("レスポンスにデータを入れる前だよ。");
         // データを入れる
         const data = await response.json();
-        setSearchedPosts(data);
+        // 以前のデータもと越しておく
+        setSearchedPosts((prevPosts) => [...prevPosts, ...data]);
       } catch (error) {
         console.error("Failed to fetch posts", error);
       }

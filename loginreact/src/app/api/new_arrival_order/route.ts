@@ -1,7 +1,7 @@
 import { supabase } from "@/lib/supabaseClient";
 
 // POSTメソッド専用の関数
-export async function GET(req: Request) {
+export async function GET() {
   console.log("リクエストを受信しました"); // このログが表示されるべきです
 
   // データの取得
