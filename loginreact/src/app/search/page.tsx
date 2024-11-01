@@ -1,16 +1,38 @@
 "use client";
 
-import React, { useState, useRef, RefObject } from "react";
+import React, { useState, useRef, RefObject, useEffect } from "react";
 import Contents from "@/components/contents";
 import MainHeader from "@/components/MainHeader";
 import MainFooter from "@/components/MainFooter";
 import useIntersectionObserver from "../utils/IntersectionObserver";
 import useAuth from "@/hooks/useAuth";
 
-const Main = () => {
+const SearchScreen = () => {
   const PlayerUser = useAuth();
-  // 検索後のIDを格納する配列
-  const [searchedPosts, setSearchedPosts] = useState<number[]>([4, 3]); // 初期値として[4, 3]を設定
+  // 新着順のIDを格納する配列
+  const [searchedPosts, setSearchedPosts] = useState<number[]>([]); // 初期値として[4, 3]を設定
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        console.log("try動いた");
+        // postsを取得するAPIをID降順で3件取得
+        const response = await fetch("/api/new_arrival_order");
+        if (!response.ok) {
+          throw new Error(`Error! status: ${response.status}`);
+        }
+
+        console.log("レスポンスにデータを入れる前だよ。");
+        // データを入れる
+        const data = await response.json();
+        setSearchedPosts(data);
+      } catch (error) {
+        console.error("Failed to fetch posts", error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
   const elementRefs = useRef<RefObject<HTMLDivElement>[]>(
     searchedPosts.map(() => React.createRef<HTMLDivElement>())
   );
@@ -75,4 +97,4 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default SearchScreen;
