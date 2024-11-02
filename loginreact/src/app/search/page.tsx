@@ -11,28 +11,54 @@ const SearchScreen = () => {
   const PlayerUser = useAuth();
   // 新着順のIDを格納する配列
   const [searchedPosts, setSearchedPosts] = useState<number[]>([]);
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        console.log("try動いた");
-        // postsを取得するAPIをID降順で3件取得
-        const response = await fetch("/api/new_arrival_order");
-        if (!response.ok) {
-          throw new Error(`Error! status: ${response.status}`);
-        }
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const loaderRef = useRef(null); // Intersection Observer用の参照
 
-        console.log("レスポンスにデータを入れる前だよ。");
-        // データを入れる
-        const data = await response.json();
-        // 以前のデータもと越しておく
-        setSearchedPosts((prevPosts) => [...prevPosts, ...data]);
-      } catch (error) {
-        console.error("Failed to fetch posts", error);
+  const fetchPosts = async (pageNumber) => {
+    try {
+      console.log("データを取得する: ページ", pageNumber);
+      // postsを取得するAPIをID降順で3件取得
+      const response = await fetch(`/api/new_arrival_order?page=${pageNumber}`);
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+
+      console.log("レスポンスにデータを入れる前だよ。");
+      // データを入れる
+      const data = await response.json();
+      // 以前のデータもと越しておく
+      setSearchedPosts((prevPosts) => [...prevPosts, ...data]);
+    } catch (error) {
+      console.error("Failed to fetch posts", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 初回データ取得
+  useEffect(() => {
+    fetchPosts(page);
+  }, [page]);
+
+  // Intersection Observerを使ってスクロールを検知
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !loading) {
+        setPage((prevPage) => prevPage + 1); // ページを増加させて新しいデータを取得
+      }
+    });
+
+    if (loaderRef.current) {
+      observer.observe(loaderRef.current); // ローダー要素を監視
+    }
+
+    return () => {
+      if (loaderRef.current) {
+        observer.unobserve(loaderRef.current); // クリーンアップ
       }
     };
-
-    fetchPosts();
-  }, []);
+  }, [loading]);
 
   const elementRefs = useRef<RefObject<HTMLDivElement>[]>(
     searchedPosts.map(() => React.createRef<HTMLDivElement>())
