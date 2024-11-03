@@ -22,6 +22,8 @@ const SearchScreen = () => {
   const loaderRef = useRef<HTMLDivElement | null>(null); // Intersection Observer用の参照
 
   const fetchPosts = useCallback(async () => {
+    // すでに実行中の場合はリターン
+    if (loading) return;
     setLoading(true);
     try {
       console.log("データを取得: 最後のID", lastFetchedId);
@@ -36,8 +38,12 @@ const SearchScreen = () => {
       console.log("レスポンスにデータを入れる前だよ。");
       // データを入れる
       const data = await response.json();
-      // 以前のデータもと越しておく
-      setSearchedPosts((prevPosts) => [...prevPosts, ...data]);
+      // idだけ抽出
+      const postIds = data.map((post) => post.id);
+      // 以前のデータも残しておく
+      setSearchedPosts((prevPosts) => [...prevPosts, ...postIds]);
+      console.log("searchedPostsの配列が更新されました");
+      console.log(searchedPosts); // デバッグ用に配列の内容を出力
 
       // 新しいデータがある場合、最後の投稿の ID を更新
       if (data.length > 0) {
@@ -49,7 +55,7 @@ const SearchScreen = () => {
     } finally {
       setLoading(false);
     }
-  }, [lastFetchedId]);
+  }, [lastFetchedId, loading]);
 
   // 初回データ取得
   useEffect(() => {
@@ -73,6 +79,7 @@ const SearchScreen = () => {
       if (currentLoaderRef) {
         observer.unobserve(currentLoaderRef); // クリーンアップ
       }
+      observer.disconnect(); // オブザーバーを解放
     };
   }, [loading, fetchPosts]); // loadingとfetchPostsを依存配列に追加
 
