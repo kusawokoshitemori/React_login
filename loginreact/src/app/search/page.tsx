@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useState, useRef, RefObject, useEffect } from "react";
+import React, {
+  useState,
+  useRef,
+  RefObject,
+  useEffect,
+  useCallback,
+} from "react";
 import Contents from "@/components/contents";
 import MainHeader from "@/components/MainHeader";
 import MainFooter from "@/components/MainFooter";
@@ -12,10 +18,10 @@ const SearchScreen = () => {
   // 新着順のIDを格納する配列
   const [searchedPosts, setSearchedPosts] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
-  const [lastFetchedId, setLastFetchedId] = useState(null); // 最後に取得したIDを記録
-  const loaderRef = useRef(null); // Intersection Observer用の参照
+  const [lastFetchedId, setLastFetchedId] = useState<number | null>(null); // 最後に取得したIDを記録
+  const loaderRef = useRef<HTMLDivElement | null>(null); // Intersection Observer用の参照
 
-  const fetchPosts = async () => {
+  const fetchPosts = useCallback(async () => {
     setLoading(true);
     try {
       console.log("データを取得: 最後のID", lastFetchedId);
@@ -43,12 +49,12 @@ const SearchScreen = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [lastFetchedId]);
 
   // 初回データ取得
   useEffect(() => {
     fetchPosts();
-  }, []);
+  }, [fetchPosts]);
 
   // Intersection Observerを使ってスクロールを検知
   useEffect(() => {
@@ -58,16 +64,17 @@ const SearchScreen = () => {
       }
     });
 
-    if (loaderRef.current) {
-      observer.observe(loaderRef.current); // ローダー要素を監視
+    const currentLoaderRef = loaderRef.current; // 現在のローダーの参照を保持
+    if (currentLoaderRef) {
+      observer.observe(currentLoaderRef); // ローダー要素を監視
     }
 
     return () => {
-      if (loaderRef.current) {
-        observer.unobserve(loaderRef.current); // クリーンアップ
+      if (currentLoaderRef) {
+        observer.unobserve(currentLoaderRef); // クリーンアップ
       }
     };
-  }, [loading]);
+  }, [loading, fetchPosts]); // loadingとfetchPostsを依存配列に追加
 
   const elementRefs = useRef<RefObject<HTMLDivElement>[]>(
     searchedPosts.map(() => React.createRef<HTMLDivElement>())
