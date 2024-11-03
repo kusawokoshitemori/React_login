@@ -10,9 +10,9 @@ import useAuth from "@/hooks/useAuth";
 const SearchScreen = () => {
   const PlayerUser = useAuth();
   // 新着順のIDを格納する配列
-  const loaderRef = useRef<HTMLDivElement | null>(null); // Intersection Observer用の参照
+  const loaderRef = useRef<HTMLDivElement | null>(null); // Intersection Observer用
 
-  // 初期化で最新のpostIdから降順に連番を生成する
+  // 最新のIdから配列を作る
   const INITIAL_ID = 7; // 最新のpostIdをここで指定
   const generatePostIds = (startId: number, count: number) => {
     return Array.from({ length: count }, (_, i) => startId - i);
@@ -24,15 +24,19 @@ const SearchScreen = () => {
 
   const fetchMorePosts = () => {
     const lastId = searchedPosts[searchedPosts.length - 1];
-    const newPosts = generatePostIds(lastId - 1, 3); // さらに3件追加
-    setSearchedPosts((prevPosts) => [...prevPosts, ...newPosts]);
+
+    // lastIdが3より小さい場合は投稿を取得しない else文でこれ以上の投稿は見つかりませんとかやってもいいかも
+    if (lastId >= 3) {
+      const newPosts = generatePostIds(lastId - 1, 3); // さらに3件追加
+      setSearchedPosts((prevPosts) => [...prevPosts, ...newPosts]);
+    }
   };
 
   // Intersection Observerを使ってスクロールを検知
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
-        fetchMorePosts(); // 次のデータセットを表示
+        fetchMorePosts();
       }
     });
 
@@ -43,7 +47,7 @@ const SearchScreen = () => {
       if (currentLoaderRef) observer.unobserve(currentLoaderRef);
       observer.disconnect();
     };
-  }, []);
+  }, [loaderRef.current]);
 
   // seemsのAPIを呼び出す関数
   const fetchIntersectionData = async (user_id: string, post_id: number) => {
@@ -90,7 +94,7 @@ const SearchScreen = () => {
         <MainHeader />
       </header>
 
-      <div className="pt-24 pb-32 bg-pink-50">
+      <div className="pt-24  bg-pink-50">
         {/* searchedPosts配列の各postIdに対してContentsコンポーネントを表示 */}
         {searchedPosts.map((postId, index) => (
           <Contents
@@ -99,6 +103,11 @@ const SearchScreen = () => {
             ref={elementRefs.current[index]}
           />
         ))}
+      </div>
+
+      {/* スクロール検知用のローダー要素 */}
+      <div ref={loaderRef} className="pb-32">
+        Loading...
       </div>
 
       <footer className="fixed bottom-0 left-0 right-0">
