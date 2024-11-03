@@ -12,14 +12,17 @@ const SearchScreen = () => {
   // 新着順のIDを格納する配列
   const [searchedPosts, setSearchedPosts] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
+  const [lastFetchedId, setLastFetchedId] = useState(null); // 最後に取得したIDを記録
   const loaderRef = useRef(null); // Intersection Observer用の参照
 
-  const fetchPosts = async (pageNumber) => {
+  const fetchPosts = async () => {
+    setLoading(true);
     try {
-      console.log("データを取得する: ページ", pageNumber);
+      console.log("データを取得: 最後のID", lastFetchedId);
       // postsを取得するAPIをID降順で3件取得
-      const response = await fetch(`/api/new_arrival_order?page=${pageNumber}`);
+      const response = await fetch(
+        `/api/new_arrival_order?lastFetchedId=${lastFetchedId}`
+      );
       if (!response.ok) {
         throw new Error(`Error! status: ${response.status}`);
       }
@@ -29,6 +32,12 @@ const SearchScreen = () => {
       const data = await response.json();
       // 以前のデータもと越しておく
       setSearchedPosts((prevPosts) => [...prevPosts, ...data]);
+
+      // 新しいデータがある場合、最後の投稿の ID を更新
+      if (data.length > 0) {
+        const lastPostId = data[data.length - 1].id;
+        setLastFetchedId(lastPostId);
+      }
     } catch (error) {
       console.error("Failed to fetch posts", error);
     } finally {
@@ -38,14 +47,14 @@ const SearchScreen = () => {
 
   // 初回データ取得
   useEffect(() => {
-    fetchPosts(page);
-  }, [page]);
+    fetchPosts();
+  }, []);
 
   // Intersection Observerを使ってスクロールを検知
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting && !loading) {
-        setPage((prevPage) => prevPage + 1); // ページを増加させて新しいデータを取得
+        fetchPosts(); // データを再度取得
       }
     });
 
