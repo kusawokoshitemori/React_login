@@ -1,12 +1,6 @@
 "use client";
 
-import React, {
-  useState,
-  useRef,
-  RefObject,
-  useEffect,
-  useCallback,
-} from "react";
+import React, { useState, useRef, RefObject, useEffect } from "react";
 import Contents from "@/components/contents";
 import MainHeader from "@/components/MainHeader";
 import MainFooter from "@/components/MainFooter";
@@ -16,76 +10,40 @@ import useAuth from "@/hooks/useAuth";
 const SearchScreen = () => {
   const PlayerUser = useAuth();
   // 新着順のIDを格納する配列
-  const [searchedPosts, setSearchedPosts] = useState<number[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [lastFetchedId, setLastFetchedId] = useState<number | null>(null); // 最後に取得したIDを記録
   const loaderRef = useRef<HTMLDivElement | null>(null); // Intersection Observer用の参照
 
-  const fetchPosts = useCallback(async () => {
-    // すでに実行中の場合はリターン
-    if (loading) return;
-    setLoading(true);
-    try {
-      console.log("データを取得: 最後のID", lastFetchedId);
-      // postsを取得するAPIをID降順で3件取得
-      const response = await fetch(
-        `/api/new_arrival_order?lastFetchedId=${lastFetchedId}`
-      );
-      if (!response.ok) {
-        throw new Error(`Error! status: ${response.status}`);
-      }
+  // 初期化で最新のpostIdから降順に連番を生成する
+  const INITIAL_ID = 7; // 最新のpostIdをここで指定
+  const generatePostIds = (startId: number, count: number) => {
+    return Array.from({ length: count }, (_, i) => startId - i);
+  };
 
-      console.log("レスポンスにデータを入れる前だよ。");
-      // データを入れる
-      const data = await response.json();
-      // idだけ抽出
-      const postIds = data.map((post) => post.id);
-      // 以前のデータも残しておく
-      setSearchedPosts((prevPosts) => [...prevPosts, ...postIds]);
-      console.log("searchedPostsの配列が更新されました");
-      console.log(searchedPosts); // デバッグ用に配列の内容を出力
+  const [searchedPosts, setSearchedPosts] = useState<number[]>(
+    generatePostIds(INITIAL_ID, 3)
+  );
 
-      // 新しいデータがある場合、最後の投稿の ID を更新
-      if (data.length > 0) {
-        const lastPostId = data[data.length - 1].id;
-        setLastFetchedId(lastPostId);
-      }
-    } catch (error) {
-      console.error("Failed to fetch posts", error);
-    } finally {
-      setLoading(false);
-    }
-  }, [lastFetchedId, loading]);
-
-  // 初回データ取得
-  useEffect(() => {
-    fetchPosts();
-  }, [fetchPosts]);
+  const fetchMorePosts = () => {
+    const lastId = searchedPosts[searchedPosts.length - 1];
+    const newPosts = generatePostIds(lastId - 1, 3); // さらに3件追加
+    setSearchedPosts((prevPosts) => [...prevPosts, ...newPosts]);
+  };
 
   // Intersection Observerを使ってスクロールを検知
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && !loading) {
-        fetchPosts(); // データを再度取得
+      if (entries[0].isIntersecting) {
+        fetchMorePosts(); // 次のデータセットを表示
       }
     });
 
-    const currentLoaderRef = loaderRef.current; // 現在のローダーの参照を保持
-    if (currentLoaderRef) {
-      observer.observe(currentLoaderRef); // ローダー要素を監視
-    }
+    const currentLoaderRef = loaderRef.current;
+    if (currentLoaderRef) observer.observe(currentLoaderRef);
 
     return () => {
-      if (currentLoaderRef) {
-        observer.unobserve(currentLoaderRef); // クリーンアップ
-      }
-      observer.disconnect(); // オブザーバーを解放
+      if (currentLoaderRef) observer.unobserve(currentLoaderRef);
+      observer.disconnect();
     };
-  }, [loading, fetchPosts]); // loadingとfetchPostsを依存配列に追加
-
-  const elementRefs = useRef<RefObject<HTMLDivElement>[]>(
-    searchedPosts.map(() => React.createRef<HTMLDivElement>())
-  );
+  }, []);
 
   // seemsのAPIを呼び出す関数
   const fetchIntersectionData = async (user_id: string, post_id: number) => {
@@ -108,6 +66,9 @@ const SearchScreen = () => {
       console.error("Fetch error:", error);
     }
   };
+  const elementRefs = useRef<RefObject<HTMLDivElement>[]>(
+    searchedPosts.map(() => React.createRef<HTMLDivElement>())
+  );
 
   // IntersectionObserverフックを使用
   useIntersectionObserver(elementRefs.current, (postId) => {
