@@ -4,6 +4,7 @@ import React, { useState, useRef, RefObject, useEffect } from "react";
 import Contents from "@/components/contents";
 import MainHeader from "@/components/MainHeader";
 import MainFooter from "@/components/MainFooter";
+import { fetchLastPostId } from "../api/fetchLastpostId/route";
 import useIntersectionObserver from "../utils/IntersectionObserver";
 import useAuth from "@/hooks/useAuth";
 
@@ -13,13 +14,19 @@ const SearchScreen = () => {
   const loaderRef = useRef<HTMLDivElement | null>(null); // Intersection Observer用
 
   // 最新のIdから配列を作る
-  const INITIAL_ID = 7; // 最新のpostIdをここで指定
+  const [LastPost, setLastPost] = useState(7);
+  const fetchPoatId = async () => {
+    const latestPostId = await fetchLastPostId();
+    setLastPost(latestPostId);
+  };
+  fetchPoatId();
+
   const generatePostIds = (startId: number, count: number) => {
     return Array.from({ length: count }, (_, i) => startId - i);
   };
 
   const [searchedPosts, setSearchedPosts] = useState<number[]>(
-    generatePostIds(INITIAL_ID, 3)
+    generatePostIds(LastPost, 3)
   );
 
   const fetchMorePosts = () => {

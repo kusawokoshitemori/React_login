@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { supabase } from "@/lib/supabaseClient"; // Supabaseクライアントを適切に設定してください
+import { supabase } from "@/lib/supabaseClient";
 
 export default async function handler(
   req: NextApiRequest,
