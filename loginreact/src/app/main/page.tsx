@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, RefObject } from "react";
+import React, { useState, useRef, RefObject, useEffect } from "react";
 import Contents from "@/components/contents";
 import MainHeader from "@/components/MainHeader";
 import MainFooter from "@/components/MainFooter";
@@ -9,13 +9,49 @@ import useAuth from "@/hooks/useAuth";
 
 const Main = () => {
   const PlayerUser = useAuth();
+  const loaderRef = useRef<HTMLDivElement | null>(null); // Intersection Observer用
+
   // おすすめの投稿のIDを格納する配列
-  const [recommendedPosts, setRecommendedPosts] = useState<number[]>([
-    4, 3, 2, 1,
-  ]); // 初期値として[4, 3]を設定
+  const [recommendedPosts] = useState<number[]>([4, 3, 2, 1, 5, 6]); // 初期値
+  const [displayedPosts, setDisplayedPosts] = useState<number[]>(
+    recommendedPosts.slice(0, 3)
+  ); // 最初の3件を表示
+
+  // 画面の配列に追加する関数
+  const fetchMorePosts = () => {
+    const currentLength = displayedPosts.length;
+
+    // 追加する分のデータがまだ残っているか確認
+    if (currentLength < recommendedPosts.length) {
+      const nextPosts = recommendedPosts.slice(
+        currentLength,
+        currentLength + 3
+      ); // 次の3件を取得
+      setDisplayedPosts((prevPosts) => [...prevPosts, ...nextPosts]); // 3件ずつ追加
+    } else {
+      console.log("これ以上の投稿はありません");
+    }
+  };
   const elementRefs = useRef<RefObject<HTMLDivElement>[]>(
     recommendedPosts.map(() => React.createRef<HTMLDivElement>())
   );
+
+  // Intersection Observerを使ってスクロールを検知
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        fetchMorePosts();
+      }
+    });
+
+    const currentLoaderRef = loaderRef.current;
+    if (currentLoaderRef) observer.observe(currentLoaderRef);
+
+    return () => {
+      if (currentLoaderRef) observer.unobserve(currentLoaderRef);
+      observer.disconnect();
+    };
+  }, [loaderRef.current]);
 
   // seemsのAPIを呼び出す関数
   const fetchIntersectionData = async (user_id: string, post_id: number) => {
@@ -68,6 +104,11 @@ const Main = () => {
             ref={elementRefs.current[index]}
           />
         ))}
+      </div>
+
+      {/* スクロール検知用のローダー要素 */}
+      <div ref={loaderRef} className="pb-32">
+        Loading...
       </div>
 
       <footer className="fixed bottom-0 left-0 right-0">

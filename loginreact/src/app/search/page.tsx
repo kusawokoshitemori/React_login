@@ -10,7 +10,6 @@ import useAuth from "@/hooks/useAuth";
 
 const SearchScreen = () => {
   const PlayerUser = useAuth();
-  // 新着順のIDを格納する配列
   const loaderRef = useRef<HTMLDivElement | null>(null); // Intersection Observer用
 
   // 最新のIdから配列を作る
