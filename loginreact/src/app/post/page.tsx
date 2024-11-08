@@ -66,7 +66,7 @@ const ProverbForm = () => {
             placeholder="説明 (最大50文字)"
             className="w-full p-2 border rounded"
           />
-          {errors.explanation && <span>説明は任意です（最大50文字）</span>}
+          {errors.explanation && <span>説明は必須です（最大50文字）</span>}
         </div>
         <button
           type="submit"

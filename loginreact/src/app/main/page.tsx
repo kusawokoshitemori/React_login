@@ -4,6 +4,7 @@ import React, { useState, useRef, RefObject, useEffect } from "react";
 import Contents from "@/components/contents";
 import MainHeader from "@/components/MainHeader";
 import MainFooter from "@/components/MainFooter";
+import { saveRecommendPosts } from "@/lib/saveRecommendPosts";
 import useIntersectionObserver from "../utils/IntersectionObserver";
 import useAuth from "@/hooks/useAuth";
 
@@ -13,6 +14,16 @@ const Main = () => {
 
   // おすすめの投稿のIDを格納する配列
   const [recommendedPosts] = useState<number[]>([4, 3, 2, 1, 5, 6]); // 初期値
+
+  // ここに配列のAPI送るやつ作ろうか
+  useEffect(() => {
+    console.log("recommendedPostsの状態:", recommendedPosts);
+    const fetchData = async () => {
+      await saveRecommendPosts(recommendedPosts); // おすすめの関数を使う
+    };
+    fetchData();
+  }, [recommendedPosts]);
+
   const [displayedPosts, setDisplayedPosts] = useState<number[]>(
     recommendedPosts.slice(0, 3)
   ); // 最初の3件を表示
