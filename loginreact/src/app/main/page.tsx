@@ -4,6 +4,7 @@ import React, { useState, useRef, RefObject, useEffect } from "react";
 import Contents from "@/components/contents";
 import MainHeader from "@/components/MainHeader";
 import MainFooter from "@/components/MainFooter";
+import { getRecommendedPosts } from "@/lib/getRecommendedPosts";
 import { saveRecommendPosts } from "@/lib/saveRecommendPosts";
 import useIntersectionObserver from "../utils/IntersectionObserver";
 import useAuth from "@/hooks/useAuth";
@@ -13,15 +14,39 @@ const Main = () => {
   const loaderRef = useRef<HTMLDivElement | null>(null); // Intersection Observer用
 
   // おすすめの投稿のIDを格納する配列
-  const [recommendedPosts] = useState<number[]>([4, 3, 2, 1, 5, 6]); // 初期値
+  const [recommendedPosts, setRecommendedPosts] = useState<number[]>([]); // 初期値
+  const [recommendedPostsTime, setRecommendedPostsTime] = useState<
+    string | undefined
+  >(undefined);
+
+  // おすすめの投稿のIDを取得するコード
+  useEffect(() => {
+    const getPosts = async () => {
+      const response = await getRecommendedPosts();
+      const data = response?.[0];
+
+      // 配列と時間データの取得
+      const recommendArray = data?.recommend_array;
+      const createdAt = data?.created_at;
+
+      if (recommendArray && Array.isArray(recommendArray) && createdAt) {
+        setRecommendedPosts(recommendArray); // データが取得できた場合、状態を更新
+        setRecommendedPostsTime(createdAt);
+        console.log("おすすめ投稿:", recommendArray);
+        console.log("取得時間:", createdAt);
+      } else {
+        console.log("投稿の取得に失敗しました"); // エラーがあった場合、エラーメッセージを設定
+      }
+    };
+    getPosts();
+  }, []); // 初回レンダリング時に一度だけ実行
 
   // ここに配列のAPI送るやつ作ろうか
   useEffect(() => {
-    console.log("recommendedPostsの状態:", recommendedPosts);
     const fetchData = async () => {
       await saveRecommendPosts(recommendedPosts); // おすすめの関数を使う
     };
-    fetchData();
+    // fetchData();
   }, [recommendedPosts]);
 
   const [displayedPosts, setDisplayedPosts] = useState<number[]>(

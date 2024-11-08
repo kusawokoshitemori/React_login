@@ -1,6 +1,5 @@
 // おすすめの配列を保存する機能
 export const saveRecommendPosts = async (recommendArray) => {
-  console.log("送信するおすすめ配列:", recommendArray);
   // 配列を保存するリクエスト
   try {
     const saveArray = await fetch("/api/saveRecommendPosts", {

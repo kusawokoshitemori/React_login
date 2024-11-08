@@ -3,9 +3,7 @@ import { supabase } from "@/lib/supabaseClient";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    console.log("リクエストボディ:", body);
     const { recommendArray } = body;
-    console.log("受け取ったおすすめ配列:", recommendArray);
 
     if (!recommendArray) {
       return new Response(JSON.stringify({ error: "配列がありません" }), {
