@@ -2,11 +2,20 @@ import { supabase } from "@/lib/supabaseClient";
 
 export async function POST(req: Request) {
   try {
-    const { recommendedPosts } = await req.json();
-    console.log("受け取ったデータ:", recommendedPosts);
+    const body = await req.json();
+    console.log("リクエストボディ:", body);
+    const { recommendArray } = body;
+    console.log("受け取ったおすすめ配列:", recommendArray);
+
+    if (!recommendArray) {
+      return new Response(JSON.stringify({ error: "配列がありません" }), {
+        status: 400,
+      });
+    }
+
     const { data, error } = await supabase.from("recommend_post").insert([
       {
-        recommend_array: recommendedPosts,
+        recommend_array: recommendArray,
       },
     ]);
 

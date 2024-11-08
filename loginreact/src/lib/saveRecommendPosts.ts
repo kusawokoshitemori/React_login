@@ -11,11 +11,10 @@ export const saveRecommendPosts = async (recommendArray) => {
       body: JSON.stringify({ recommendArray: recommendArray }),
     });
 
-    const responseData = await saveArray.json();
     if (!saveArray.ok) {
       console.error("おすすめの配列を保存することに失敗しました");
     } else {
-      console.log("おすすめの配列を保存できました:", responseData);
+      console.log("おすすめの配列を保存できました:");
     }
   } catch (error) {
     console.error("エラーが発生しました:", error);
