@@ -7,10 +7,12 @@ import MainFooter from "@/components/MainFooter";
 import { getRecommendedPosts } from "@/lib/getRecommendedPosts";
 import { saveRecommendPosts } from "@/lib/saveRecommendPosts";
 import useIntersectionObserver from "../utils/IntersectionObserver";
+import { isTimeExceeded } from "../utils/timeUtils";
 import useAuth from "@/hooks/useAuth";
 
 const Main = () => {
   const PlayerUser = useAuth();
+  const [loading, setLoading] = useState(true);
   const loaderRef = useRef<HTMLDivElement | null>(null); // Intersection Observer用
 
   // おすすめの投稿のIDを格納する配列
@@ -37,17 +39,29 @@ const Main = () => {
       } else {
         console.log("投稿の取得に失敗しました"); // エラーがあった場合、エラーメッセージを設定
       }
+
+      // ここにおすすめの投稿の配列を作るやつ
+      if (createdAt && isTimeExceeded(createdAt)) {
+        // 新しいおすすめ投稿の配列を生成
+        const newRecommendArray = [1, 2, 3, 4]; // ここは動的に生成するロジックに変更可能
+
+        setRecommendedPosts(newRecommendArray);
+      }
+      console.log("createdAt : " + createdAt);
+      setLoading(false);
     };
     getPosts();
   }, []); // 初回レンダリング時に一度だけ実行
 
   // ここに配列のAPI送るやつ作ろうか
   useEffect(() => {
-    const fetchData = async () => {
-      await saveRecommendPosts(recommendedPosts); // おすすめの関数を使う
-    };
-    // fetchData();
-  }, [recommendedPosts]);
+    if (!loading) {
+      const fetchData = async () => {
+        await saveRecommendPosts(recommendedPosts); // おすすめの関数を送信
+      };
+      fetchData();
+    }
+  }, [loading, recommendedPosts]);
 
   const [displayedPosts, setDisplayedPosts] = useState<number[]>(
     recommendedPosts.slice(0, 3)
