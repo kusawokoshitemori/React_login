@@ -15,7 +15,10 @@ export async function GET() {
       });
     }
 
-    return new Response(JSON.stringify(data), { status: 200 });
+    // idだけを抽出して新しい配列を作成
+    const idArray = data.map((post) => post.id);
+
+    return new Response(JSON.stringify(idArray), { status: 200 });
   } catch (error) {
     console.error("サーバーエラー:", error);
     return new Response(JSON.stringify({ error: "サーバーエラー" }), {

@@ -13,6 +13,7 @@ import useAuth from "@/hooks/useAuth";
 const Main = () => {
   const PlayerUser = useAuth();
   const [loading, setLoading] = useState(true);
+  const [isArrayLoading, setIsArrayLoading] = useState(true);
   const loaderRef = useRef<HTMLDivElement | null>(null); // Intersection Observer用
 
   // おすすめの投稿のIDを格納する配列
@@ -72,14 +73,16 @@ const Main = () => {
             }
             const result = await response.json();
             console.log("makeNewRecommendedArray結果:", result);
+
+            const newRecommendArray = result;
+            setRecommendedPosts(newRecommendArray);
           } catch (error) {
             console.error(error);
+          } finally {
+            setIsArrayLoading(false);
           }
         };
         makeNewRecommendedArray();
-        const newRecommendArray = [1, 2, 3, 4]; // ここは動的に生成するロジックに変更可能
-
-        setRecommendedPosts(newRecommendArray);
       }
       console.log("createdAt : " + createdAt);
       setLoading(false);
@@ -89,13 +92,13 @@ const Main = () => {
 
   // ここに配列のAPI送るやつ作ろうか
   useEffect(() => {
-    if (!loading) {
+    if (!loading && !isArrayLoading) {
       const fetchData = async () => {
         await saveRecommendPosts(recommendedPosts); // おすすめの関数を送信
       };
       fetchData();
     }
-  }, [loading, recommendedPosts]);
+  }, [loading, recommendedPosts, isArrayLoading]);
 
   const [displayedPosts, setDisplayedPosts] = useState<number[]>(
     recommendedPosts.slice(0, 3)
