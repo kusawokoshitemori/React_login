@@ -61,6 +61,22 @@ const Main = () => {
         saveRecommendScore();
 
         // 新しいおすすめ投稿の配列を生成
+        const makeNewRecommendedArray = async () => {
+          try {
+            const response = await fetch("/api/makeNewRecommendedArray", {
+              method: "GET",
+            });
+
+            if (!response.ok) {
+              throw new Error("APIリクエストが失敗しました");
+            }
+            const result = await response.json();
+            console.log("makeNewRecommendedArray結果:", result);
+          } catch (error) {
+            console.error(error);
+          }
+        };
+        makeNewRecommendedArray();
         const newRecommendArray = [1, 2, 3, 4]; // ここは動的に生成するロジックに変更可能
 
         setRecommendedPosts(newRecommendArray);
