@@ -182,7 +182,7 @@ const Main = () => {
         <MainHeader />
       </header>
 
-      <div className="pt-24 pb-32">
+      <div className="pt-24 pb-32 bg-gray-200">
         {/* recommendedPosts配列の各postIdに対してContentsコンポーネントを表示 */}
         {recommendedPosts.map((postId, index) => (
           <Contents

@@ -100,7 +100,7 @@ const SearchScreen = () => {
         <MainHeader />
       </header>
 
-      <div className="pt-24  bg-pink-50">
+      <div className="pt-24 bg-[#fffdfd]">
         {/* searchedPosts配列の各postIdに対してContentsコンポーネントを表示 */}
         {searchedPosts.map((postId, index) => (
           <Contents
