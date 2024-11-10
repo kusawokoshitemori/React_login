@@ -1,41 +1,44 @@
 "use client";
 
-import { useEffect } from "react";
+// ExampleButton.tsx
 
-// 一回だけデータを送る
-let isRequesting = false;
+import { useState } from "react";
 
-const TestComponent = () => {
-  useEffect(() => {
-    const testFetch = async () => {
-      if (isRequesting) return; // すでにリクエスト中なら戻る
-      isRequesting = true;
+const ExampleButton = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-      try {
-        const response = await fetch("/api/seems", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ userId: 2, postId: 1 }),
-        });
+  const handleClick = async () => {
+    setIsLoading(true);
+    setError(null);
 
-        // レスポンスのステータスコードを確認
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+    try {
+      const response = await fetch("/api/saveRecommendScore", {
+        method: "GET", // POSTでもOK、データが必要ならbodyで渡す
+      });
 
-        const data = await response.json();
-        console.log(data);
-      } catch (error) {
-        console.error("Fetch error:", error);
+      if (!response.ok) {
+        throw new Error("APIリクエストが失敗しました");
       }
-    };
 
-    testFetch();
-  }, []);
+      const result = await response.json();
+      console.log("結果:", result);
+    } catch (error) {
+      setError("エラーが発生しました");
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-  return <div>テスト実行中...</div>;
+  return (
+    <div>
+      <button onClick={handleClick} disabled={isLoading}>
+        {isLoading ? "処理中..." : "スコア計算"}
+      </button>
+      {error && <p>{error}</p>}
+    </div>
+  );
 };
 
-export default TestComponent;
+export default ExampleButton;

@@ -42,6 +42,24 @@ const Main = () => {
 
       // ここにおすすめの投稿の配列を作るやつ
       if (createdAt && isTimeExceeded(createdAt)) {
+        const saveRecommendScore = async () => {
+          try {
+            const response = await fetch("/api/saveRecommendScore", {
+              method: "GET", // POSTでもOK、データが必要ならbodyで渡す
+            });
+
+            if (!response.ok) {
+              throw new Error("APIリクエストが失敗しました");
+            }
+
+            const result = await response.json();
+            console.log("結果:", result);
+          } catch (error) {
+            console.error(error);
+          }
+        };
+        saveRecommendScore();
+
         // 新しいおすすめ投稿の配列を生成
         const newRecommendArray = [1, 2, 3, 4]; // ここは動的に生成するロジックに変更可能
 
