@@ -13,7 +13,7 @@ const SearchScreen = () => {
   const loaderRef = useRef<HTMLDivElement | null>(null); // Intersection Observer用
 
   // 最新のIdから配列を作る
-  const [LastPost, setLastPost] = useState(7);
+  const [LastPost, setLastPost] = useState(3);
   const fetchPoatId = async () => {
     const latestPostId = await fetchLastPostId();
     setLastPost(latestPostId);
@@ -24,27 +24,47 @@ const SearchScreen = () => {
     return Array.from({ length: count }, (_, i) => startId - i);
   };
 
-  const [searchedPosts, setSearchedPosts] = useState<number[]>(
-    generatePostIds(LastPost, 3)
-  );
+  const [searchedPosts, setSearchedPosts] = useState<number[]>([]);
+  useEffect(() => {
+    console.log(LastPost);
+    const newSearchArray = generatePostIds(LastPost, 3);
+    setSearchedPosts(newSearchArray);
+  }, [LastPost]);
+
+  useEffect(() => {
+    console.log(searchedPosts);
+    fetchMorePosts();
+  }, [searchedPosts]);
 
   const fetchMorePosts = () => {
+    if (!searchedPosts || searchedPosts.length === 0) {
+      console.log("searchedPosts が初期化されていません");
+      return;
+    }
     const lastId = searchedPosts[searchedPosts.length - 1];
 
     // lastIdが3より小さい場合は投稿を取得しない else文でこれ以上の投稿は見つかりませんとかやってもいいかも
     if (lastId >= 3) {
       const newPosts = generatePostIds(lastId - 1, 3); // さらに3件追加
       setSearchedPosts((prevPosts) => [...prevPosts, ...newPosts]);
+      console.log(searchedPosts, "動いている");
+    } else {
+      console.log(searchedPosts, "動いてはない");
     }
   };
 
   // Intersection Observerを使ってスクロールを検知
   useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        fetchMorePosts();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          fetchMorePosts();
+        }
+      },
+      {
+        threshold: 1, // 要素が50%見えるまで待つ
       }
-    });
+    );
 
     const currentLoaderRef = loaderRef.current;
     if (currentLoaderRef) observer.observe(currentLoaderRef);
@@ -99,8 +119,11 @@ const SearchScreen = () => {
       <header className="fixed top-0 left-0 right-0 z-10">
         <MainHeader />
       </header>
+      <div className="text-6xl">
+        ああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ
+      </div>
 
-      <div className="pt-24 bg-[#fffdfd]">
+      <div className="pt-24 bg-yellow-50">
         {/* searchedPosts配列の各postIdに対してContentsコンポーネントを表示 */}
         {searchedPosts.map((postId, index) => (
           <Contents
