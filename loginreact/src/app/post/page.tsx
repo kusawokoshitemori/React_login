@@ -1,6 +1,6 @@
 "use client"; // クライアントコンポーネントとしてマーク
 
-import React from "react";
+import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { supabase } from "../../lib/supabaseClient";
 import useAuth from "../../hooks/useAuth";
@@ -14,11 +14,18 @@ interface ProverbFormData {
 }
 
 const ProverbForm = () => {
+  const [textMessage, setTextMessage] = useState("");
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
-  } = useForm<ProverbFormData>();
+  } = useForm<ProverbFormData>({
+    defaultValues: {
+      proverb: "",
+      explanation: "",
+    },
+  });
 
   const user = useAuth(); // ユーザー情報を取得
 
@@ -41,6 +48,15 @@ const ProverbForm = () => {
       console.error("Error inserting data:", error.message);
     } else {
       console.log("データが正常に挿入されました");
+
+      // 送信後の処理をここに追加
+      await reset({ proverb: "", explanation: "" });
+      setTextMessage("データが正常に送信されました！"); // メッセージの表示
+
+      // メッセージを数秒後に消す（例: 3秒後）
+      setTimeout(() => {
+        setTextMessage("");
+      }, 5000);
     }
   };
 
@@ -71,6 +87,7 @@ const ProverbForm = () => {
             className="w-4/5 p-2 border rounded focus:border-blue-500 focus:ring-2 focus:ring-blue-300 focus:outline-none transition"
           />
           {errors.explanation && <span>説明は必須です（最大50文字）</span>}
+          <span>{textMessage}</span>
         </div>
         <div className="flex justify-end w-full">
           <button
