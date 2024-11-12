@@ -32,8 +32,12 @@ const SearchScreen = () => {
   }, [LastPost]);
 
   useEffect(() => {
-    console.log(searchedPosts);
-    fetchMorePosts();
+    if (searchedPosts.length == 0) {
+      console.log(searchedPosts);
+      fetchMorePosts();
+    } else {
+      console.log(searchedPosts, "ここ通った");
+    }
   }, [searchedPosts]);
 
   const fetchMorePosts = () => {
@@ -62,7 +66,7 @@ const SearchScreen = () => {
         }
       },
       {
-        threshold: 1, // 要素が50%見えるまで待つ
+        threshold: 0.5, // 要素が50%見えるまで待つ
       }
     );
 
@@ -73,7 +77,11 @@ const SearchScreen = () => {
       if (currentLoaderRef) observer.unobserve(currentLoaderRef);
       observer.disconnect();
     };
-  }, [loaderRef.current]);
+  }, [
+    {
+      /*ここの値一時的に消してる loaderRef.current*/
+    },
+  ]);
 
   // seemsのAPIを呼び出す関数
   const fetchIntersectionData = async (user_id: string, post_id: number) => {
@@ -119,8 +127,8 @@ const SearchScreen = () => {
       <header className="fixed top-0 left-0 right-0 z-10">
         <MainHeader />
       </header>
-      <div className="text-6xl">
-        ああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ
+      <div className="text-8xl">
+        ああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ
       </div>
 
       <div className="pt-24 bg-yellow-50">
