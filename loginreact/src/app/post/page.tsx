@@ -45,35 +45,41 @@ const ProverbForm = () => {
   };
 
   return (
-    <div className="w-full h-screen">
+    <div className="flex items-center justify-center w-full h-screen bg-gray-400">
       <header className="fixed top-0 left-0 right-0 z-10">
         <MainHeader />
       </header>
 
       {/* ここから投稿画面 */}
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 pt-24 pb-32">
-        <div>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-4 py-6 bg-gray-100 rounded-xl shadow-lg w-full max-w-sm mb-8 md:max-w-lg lg:max-w-2xl"
+      >
+        <div className="flex items-center justify-center flex-col">
+          <div className="text-4xl pb-4">投稿画面</div>
           <textarea
             {...register("proverb", { required: true, maxLength: 30 })}
             placeholder="ことわざ (最大30文字)"
-            className="w-full p-2 border rounded"
+            className="w-4/5 p-2 border rounded focus:border-blue-500 focus:ring-2 focus:ring-blue-300 focus:outline-none transition"
           />
           {errors.proverb && <span>ことわざは必須です（最大30文字）</span>}
         </div>
-        <div>
+        <div className="flex items-center justify-center flex-col">
           <textarea
             {...register("explanation", { required: true, maxLength: 50 })}
             placeholder="説明 (最大50文字)"
-            className="w-full p-2 border rounded"
+            className="w-4/5 p-2 border rounded focus:border-blue-500 focus:ring-2 focus:ring-blue-300 focus:outline-none transition"
           />
           {errors.explanation && <span>説明は必須です（最大50文字）</span>}
         </div>
-        <button
-          type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded"
-        >
-          投稿
-        </button>
+        <div className="flex justify-end w-full">
+          <button
+            type="submit"
+            className="px-8 py-4 bg-blue-500 text-white rounded-xl translate-x-[-64px]"
+          >
+            投稿
+          </button>
+        </div>
       </form>
 
       <footer className="fixed bottom-0 left-0 right-0">
