@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useState, useRef, RefObject, useEffect } from "react";
+import React, {
+  useState,
+  useRef,
+  RefObject,
+  useEffect,
+  useCallback,
+} from "react";
 import Contents from "@/components/contents";
 import MainHeader from "@/components/MainHeader";
 import MainFooter from "@/components/MainFooter";
@@ -11,6 +17,7 @@ import useAuth from "@/hooks/useAuth";
 const SearchScreen = () => {
   const PlayerUser = useAuth();
   const loaderRef = useRef<HTMLDivElement | null>(null); // Intersection Observer用
+  const [newArrayLoading, setNewArrayLoading] = useState(true);
 
   // 最新のIdから配列を作る
   const [LastPost, setLastPost] = useState(3);
@@ -33,11 +40,12 @@ const SearchScreen = () => {
     setSearchedPosts(newSearchArray);
   }, [LastPost]);
 
-  const fetchMorePosts = () => {
+  const fetchMorePosts = useCallback(() => {
     if (!searchedPosts || searchedPosts.length === 0) {
       console.log("searchedPosts が初期化されていません");
       return;
     }
+
     const lastId = searchedPosts[searchedPosts.length - 1];
 
     // lastIdが3より小さい場合は投稿を取得しない else文でこれ以上の投稿は見つかりませんとかやってもいいかも
@@ -48,7 +56,7 @@ const SearchScreen = () => {
     } else {
       console.log(searchedPosts, "動いてはない");
     }
-  };
+  }, [searchedPosts]);
 
   useEffect(() => {
     if (searchedPosts.length == 0) {
@@ -61,6 +69,7 @@ const SearchScreen = () => {
 
   // Intersection Observerを使ってスクロールを検知
   useEffect(() => {
+    if (newArrayLoading) return;
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
@@ -79,7 +88,7 @@ const SearchScreen = () => {
       if (currentLoaderRef) observer.unobserve(currentLoaderRef);
       observer.disconnect();
     };
-  }, [fetchMorePosts]);
+  }, [fetchMorePosts, newArrayLoading]);
 
   // seemsのAPIを呼び出す関数
   const fetchIntersectionData = async (user_id: string, post_id: number) => {
@@ -125,9 +134,8 @@ const SearchScreen = () => {
       <header className="fixed top-0 left-0 right-0 z-10">
         <MainHeader />
       </header>
-      <div className="text-8xl">
-        ああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ
-      </div>
+
+      <div className="text-8xl">ああああああああああああああああああ</div>
 
       <div className="pt-24 bg-yellow-50">
         {/* searchedPosts配列の各postIdに対してContentsコンポーネントを表示 */}
