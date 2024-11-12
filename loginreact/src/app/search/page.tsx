@@ -14,11 +14,13 @@ const SearchScreen = () => {
 
   // 最新のIdから配列を作る
   const [LastPost, setLastPost] = useState(3);
-  const fetchPoatId = async () => {
-    const latestPostId = await fetchLastPostId();
-    setLastPost(latestPostId);
-  };
-  fetchPoatId();
+  useEffect(() => {
+    const fetchPoatId = async () => {
+      const latestPostId = await fetchLastPostId();
+      setLastPost(latestPostId);
+    };
+    fetchPoatId();
+  }, []);
 
   const generatePostIds = (startId: number, count: number) => {
     return Array.from({ length: count }, (_, i) => startId - i);
@@ -30,15 +32,6 @@ const SearchScreen = () => {
     const newSearchArray = generatePostIds(LastPost, 3);
     setSearchedPosts(newSearchArray);
   }, [LastPost]);
-
-  useEffect(() => {
-    if (searchedPosts.length == 0) {
-      console.log(searchedPosts);
-      fetchMorePosts();
-    } else {
-      console.log(searchedPosts, "ここ通った");
-    }
-  }, [searchedPosts]);
 
   const fetchMorePosts = () => {
     if (!searchedPosts || searchedPosts.length === 0) {
@@ -56,6 +49,15 @@ const SearchScreen = () => {
       console.log(searchedPosts, "動いてはない");
     }
   };
+
+  useEffect(() => {
+    if (searchedPosts.length == 0) {
+      console.log(searchedPosts);
+      fetchMorePosts();
+    } else {
+      console.log(searchedPosts, "ここ通った");
+    }
+  }, [searchedPosts, fetchMorePosts]);
 
   // Intersection Observerを使ってスクロールを検知
   useEffect(() => {
@@ -77,11 +79,7 @@ const SearchScreen = () => {
       if (currentLoaderRef) observer.unobserve(currentLoaderRef);
       observer.disconnect();
     };
-  }, [
-    {
-      /*ここの値一時的に消してる loaderRef.current*/
-    },
-  ]);
+  }, [fetchMorePosts]);
 
   // seemsのAPIを呼び出す関数
   const fetchIntersectionData = async (user_id: string, post_id: number) => {
