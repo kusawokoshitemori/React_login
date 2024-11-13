@@ -162,9 +162,9 @@ const SearchScreen = () => {
         Loading...
       </div>
 
-      {/* <footer className="fixed bottom-0 left-0 right-0">
+      <footer className="fixed bottom-0 left-0 right-0">
         <MainFooter />
-      </footer> */}
+      </footer>
     </div>
   );
 };
