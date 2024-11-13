@@ -17,7 +17,7 @@ import useAuth from "@/hooks/useAuth";
 const SearchScreen = () => {
   const PlayerUser = useAuth();
   const loaderRef = useRef<HTMLDivElement | null>(null); // Intersection Observer用
-  const [newArrayLoading, setNewArrayLoading] = useState(false);
+  const [newArrayLoading, setNewArrayLoading] = useState(true);
 
   // 最新のIdから配列を作る
   const [LastPost, setLastPost] = useState(3);
@@ -129,8 +129,8 @@ const SearchScreen = () => {
   });
 
   setTimeout(() => {
-    setNewArrayLoading(true);
-  }, 2000);
+    setNewArrayLoading(false);
+  }, 1200);
 
   return (
     <div className="w-full h-screen">
@@ -138,7 +138,12 @@ const SearchScreen = () => {
         <MainHeader />
       </header>
 
-      {/* <div className="text-8xl">ロード中ロード中ロード中ロード中ロード中</div> */}
+      {/* ロード画面 */}
+      {newArrayLoading && (
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="w-24 h-24 border-4 border-current border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
 
       <div className="pt-24 bg-yellow-50">
         {/* searchedPosts配列の各postIdに対してContentsコンポーネントを表示 */}
