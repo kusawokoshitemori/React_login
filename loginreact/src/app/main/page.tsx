@@ -25,9 +25,6 @@ const Main = () => {
 
   // おすすめの投稿のIDを格納する配列
   const [recommendedPosts, setRecommendedPosts] = useState<number[]>([]); // 初期値
-  const [recommendedPostsTime, setRecommendedPostsTime] = useState<
-    string | undefined
-  >(undefined);
 
   // おすすめの投稿のIDを取得するコード
   useEffect(() => {
@@ -41,7 +38,6 @@ const Main = () => {
 
       if (recommendArray && Array.isArray(recommendArray) && createdAt) {
         setRecommendedPosts(recommendArray); // データが取得できた場合、状態を更新
-        setRecommendedPostsTime(createdAt);
         console.log("おすすめ投稿:", recommendArray);
         console.log("取得時間:", createdAt);
       } else {
