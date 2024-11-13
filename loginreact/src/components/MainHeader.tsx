@@ -11,7 +11,7 @@ const MainHeader = () => {
         width={100}
         height={100}
       ></Image>
-      <p className="text-red-700 flex items-center justify-center text-2xl">
+      <p className="text-red-700 flex items-center justify-center text-2xl lg:text-3xl text-shadow-md select-none">
         誰でも偉人になれる
       </p>
     </div>

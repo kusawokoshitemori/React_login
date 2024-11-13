@@ -119,9 +119,11 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
         <div
           className={`overflow-hidden transition-max-height duration-500 ease-in-out ${
             isOpenDetail ? "max-h-96" : "max-h-0"
-          }`}
+          } ml-4 sm:ml-8 md:ml-12 lg:ml-16 xl:ml-20`}
         >
-          <p>{post.explanation || "詳細はありません。"}</p>
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl">
+            {post.explanation || "詳細はありません。"}
+          </p>
         </div>
         <div className="w-5/6 flex justify-between items-center mx-auto">
           <div className="flex items-center">

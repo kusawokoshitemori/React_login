@@ -12,10 +12,12 @@ const ProfileTop = () => {
           alt="test用画像"
           width={100}
           height={100}
-          className="rounded-full w-2/5 mx-4"
+          className="rounded-full w-2/5 mx-4 object-cover max-w-64 max-h-64 md:mx-24"
           priority
         />
-        <Button />
+        <div className="absolute right-6 sm:right-12">
+          <Button />
+        </div>
       </div>
     </div>
   );
