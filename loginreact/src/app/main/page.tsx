@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useState, useRef, RefObject, useEffect } from "react";
+import React, {
+  useState,
+  useRef,
+  RefObject,
+  useEffect,
+  useCallback,
+} from "react";
 import Contents from "@/components/contents";
 import MainHeader from "@/components/MainHeader";
 import MainFooter from "@/components/MainFooter";
@@ -15,6 +21,7 @@ const Main = () => {
   const [loading, setLoading] = useState(true);
   const [isArrayLoading, setIsArrayLoading] = useState(true);
   const loaderRef = useRef<HTMLDivElement | null>(null); // Intersection Observer用
+  const [newArrayLoading, setNewArrayLoading] = useState(true);
 
   // おすすめの投稿のIDを格納する配列
   const [recommendedPosts, setRecommendedPosts] = useState<number[]>([]); // 初期値
@@ -100,36 +107,43 @@ const Main = () => {
     }
   }, [loading, recommendedPosts, isArrayLoading]);
 
-  const [displayedPosts, setDisplayedPosts] = useState<number[]>(
-    recommendedPosts.slice(0, 3)
-  ); // 最初の3件を表示
+  const [displayedPosts, setDisplayedPosts] = useState<number[]>([]); // 最初の5件を表示
+  useEffect(() => {
+    // recommendedPosts が更新されたら、最初の 5 件だけを表示
+    setDisplayedPosts(recommendedPosts.slice(0, 5));
+  }, [recommendedPosts]);
 
   // 画面の配列に追加する関数
-  const fetchMorePosts = () => {
+  const fetchMorePosts = useCallback(() => {
     const currentLength = displayedPosts.length;
-
     // 追加する分のデータがまだ残っているか確認
     if (currentLength < recommendedPosts.length) {
       const nextPosts = recommendedPosts.slice(
         currentLength,
-        currentLength + 3
-      ); // 次の3件を取得
-      setDisplayedPosts((prevPosts) => [...prevPosts, ...nextPosts]); // 3件ずつ追加
+        currentLength + 5
+      ); // 次の5件を取得
+      setDisplayedPosts((prevPosts) => [...prevPosts, ...nextPosts]); // 5件ずつ追加
     } else {
       console.log("これ以上の投稿はありません");
     }
-  };
+  }, [recommendedPosts, displayedPosts]);
+
   const elementRefs = useRef<RefObject<HTMLDivElement>[]>(
-    recommendedPosts.map(() => React.createRef<HTMLDivElement>())
+    displayedPosts.map(() => React.createRef<HTMLDivElement>())
   );
 
   // Intersection Observerを使ってスクロールを検知
   useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        fetchMorePosts();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          fetchMorePosts();
+        }
+      },
+      {
+        threshold: 0.5, // 要素が50%見えるまで待つ
       }
-    });
+    );
 
     const currentLoaderRef = loaderRef.current;
     if (currentLoaderRef) observer.observe(currentLoaderRef);
@@ -138,7 +152,7 @@ const Main = () => {
       if (currentLoaderRef) observer.unobserve(currentLoaderRef);
       observer.disconnect();
     };
-  }, [loaderRef.current]);
+  }, [fetchMorePosts]);
 
   // seemsのAPIを呼び出す関数
   const fetchIntersectionData = async (user_id: string, post_id: number) => {
@@ -176,15 +190,26 @@ const Main = () => {
     fetchIntersectionData(userId, postId);
   });
 
+  setTimeout(() => {
+    setNewArrayLoading(false);
+  }, 2000);
+
   return (
     <div className="w-full h-screen">
       <header className="fixed top-0 left-0 right-0 z-10">
         <MainHeader />
       </header>
 
+      {/* ロード画面 */}
+      {newArrayLoading && (
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="w-24 h-24 border-4 border-current border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
+
       <div className="pt-24 pb-32 bg-gray-200">
-        {/* recommendedPosts配列の各postIdに対してContentsコンポーネントを表示 */}
-        {recommendedPosts.map((postId, index) => (
+        {/* displayedPosts配列の各postIdに対してContentsコンポーネントを表示 */}
+        {displayedPosts.map((postId, index) => (
           <Contents
             key={postId}
             postId={postId}
