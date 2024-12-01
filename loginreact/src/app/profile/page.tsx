@@ -10,7 +10,8 @@ import MainFooter from "@/components/MainFooter";
 import Contents from "@/components/contents";
 import { supabase } from "@/lib/supabaseClient";
 import { useEffect, useState } from "react";
-import Modal from "@/components/utils/Modal"; // モーダルウィンドウ
+import Modal from "@/components/Modal/Modal"; // モーダルウィンドウ
+import ChengeProfile from "@/components/Modal/ChangeProfile";
 
 // Post型の定義
 interface Post {
@@ -101,7 +102,7 @@ const Profile = () => {
 
       {isViewable && (
         <Modal closeModal={closeModal}>
-          <p>再利用可能なモーダルの中身</p>
+          <ChengeProfile />
         </Modal>
       )}
     </div>

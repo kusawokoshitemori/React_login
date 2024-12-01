@@ -1,6 +1,6 @@
 "use client";
 
-import Modal from "@/components/utils/Modal";
+import Modal from "@/components/Modal/Modal";
 import { useState } from "react";
 
 const SomeComponent = () => {

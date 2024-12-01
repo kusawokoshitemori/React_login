@@ -2,7 +2,11 @@
 import Image from "next/image";
 import Button from "./Button";
 
-const ProfileTop = ({ openModal }) => {
+interface ProfileTopProps {
+  openModal: () => void; // 関数型を定義
+}
+
+const ProfileTop: React.FC<ProfileTopProps> = ({ openModal }) => {
   return (
     <div>
       {/* 3Word */}
