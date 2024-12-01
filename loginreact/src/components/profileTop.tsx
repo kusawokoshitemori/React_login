@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Button from "./Button";
 
-const ProfileTop = () => {
+const ProfileTop = ({ openModal }) => {
   return (
     <div>
       {/* 3Word */}
@@ -16,7 +16,7 @@ const ProfileTop = () => {
           priority
         />
         <div className="absolute right-6 sm:right-12">
-          <Button />
+          <Button onClick={openModal} />
         </div>
       </div>
     </div>

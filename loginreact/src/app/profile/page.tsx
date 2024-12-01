@@ -7,9 +7,10 @@ import ProfileNoPost from "@/components/ProfileNoPost";
 import Introduce from "@/components/Introduce";
 import MainHeader from "@/components/MainHeader";
 import MainFooter from "@/components/MainFooter";
-import Contents from "@/components/contents"; // 修正：コンポーネント名の修正
+import Contents from "@/components/contents";
 import { supabase } from "@/lib/supabaseClient";
 import { useEffect, useState } from "react";
+import Modal from "@/components/utils/Modal"; // モーダルウィンドウ
 
 // Post型の定義
 interface Post {
@@ -48,6 +49,19 @@ const Profile = () => {
     fetchPosts();
   }, [user]);
 
+  // モーダルウィンドウの制御
+  const [isViewable, setIsViewable] = useState(false);
+
+  // モーダルを開くための関数
+  const openModal = () => {
+    setIsViewable(true);
+  };
+
+  // モーダルを閉じるための関数
+  const closeModal = () => {
+    setIsViewable(false);
+  };
+
   return (
     <div className="w-full h-screen">
       <header className="fixed top-0 left-0 right-0 z-10">
@@ -55,7 +69,7 @@ const Profile = () => {
       </header>
 
       <div className="w-full pt-24 pb-32">
-        <ProfileTop />
+        <ProfileTop openModal={openModal} />
         {user?.id ? (
           <ProfileSecond userId={user.id} />
         ) : (
@@ -84,6 +98,12 @@ const Profile = () => {
       <footer className="fixed bottom-0 left-0 right-0">
         <MainFooter />
       </footer>
+
+      {isViewable && (
+        <Modal closeModal={closeModal}>
+          <p>再利用可能なモーダルの中身</p>
+        </Modal>
+      )}
     </div>
   );
 };
