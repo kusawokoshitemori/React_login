@@ -1,34 +1,62 @@
 import React, { useState } from "react";
 import Image from "next/image";
+import useAuth from "@/hooks/useAuth";
+import { updateBio } from "@/app/utils/profile/updateBio";
+import { updateImage } from "@/app/utils/profile/updateProfile";
 
-const ChengeProfile = ({ closeModal }) => {
-  const [name, setName] = useState(""); // 名前の状態管理
+const ChangeProfile = ({ closeModal }) => {
+  const [bio, setBio] = useState(""); // 名前の状態管理
   const [image, setImage] = useState<File | null>(null); // アップロード画像の状態
   const [imagePreview, setImagePreview] = useState<string | null>(null); // 画像プレビュー用
+  const user = useAuth();
+
+  if (user == null) {
+    return null;
+  }
 
   // ファイルが選択されたとき
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       setImage(file);
+      if (imagePreview) {
+        URL.revokeObjectURL(imagePreview); // 古いプレビューを解放
+      }
       setImagePreview(URL.createObjectURL(file));
     }
   };
 
-  // 名前が入力されたとき
-  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setName(event.target.value);
+  // 自己紹介文が入力されたとき
+  const handleBioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setBio(event.target.value);
   };
 
   // 変更ボタンが押されたとき
-  const handleReset = () => {
-    // サーバー送信処理（例）
-    console.log("送信する名前:", name);
-    console.log("送信する画像:", image);
-    alert("プロフィールが送信されました！");
-    setName("");
-    setImage(null);
-    setImagePreview(null);
+  const handleReset = async () => {
+    if (!bio && !image) {
+      alert("変更内容がありません");
+      return;
+    }
+
+    try {
+      if (bio) {
+        console.log("送信する自己紹介文:", bio);
+        await updateBio(user.id, bio);
+      }
+
+      if (image) {
+        console.log("送信する画像:", image);
+        await updateImage(user.id, image);
+      }
+
+      alert("プロフィールが送信されました！");
+      setBio("");
+      setImage(null);
+      setImagePreview(null);
+    } catch (error) {
+      console.error("プロフィール更新中にエラーが発生しました:", error);
+      alert("プロフィールの更新に失敗しました。再試行してください。");
+    }
   };
 
   return (
@@ -58,8 +86,8 @@ const ChengeProfile = ({ closeModal }) => {
         <h3 className="text-lg font-bold">メッセージを入力</h3>
         <input
           type="text"
-          value={name}
-          onChange={handleNameChange}
+          value={bio}
+          onChange={handleBioChange}
           placeholder="新しいメッセージを入力"
           className="w-full px-4 py-2 border rounded-lg"
         />
@@ -84,4 +112,4 @@ const ChengeProfile = ({ closeModal }) => {
   );
 };
 
-export default ChengeProfile;
+export default ChangeProfile;
