@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import Image from "next/image";
 
-const ChengeProfile = () => {
+const ChengeProfile = ({ closeModal }) => {
   const [name, setName] = useState(""); // 名前の状態管理
   const [image, setImage] = useState<File | null>(null); // アップロード画像の状態
   const [imagePreview, setImagePreview] = useState<string | null>(null); // 画像プレビュー用
@@ -19,16 +20,12 @@ const ChengeProfile = () => {
     setName(event.target.value);
   };
 
-  // 送信ボタンが押されたとき
-  const handleSubmit = () => {
+  // 変更ボタンが押されたとき
+  const handleReset = () => {
     // サーバー送信処理（例）
     console.log("送信する名前:", name);
     console.log("送信する画像:", image);
     alert("プロフィールが送信されました！");
-  };
-
-  // 変更ボタンが押されたとき
-  const handleReset = () => {
     setName("");
     setImage(null);
     setImagePreview(null);
@@ -40,10 +37,12 @@ const ChengeProfile = () => {
       <div>
         <h3 className="text-lg font-bold">プロフィール画像をアップロード</h3>
         {imagePreview && (
-          <img
+          <Image
             src={imagePreview}
             alt="画像プレビュー"
-            className="w-24 h-24 rounded-full object-cover mb-4"
+            width={96}
+            height={96}
+            className="rounded-full object-cover mb-4"
           />
         )}
         <input
@@ -54,31 +53,31 @@ const ChengeProfile = () => {
         />
       </div>
 
-      {/* 名前入力 */}
+      {/* メッセージ入力 */}
       <div>
-        <h3 className="text-lg font-bold">名前を入力</h3>
+        <h3 className="text-lg font-bold">メッセージを入力</h3>
         <input
           type="text"
           value={name}
           onChange={handleNameChange}
-          placeholder="新しい名前を入力"
+          placeholder="新しいメッセージを入力"
           className="w-full px-4 py-2 border rounded-lg"
         />
       </div>
 
       {/* ボタン */}
-      <div className="flex space-x-4">
-        <button
-          onClick={handleSubmit}
-          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-        >
-          送信
-        </button>
+      <div className="flex space-x-4 justify-between mx-auto w-3/4">
         <button
           onClick={handleReset}
-          className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-700"
+          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
         >
           変更
+        </button>
+        <button
+          onClick={closeModal}
+          className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-700"
+        >
+          閉じる
         </button>
       </div>
     </div>

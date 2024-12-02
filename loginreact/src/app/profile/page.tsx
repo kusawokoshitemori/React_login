@@ -102,7 +102,7 @@ const Profile = () => {
 
       {isViewable && (
         <Modal closeModal={closeModal}>
-          <ChengeProfile />
+          <ChengeProfile closeModal={closeModal} />
         </Modal>
       )}
     </div>

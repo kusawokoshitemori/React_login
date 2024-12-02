@@ -12,12 +12,6 @@ const Modal = ({ closeModal, children }) => {
         onClick={(e) => e.stopPropagation()}
       >
         {children}
-        <button
-          className="mt-4 bg-red-500 text-white p-2 rounded"
-          onClick={closeModal}
-        >
-          閉じる
-        </button>
       </div>
     </div>,
     document.body
