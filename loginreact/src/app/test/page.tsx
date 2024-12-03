@@ -1,23 +1,22 @@
 "use client";
 
-import React from "react";
-import { checkUserSession } from "@/services/supabaseClient"; // supabaseClient で定義された関数をインポート
+import { useRouter } from "next/navigation";
 
-const UserSessionButton: React.FC = () => {
-  const handleButtonClick = async () => {
-    try {
-      const user = await checkUserSession();
-      if (user) {
-        console.log("認証されたユーザー:", user);
-      } else {
-        console.log("ユーザーは未認証です。");
-      }
-    } catch (error) {
-      console.error("エラー:", error);
-    }
+const TestProfile = () => {
+  const router = useRouter();
+
+  const userId = "1"; // テスト用固定値
+
+  const handleButtonClick = () => {
+    // 動的なURLに遷移
+    router.push(`/profile/${userId}`);
   };
 
-  return <button onClick={handleButtonClick}>現在のセッションを確認</button>;
+  return (
+    <div>
+      <button onClick={handleButtonClick}>プロフィールページへ移動</button>
+    </div>
+  );
 };
 
-export default UserSessionButton;
+export default TestProfile;

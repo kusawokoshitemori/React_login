@@ -38,7 +38,10 @@ const MainFooter = () => {
             <p className="text-sm">投稿</p>
           </div>
         </Link>
-        <div className="flex flex-col items-center">
+        <div
+          className="flex flex-col items-center"
+          onClick={() => alert("この機能は未実装です")}
+        >
           <Image src="/favorite.png" alt="実績" width={80} height={80} />
           <p className="text-sm">実績</p>
         </div>
