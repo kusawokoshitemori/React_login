@@ -8,9 +8,6 @@ const ProfileSecond = ({ userId }: { userId: string }) => {
   const [followCount, setFollowCount] = useState(0);
   const [followersCount, setFollowersCount] = useState(0);
 
-  // 名前取得
-  const [playerName, setPlayerName] = useState<string>("名無し");
-
   useEffect(() => {
     const fetchCounts = async () => {
       try {
@@ -29,29 +26,10 @@ const ProfileSecond = ({ userId }: { userId: string }) => {
     fetchCounts();
   }, [userId]);
 
-  // 名前をuserIdから取るよ
-  useEffect(() => {
-    const fetchPlayerName: () => Promise<void> = async () => {
-      try {
-        const response = await fetch(`/api/user/${userId}`);
-        if (!response.ok) {
-          throw new Error(`Error: ${response.statusText}`);
-        }
-        const data = await response.json();
-        setPlayerName(data.name || "名無し");
-      } catch (error) {
-        console.error("名前を取得することに失敗しました:", error);
-        setPlayerName("名無し");
-      }
-    };
-
-    fetchPlayerName();
-  }, [userId]);
-
   return (
     <div className="flex items-center">
       <div className="h-16 w-1/2 border-2 border-blue-400 bg-blue-100 flex items-center justify-center text-2xl">
-        {playerName}
+        {userId || "名無し"}
       </div>
       <div className="w-1/2 flex flex-col">
         <p className="border-2 border-blue-400 bg-orange-200 text-black h-8 flex items-center justify-center text-lg m-0">
