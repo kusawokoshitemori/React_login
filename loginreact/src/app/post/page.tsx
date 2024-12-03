@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { supabase } from "../../lib/supabaseClient";
+import { supabase } from "../../services/supabaseClient";
 import useAuth from "../../hooks/useAuth";
 import MainHeader from "@/components/MainHeader";
 import MainFooter from "@/components/MainFooter";

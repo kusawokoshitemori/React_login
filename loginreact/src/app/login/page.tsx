@@ -1,4 +1,3 @@
-//Next.js のクライアントコンポーネントとして指定
 "use client";
 
 import { useForm } from "react-hook-form";

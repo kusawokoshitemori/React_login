@@ -1,6 +1,6 @@
 // src/app/api/follows/route.ts
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "@/services/supabaseClient";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);

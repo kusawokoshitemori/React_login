@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import useAuth from "@/hooks/useAuth";
 import { updateBio } from "@/app/utils/profile/updateBio";
-import { updateImage } from "@/app/utils/profile/updateProfile";
+import { updateImage } from "@/app/utils/profile/updateImage";
 
 const ChangeProfile = ({ closeModal }) => {
   const [bio, setBio] = useState(""); // 名前の状態管理
@@ -55,7 +55,7 @@ const ChangeProfile = ({ closeModal }) => {
       setImagePreview(null);
     } catch (error) {
       console.error("プロフィール更新中にエラーが発生しました:", error);
-      alert("プロフィールの更新に失敗しました。再試行してください。");
+      alert("画像の変更機能は未実装です。");
     }
   };
 

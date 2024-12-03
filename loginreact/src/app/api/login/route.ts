@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "@/services/supabaseClient";
 import bcrypt from "bcryptjs";
 import { generateToken } from "../../utils/auth"; // JWTトークンを生成する関数をインポート
 

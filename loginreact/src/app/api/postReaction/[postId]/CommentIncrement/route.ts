@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "@/services/supabaseClient";
 
 // POSTメソッド用のハンドラーを名前付きエクスポートで定義
 export async function POST(

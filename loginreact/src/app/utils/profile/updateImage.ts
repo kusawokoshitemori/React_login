@@ -1,16 +1,19 @@
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "@/services/supabaseClient";
 
 export const updateImage = async (
   userId: string,
   imageFile: File
 ): Promise<void> => {
   try {
-    const fileName = `${userId}/${Date.now()}_${imageFile.name}`;
+    const fileName = `aaa`; //${userId}/${Date.now()}_${imageFile.name}
     const { data, error } = await supabase.storage
       .from("profile-images")
       .upload(fileName, imageFile);
 
-    if (error) throw new Error(`画像アップロードエラー: ${error.message}`);
+    if (error) {
+      console.log(error);
+      throw new Error(`画像アップロードエラー: ${error.message}`);
+    }
 
     const { data: publicUrlData } = supabase.storage
       .from("profile-images")

@@ -8,7 +8,7 @@ import Introduce from "@/components/Introduce";
 import MainHeader from "@/components/MainHeader";
 import MainFooter from "@/components/MainFooter";
 import Contents from "@/components/contents";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "@/services/supabaseClient";
 import { useEffect, useState } from "react";
 import Modal from "@/components/Modal/Modal"; // モーダルウィンドウ
 import ChengeProfile from "@/components/Modal/ChangeProfile";

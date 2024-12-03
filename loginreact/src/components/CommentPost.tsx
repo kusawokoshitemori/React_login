@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "@/services/supabaseClient";
 import useAuth from "@/hooks/useAuth";
 import { handleComment } from "@/lib/handleComment";
 

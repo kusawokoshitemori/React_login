@@ -1,21 +1,23 @@
 "use client";
 
-import Modal from "@/components/Modal/Modal";
-import { useState } from "react";
+import React from "react";
+import { checkUserSession } from "@/services/supabaseClient"; // supabaseClient で定義された関数をインポート
 
-const SomeComponent = () => {
-  const [isViewable, setIsViewable] = useState(false);
+const UserSessionButton: React.FC = () => {
+  const handleButtonClick = async () => {
+    try {
+      const user = await checkUserSession();
+      if (user) {
+        console.log("認証されたユーザー:", user);
+      } else {
+        console.log("ユーザーは未認証です。");
+      }
+    } catch (error) {
+      console.error("エラー:", error);
+    }
+  };
 
-  return (
-    <>
-      <button onClick={() => setIsViewable(true)}>モーダルを開く</button>
-      {isViewable && (
-        <Modal closeModal={() => setIsViewable(false)}>
-          <p>再利用可能なモーダルの中身</p>
-        </Modal>
-      )}
-    </>
-  );
+  return <button onClick={handleButtonClick}>現在のセッションを確認</button>;
 };
 
-export default SomeComponent;
+export default UserSessionButton;
