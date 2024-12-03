@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import Button from "./Button";
+import Button from "../Button";
 
 interface ProfileTopProps {
   openModal: () => void; // 関数型を定義

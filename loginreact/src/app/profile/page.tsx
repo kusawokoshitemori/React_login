@@ -1,9 +1,9 @@
 "use client";
 
 import useAuth from "@/hooks/useAuth";
-import ProfileTop from "@/components/profileTop";
-import ProfileSecond from "@/components/profileSecond";
-import ProfileNoPost from "@/components/ProfileNoPost";
+import ProfileTop from "@/components/profile/profileTop";
+import ProfileSecond from "@/components/profile/profileSecond";
+import ProfileNoPost from "@/components/profile/ProfileNoPost";
 import Introduce from "@/components/Introduce";
 import MainHeader from "@/components/MainHeader";
 import MainFooter from "@/components/MainFooter";

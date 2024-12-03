@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState, forwardRef } from "react";
 import { supabase } from "@/services/supabaseClient";
-import CommentSection from "./CommentSection";
+import CommentSection from "./comment/CommentSection";
 import useAuth from "@/hooks/useAuth";
 import { handleLike } from "@/lib/handleLike";
 
