@@ -33,7 +33,13 @@ const ProfileSecond = ({ userId }: { userId: string }) => {
   useEffect(() => {
     const fetchPlayerName: () => Promise<void> = async () => {
       try {
-        const response = await fetch(`/api/user/${userId}`);
+        const response = await fetch(`/api/fetchName`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userId }), // userIdをリクエストボディに含める
+        });
         if (!response.ok) {
           throw new Error(`Error: ${response.statusText}`);
         }

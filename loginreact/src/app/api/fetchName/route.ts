@@ -1,8 +1,19 @@
+import { NextResponse } from "next/server";
 import { supabase } from "@/services/supabaseClient";
 
-export async function Get(userId: string) {
+// POST メソッドをエクスポート
+export async function POST(req: Request) {
   try {
-    // 'users' テーブルから 'id' に一致するレコードの 'name' を取得
+    const body = await req.json();
+    const { userId } = body;
+
+    if (!userId) {
+      return NextResponse.json(
+        { error: "userId is required" },
+        { status: 400 }
+      );
+    }
+
     const { data, error } = await supabase
       .from("users")
       .select("name")
@@ -11,12 +22,22 @@ export async function Get(userId: string) {
 
     if (error) {
       console.error("Error fetching name:", error);
-      return null; // エラーの場合に null を返す
+      return NextResponse.json(
+        { error: "Failed to fetch user name" },
+        { status: 500 }
+      );
     }
 
-    return data ? data.name : null; // レコードがあれば 'name' を返す
+    if (!data) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ name: data.name });
   } catch (err) {
     console.error("Unexpected error:", err);
-    return null;
+    return NextResponse.json(
+      { error: "Unexpected server error" },
+      { status: 500 }
+    );
   }
 }
