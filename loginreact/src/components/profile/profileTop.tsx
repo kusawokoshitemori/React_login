@@ -1,12 +1,12 @@
 "use client";
 import Image from "next/image";
-import Button from "../Button";
+import ButtonFollow from "../Button/ButtonFollow";
 
 interface ProfileTopProps {
-  openModal: () => void; // 関数型を定義
+  userId: string; // 関数型を定義
 }
 
-const ProfileTop: React.FC<ProfileTopProps> = ({ openModal }) => {
+const ProfileTop: React.FC<ProfileTopProps> = ({ userId }) => {
   return (
     <div>
       {/* 3Word */}
@@ -20,7 +20,7 @@ const ProfileTop: React.FC<ProfileTopProps> = ({ openModal }) => {
           priority
         />
         <div className="absolute right-6 sm:right-12">
-          <Button onClick={openModal} />
+          <ButtonFollow userId={userId} />
         </div>
       </div>
     </div>

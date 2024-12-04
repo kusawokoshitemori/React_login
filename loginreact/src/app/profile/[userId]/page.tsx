@@ -9,8 +9,6 @@ import MainFooter from "@/components/MainFooter";
 import Contents from "@/components/contents";
 import { supabase } from "@/services/supabaseClient";
 import { useEffect, useState } from "react";
-import Modal from "@/components/Modal/Modal"; // モーダルウィンドウ
-import ChengeProfile from "@/components/Modal/ChangeProfile";
 
 // Post型の定義
 interface Post {
@@ -54,19 +52,6 @@ const Profile = ({ params }: Props) => {
     fetchPosts();
   }, [userId]);
 
-  // モーダルウィンドウの制御
-  const [isViewable, setIsViewable] = useState(false);
-
-  // モーダルを開くための関数
-  const openModal = () => {
-    setIsViewable(true);
-  };
-
-  // モーダルを閉じるための関数
-  const closeModal = () => {
-    setIsViewable(false);
-  };
-
   return (
     <div className="w-full h-screen">
       <header className="fixed top-0 left-0 right-0 z-10">
@@ -74,8 +59,7 @@ const Profile = ({ params }: Props) => {
       </header>
 
       <div className="w-full pt-24 pb-32">
-        <ProfileTop openModal={openModal} />{" "}
-        {/* ボタンやアイコンを変更したい場合ここを変更する */}
+        <ProfileTop userId={userId} />
         {userId ? (
           <ProfileSecond userId={userId} />
         ) : (
@@ -104,12 +88,6 @@ const Profile = ({ params }: Props) => {
       <footer className="fixed bottom-0 left-0 right-0">
         <MainFooter />
       </footer>
-
-      {isViewable && (
-        <Modal closeModal={closeModal}>
-          <ChengeProfile closeModal={closeModal} />
-        </Modal>
-      )}
     </div>
   );
 };

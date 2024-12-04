@@ -1,4 +1,4 @@
-import ButtonPostMove from "../ButtonPostMove";
+import ButtonPostMove from "../Button/ButtonPostMove";
 
 const ProfileNoPost = () => {
   return (

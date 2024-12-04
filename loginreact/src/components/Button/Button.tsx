@@ -1,7 +1,7 @@
 "use client";
 
 interface ButtonProps {
-  onClick: React.MouseEventHandler<HTMLButtonElement>; // 型を明示的に指定
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const Button: React.FC<ButtonProps> = ({ onClick }) => {
