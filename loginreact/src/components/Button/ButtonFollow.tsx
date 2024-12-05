@@ -7,11 +7,14 @@ interface ButtonProps {
   userId: string;
 }
 
-const ButtonFollow: React.FC<ButtonProps> = () => {
-  const PlayerUser = useAuth();
+const ButtonFollow: React.FC<ButtonProps> = ({ userId }) => {
+  const PlayerUser = useAuth(); // フォローする人
+  const OtherUserId = userId; // フォローする対象
   return (
     <button
-      onClick={() => PlayerUser?.id && handleAddFollow(PlayerUser.id)}
+      onClick={() =>
+        PlayerUser?.id && handleAddFollow(PlayerUser.id, OtherUserId)
+      }
       className="text-white bg-blue-500 rounded-lg hover:bg-blue-700 whitespace-nowrap p-4 text-lg"
     >
       フォローする
