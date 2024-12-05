@@ -1,6 +1,6 @@
 "use client";
 
-import ProfileTop from "@/components/profile/profileTop";
+import ProfileTopOther from "@/components/profile/ProfileTopOther";
 import ProfileSecond from "@/components/profile/profileSecond";
 import ProfileNoPost from "@/components/profile/ProfileNoPost";
 import Introduce from "@/components/Introduce";
@@ -59,7 +59,7 @@ const Profile = ({ params }: Props) => {
       </header>
 
       <div className="w-full pt-24 pb-32">
-        <ProfileTop userId={userId} />
+        <ProfileTopOther userId={userId} />
         {userId ? (
           <ProfileSecond userId={userId} />
         ) : (
