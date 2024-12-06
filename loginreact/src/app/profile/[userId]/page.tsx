@@ -52,6 +52,8 @@ const Profile = ({ params }: Props) => {
     fetchPosts();
   }, [userId]);
 
+  const [isFollow, setIsFollow] = useState(false);
+
   return (
     <div className="w-full h-screen">
       <header className="fixed top-0 left-0 right-0 z-10">
@@ -59,7 +61,11 @@ const Profile = ({ params }: Props) => {
       </header>
 
       <div className="w-full pt-24 pb-32">
-        <ProfileTopOther userId={userId} />
+        <ProfileTopOther
+          userId={userId}
+          isFollow={isFollow}
+          setIsFollow={setIsFollow}
+        />
         {userId ? (
           <ProfileSecond userId={userId} />
         ) : (

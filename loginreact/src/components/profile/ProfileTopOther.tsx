@@ -1,12 +1,19 @@
 "use client";
 import Image from "next/image";
 import ButtonFollow from "../Button/ButtonFollow";
+import { Dispatch, SetStateAction } from "react";
 
 interface ProfileTopProps {
-  userId: string; // 関数型を定義
+  userId: string;
+  isFollow: boolean;
+  setIsFollow: Dispatch<SetStateAction<boolean>>;
 }
 
-const ProfileTopOther: React.FC<ProfileTopProps> = ({ userId }) => {
+const ProfileTopOther: React.FC<ProfileTopProps> = ({
+  userId,
+  isFollow,
+  setIsFollow,
+}) => {
   return (
     <div>
       {/* 3Word */}
@@ -20,7 +27,11 @@ const ProfileTopOther: React.FC<ProfileTopProps> = ({ userId }) => {
           priority
         />
         <div className="absolute right-6 sm:right-12">
-          <ButtonFollow userId={userId} />
+          <ButtonFollow
+            userId={userId}
+            isFollow={isFollow}
+            setIsFollow={setIsFollow}
+          />
         </div>
       </div>
     </div>
