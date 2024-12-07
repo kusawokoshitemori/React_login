@@ -9,10 +9,17 @@ interface Comment {
 
 interface CommentsProps {
   comments: Comment[]; // コメントの配列
+  setComments: React.Dispatch<React.SetStateAction<{ content: string }[]>>;
   postId: number;
+  setCommentNumber: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const CommentSection = ({ comments, postId }: CommentsProps) => {
+const CommentSection = ({
+  comments,
+  setComments,
+  postId,
+  setCommentNumber,
+}: CommentsProps) => {
   return (
     <div>
       <div>
@@ -25,7 +32,11 @@ const CommentSection = ({ comments, postId }: CommentsProps) => {
         )}
       </div>
       <div>
-        <CommentPost postId={postId} />
+        <CommentPost
+          postId={postId}
+          setCommentNumber={setCommentNumber}
+          setComments={setComments}
+        />
       </div>
     </div>
   );

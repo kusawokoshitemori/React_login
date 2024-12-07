@@ -31,6 +31,8 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
     const [user, setUser] = useState<User | null>(null);
     const [comments, setComments] = useState<{ content: string }[]>([]);
     const [isLiked, setIsLiked] = useState(false); // イイねをしているかの状態管理
+    const [likeNumber, setLikeNumber] = useState(0);
+    const [commentNumber, setCommentNumber] = useState(0);
 
     const ClickArrow = () => {
       setIsOpenDetail(!isOpenDetail);
@@ -88,7 +90,7 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
             .eq("post_id", postId);
 
           if (commentsError) {
-            console.error("Error fetching comments:", commentsError);
+            console.error("コメントの取得に失敗しました:", commentsError);
             return;
           }
 
@@ -101,6 +103,12 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
       fetchData();
     }, [postId]);
 
+    useEffect(() => {
+      if (!post) return;
+      setLikeNumber(post.good);
+      setCommentNumber(post.comment);
+    }, [post]);
+
     if (!post) {
       return <p>Loading...</p>;
     }
@@ -108,13 +116,12 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
     // イイねボタンを押したときの処理
     const handleLikeClick = () => {
       if (PlayerUser?.id) {
-        // ログを出力
-        console.log(`User ${PlayerUser.id} liked post ${post.id}`);
-
-        setIsLiked((prev) => !prev);
-
         // API呼び出し
         handleLike(PlayerUser.id, post.id);
+
+        setIsLiked((prev) => !prev);
+        // いいねを1増やしたように見せる
+        setLikeNumber((prev) => prev + 1);
       }
     };
 
@@ -161,7 +168,7 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
               className={`rounded-full mr-4 ml-1 m-1 w-auto h-auto`}
               onClick={handleLikeClick}
             />
-            <p className="text-lg">{post.good}</p>
+            <p className="text-lg">{likeNumber}</p>
           </div>
           <div className="flex items-center">
             <Image
@@ -172,7 +179,7 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
               className="rounded-full mr-4 ml-1 m-1  w-auto h-auto"
               onClick={ClickComment}
             />
-            <p className="text-lg">{post.comment}</p>
+            <p className="text-lg">{commentNumber}</p>
           </div>
           <div>
             <Image
@@ -189,7 +196,12 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
         </div>
         {/* コメントを出す */}
         {isOpenComment && (
-          <CommentSection comments={comments} postId={postId} />
+          <CommentSection
+            comments={comments}
+            setComments={setComments}
+            postId={postId}
+            setCommentNumber={setCommentNumber}
+          />
         )}
       </div>
     );

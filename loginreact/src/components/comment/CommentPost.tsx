@@ -7,9 +7,15 @@ import { handleComment } from "@/lib/handleComment";
 
 interface CommentPostProps {
   postId: number; // 投稿IDを受け取る
+  setCommentNumber: React.Dispatch<React.SetStateAction<number>>;
+  setComments: React.Dispatch<React.SetStateAction<{ content: string }[]>>;
 }
 
-const CommentPost = ({ postId }: CommentPostProps) => {
+const CommentPost = ({
+  postId,
+  setCommentNumber,
+  setComments,
+}: CommentPostProps) => {
   const user = useAuth();
 
   const [content, setContent] = useState("");
@@ -36,12 +42,13 @@ const CommentPost = ({ postId }: CommentPostProps) => {
         return;
       }
 
-      // postテーブルのcommentを1増やす
+      // postテーブルのcommentを1増やす & UIも1増やす
       handleComment(postId);
+      setCommentNumber((prev) => prev + 1);
       alert("コメントが保存されました");
 
-      // postテーブルのcommentを1増やす
-      handleComment(postId);
+      // 仮のUI
+      setComments((prevComments) => [...prevComments, { content: content }]);
 
       setContent(""); // フォームをリセット
     } catch (error) {
