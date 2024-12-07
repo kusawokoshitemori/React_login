@@ -30,6 +30,7 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
     const [post, setPost] = useState<Post | null>(null); // 投稿, 名前を管理
     const [user, setUser] = useState<User | null>(null);
     const [comments, setComments] = useState<{ content: string }[]>([]);
+    const [isLiked, setIsLiked] = useState(false); // イイねをしているかの状態管理
 
     const ClickArrow = () => {
       setIsOpenDetail(!isOpenDetail);
@@ -104,6 +105,19 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
       return <p>Loading...</p>;
     }
 
+    // イイねボタンを押したときの処理
+    const handleLikeClick = () => {
+      if (PlayerUser?.id) {
+        // ログを出力
+        console.log(`User ${PlayerUser.id} liked post ${post.id}`);
+
+        setIsLiked((prev) => !prev);
+
+        // API呼び出し
+        handleLike(PlayerUser.id, post.id);
+      }
+    };
+
     return (
       <div
         ref={ref}
@@ -140,14 +154,12 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
         <div className="w-5/6 flex justify-between items-center mx-auto">
           <div className="flex items-center">
             <Image
-              src="/heart_white.png"
+              src={isLiked ? "/heart_red.png" : "/heart_white.png"}
               alt="ハートの画像"
               width={40}
               height={40}
-              className="rounded-full mr-4 ml-1 m-1 w-auto h-auto"
-              onClick={() =>
-                PlayerUser?.id && handleLike(PlayerUser.id, post.id)
-              }
+              className={`rounded-full mr-4 ml-1 m-1 w-auto h-auto`}
+              onClick={handleLikeClick}
             />
             <p className="text-lg">{post.good}</p>
           </div>
