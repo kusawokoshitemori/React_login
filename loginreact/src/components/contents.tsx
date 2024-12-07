@@ -6,6 +6,7 @@ import { supabase } from "@/services/supabaseClient";
 import CommentSection from "./comment/CommentSection";
 import useAuth from "@/hooks/useAuth";
 import { handleLike } from "@/lib/handleLike";
+import { useRouter } from "next/navigation";
 
 interface Post {
   id: number;
@@ -17,7 +18,7 @@ interface Post {
   comment: number;
 }
 interface User {
-  id: number; // ユーザーのID
+  id: string; // ユーザーのID
   name: string; // 名前
 }
 
@@ -35,6 +36,14 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
     };
     const ClickComment = () => {
       setIsOpenComment(!isOpenComment);
+    };
+
+    // クリックしたら/profile/${user.id}に移動する
+    const router = useRouter();
+    const handleClick = () => {
+      if (post?.userid) {
+        router.push(`/profile/${post?.userid}`);
+      }
     };
 
     useEffect(() => {
@@ -101,7 +110,10 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
         id={`post-${postId}`}
         className="w-5/6 mx-auto my-2 border-4 rounded-lg border-blue-300"
       >
-        <div className="w-full flex items-center border-b-4 border-green-500">
+        <div
+          className="w-full flex items-center border-b-4 border-green-500 cursor-pointer"
+          onClick={handleClick}
+        >
           <Image
             src="/karukaru.png"
             alt="test用画像"
