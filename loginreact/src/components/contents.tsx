@@ -45,6 +45,10 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
     const router = useRouter();
     const handleClick = () => {
       if (post?.userid) {
+        if (PlayerUser?.id && post?.userid == PlayerUser.id) {
+          router.push("/profile");
+          return;
+        }
         router.push(`/profile/${post?.userid}`);
       }
     };
