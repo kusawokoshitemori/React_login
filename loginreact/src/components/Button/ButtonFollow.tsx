@@ -10,12 +10,14 @@ interface ButtonProps {
   userId: string;
   isFollow: boolean;
   setIsFollow: Dispatch<SetStateAction<boolean>>;
+  setPushFollow: Dispatch<SetStateAction<number>>;
 }
 
 const ButtonFollow: React.FC<ButtonProps> = ({
   userId,
   isFollow,
   setIsFollow,
+  setPushFollow,
 }) => {
   const PlayerUser = useAuth(); // フォローする人
   const OtherUserId = userId; // フォローする対象
@@ -39,12 +41,14 @@ const ButtonFollow: React.FC<ButtonProps> = ({
       if (PlayerUser?.id) {
         await handleRemoveFollow(PlayerUser.id, OtherUserId);
         setIsFollow(false);
+        setPushFollow(-1);
       }
     } else {
       // フォロー追加
       if (PlayerUser?.id) {
         await handleAddFollow(PlayerUser.id, OtherUserId);
         setIsFollow(true);
+        setPushFollow(1);
       }
     }
   };

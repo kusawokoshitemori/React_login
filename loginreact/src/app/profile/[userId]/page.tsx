@@ -1,7 +1,7 @@
 "use client";
 
 import ProfileTopOther from "@/components/profile/ProfileTopOther";
-import ProfileSecond from "@/components/profile/profileSecond";
+import ProfileSecondOther from "@/components/profile/profileSecondOther";
 import ProfileNoPost from "@/components/profile/ProfileNoPost";
 import Introduce from "@/components/Introduce";
 import MainHeader from "@/components/MainHeader";
@@ -30,6 +30,7 @@ const Profile = ({ params }: Props) => {
 
   const [posts, setPosts] = useState<Post[]>([]); // 投稿の配列を管理
   const [loading, setLoading] = useState(true); // ローディング状態を管理
+  const [pushFollow, setPushFollow] = useState(0);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -65,9 +66,10 @@ const Profile = ({ params }: Props) => {
           userId={userId}
           isFollow={isFollow}
           setIsFollow={setIsFollow}
+          setPushFollow={setPushFollow}
         />
         {userId ? (
-          <ProfileSecond userId={userId} />
+          <ProfileSecondOther userId={userId} pushFollow={pushFollow} />
         ) : (
           <div>Loading...</div> // ローディング中の表示
         )}

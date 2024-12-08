@@ -1,30 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import axios from "axios";
+import useFollowCounts from "@/hooks/useFollowCounts";
 
-const ProfileSecond = ({ userId }: { userId: string }) => {
-  //フォロー,フォロワー数を送ってもらうやつ
-  const [followCount, setFollowCount] = useState(0);
-  const [followersCount, setFollowersCount] = useState(0);
+interface ProfileSecondOtherProps {
+  userId: string; // ユーザーID
+  pushFollow: number;
+}
 
-  useEffect(() => {
-    const fetchCounts = async () => {
-      try {
-        const response = await axios.get(`/api/follow?userId=${userId}`);
-
-        setFollowersCount(response.data.followersCount);
-        setFollowCount(response.data.followCount);
-      } catch (error) {
-        console.error(
-          "フォロワー数またはフォロー数の取得に失敗しました",
-          error
-        );
-      }
-    };
-
-    fetchCounts();
-  }, [userId]);
+const ProfileSecondOther: React.FC<ProfileSecondOtherProps> = ({
+  userId,
+  pushFollow,
+}) => {
+  const { followCount, followersCount } = useFollowCounts({
+    userId,
+    pushFollow,
+  });
 
   return (
     <div className="flex items-center">
@@ -43,4 +33,4 @@ const ProfileSecond = ({ userId }: { userId: string }) => {
   );
 };
 
-export default ProfileSecond;
+export default ProfileSecondOther;

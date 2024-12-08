@@ -7,12 +7,14 @@ interface ProfileTopProps {
   userId: string;
   isFollow: boolean;
   setIsFollow: Dispatch<SetStateAction<boolean>>;
+  setPushFollow: Dispatch<SetStateAction<number>>;
 }
 
 const ProfileTopOther: React.FC<ProfileTopProps> = ({
   userId,
   isFollow,
   setIsFollow,
+  setPushFollow,
 }) => {
   return (
     <div>
@@ -31,6 +33,7 @@ const ProfileTopOther: React.FC<ProfileTopProps> = ({
             userId={userId}
             isFollow={isFollow}
             setIsFollow={setIsFollow}
+            setPushFollow={setPushFollow}
           />
         </div>
       </div>
