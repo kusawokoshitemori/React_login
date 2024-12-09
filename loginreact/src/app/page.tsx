@@ -1,7 +1,20 @@
-import React from "react";
+"use client";
+
+import { useEffect } from "react";
 import Link from "next/link";
+import useAuth from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
 
 const FirstPage = () => {
+  const router = useRouter();
+  const user = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      router.push("/profile"); // ログイン済みならマイページにリダイレクト
+    }
+  }, [user, router]);
+
   return (
     <div className="PageLink_container">
       <Link href="/register">新規登録</Link>
