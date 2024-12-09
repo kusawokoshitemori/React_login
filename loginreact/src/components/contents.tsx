@@ -148,10 +148,11 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
     // イイねボタンを押したときの処理
     const handleLikeClick = () => {
       if (PlayerUser?.id) {
+        if (isLiked) return;
         // API呼び出し
         handleLike(PlayerUser.id, post.id);
 
-        setIsLiked((prev) => !prev);
+        setIsLiked(true);
         // いいねを1増やしたように見せる
         setLikeNumber((prev) => prev + 1);
       }
