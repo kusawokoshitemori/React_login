@@ -126,7 +126,7 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
 
           // ここでデータを取得する
           const data = await response.json();
-          console.log("いいね状態:", data.isLiked);
+          setIsLiked(data.isLiked);
         } catch (error) {
           console.error("エラー", error);
         }
