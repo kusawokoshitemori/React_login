@@ -1,19 +1,19 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/services/supabaseClient";
 
-export async function POST(request: Request) {
+export async function POST(req: Request) {
   try {
-    const { user_id, post_id } = await request.json();
+    const { user_id, post_id } = await req.json();
 
     if (!user_id || !post_id) {
       return NextResponse.json(
-        { error: "user_idとpost_idは必須です。" },
+        { error: "user_idとpost_idが存在しません" },
         { status: 400 }
       );
     }
 
     // `user_id`と`post_id`でレコードを検索
-    const { data: existingRecord, error: fetchError } = await supabase
+    const { data: fetchData, error: fetchError } = await supabase
       .from("seems")
       .select("*")
       .eq("user_id", user_id)
@@ -28,7 +28,7 @@ export async function POST(request: Request) {
       );
     }
 
-    if (existingRecord) {
+    if (fetchData) {
       // 既存のレコードがある場合は`viewed_at`を更新
       const { error: updateError } = await supabase
         .from("seems")

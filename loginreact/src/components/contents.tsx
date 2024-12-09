@@ -107,21 +107,26 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
 
     // ここにAPI送るやつ(isLikedState)
     useEffect(() => {
+      if (!postId || !PlayerUser) return;
       const getIslikedState = async () => {
         try {
-          const response = await fetch("/api/getLikeState", {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
+          const response = await fetch(
+            `/api/getLikeState?user_id=${PlayerUser?.id}&post_id=${postId}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
 
           if (!response.ok) {
             throw new Error(`エラー,${response.status}`);
           }
 
+          // ここでデータを取得する
           const data = await response.json();
-          console.log(data);
+          console.log("いいね状態:", data.isLiked);
         } catch (error) {
           console.error("エラー", error);
         }
