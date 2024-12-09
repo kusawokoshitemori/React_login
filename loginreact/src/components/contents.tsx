@@ -30,7 +30,7 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
     const [post, setPost] = useState<Post | null>(null); // 投稿, 名前を管理
     const [user, setUser] = useState<User | null>(null);
     const [comments, setComments] = useState<{ content: string }[]>([]);
-    const [isLiked, setIsLiked] = useState(false); // イイねをしているかの状態管理
+    const [isLiked, setIsLiked] = useState<boolean | null>(null); // イイねをしているかの状態管理
     const [likeNumber, setLikeNumber] = useState(0);
     const [commentNumber, setCommentNumber] = useState(0);
 
@@ -55,8 +55,6 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
 
     useEffect(() => {
       const fetchData = async () => {
-        if (!postId) return;
-
         try {
           // 特定の投稿を取得
           const { data: postData, error: postError } = await supabase
@@ -106,6 +104,31 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
 
       fetchData();
     }, [postId]);
+
+    // ここにAPI送るやつ(isLikedState)
+    useEffect(() => {
+      const getIslikedState = async () => {
+        try {
+          const response = await fetch("/api/getLikeState", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+
+          if (!response.ok) {
+            throw new Error(`エラー,${response.status}`);
+          }
+
+          const data = await response.json();
+          console.log(data);
+        } catch (error) {
+          console.error("エラー", error);
+        }
+      };
+
+      getIslikedState();
+    }, [postId, PlayerUser]);
 
     useEffect(() => {
       if (!post) return;

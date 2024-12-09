@@ -107,7 +107,7 @@ const SearchScreen = () => {
       const data = await response.json();
       console.log(data);
     } catch (error) {
-      console.error("Fetch error:", error);
+      console.error("エラー", error);
     }
   };
   const elementRefs = useRef<RefObject<HTMLDivElement>[]>(
