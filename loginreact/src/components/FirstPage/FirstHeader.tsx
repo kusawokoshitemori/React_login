@@ -28,7 +28,10 @@ const FirstHeader = () => {
               className="group-hover:opacity-100 transition-opacity duration-300"
             />
           </Link>
-          <div className="absolute top-[75%] left-[20%] transform -translate-x-1/2 mt-2 w-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div
+            className="absolute top-[75%] left-[20%] transform -translate-x-1/2 mt-2 w-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            style={{ zIndex: 1 }}
+          >
             <Image
               src="/speech_bubble_new.png"
               alt="吹き出し"
@@ -48,7 +51,10 @@ const FirstHeader = () => {
               className="group-hover:opacity-100 transition-opacity duration-300"
             />
           </Link>
-          <div className="absolute top-[75%] left-[25%] transform -translate-x-1/2 mt-2 w-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div
+            className="absolute top-[75%] left-[25%] transform -translate-x-1/2 mt-2 w-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            style={{ zIndex: 1 }}
+          >
             <Image
               src="/speech_bubble_login.png"
               alt="吹き出し"

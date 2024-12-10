@@ -4,6 +4,7 @@
 // import useAuth from "@/hooks/useAuth";
 // import { useRouter } from "next/navigation";
 import FirstHeader from "@/components/FirstPage/FirstHeader";
+import FirstMain from "@/components/FirstPage/Main/FirstMain";
 import FirstFooter from "@/components/FirstPage/FirstFooter";
 
 const FirstPage = () => {
@@ -18,10 +19,8 @@ const FirstPage = () => {
 
   return (
     <div className="w-full h-screen">
-      <header>
-        <FirstHeader />
-      </header>
-      <main></main>
+      <FirstHeader />
+      <FirstMain />
       <FirstFooter />
     </div>
   );
