@@ -3,55 +3,72 @@ import Image from "next/image";
 
 const PinkContainer = () => {
   return (
-    <div className="flex justify-center items-center">
+    <div className="relative w-full h-screen flex justify-center items-center">
       {/* ロゴ本体 */}
-      <div className="z-10 ">
+      <div className="z-10 relative">
         <Image
           src="/proverb_icon.png"
           alt="ことわざの輪ロゴ"
           width={768}
           height={768}
         />
-      </div>
 
-      {/* イラストの配置 */}
-      <div className="absolute top-0 left-0 transform translate-x-[-10%] translate-y-[-10%]">
         <Image
           src="/proverb/proverb1.png"
           alt="ことわざ1"
-          width={48}
-          height={48}
+          width={150}
+          height={150}
+          className="absolute top-[50%] left-[-150px] transform -translate-y-1/2"
         />
-      </div>
-      <div className="absolute top-0 right-0 transform translate-x-[50%] translate-y-[-50%]">
         <Image
           src="/proverb/proverb2.png"
           alt="ことわざ2"
-          width={48}
-          height={48}
+          width={150}
+          height={150}
+          className="absolute top-[-150px] left-[50%] transform -translate-x-1/2"
         />
-      </div>
-      <div className="absolute bottom-0 left-0 transform translate-x-[-50%] translate-y-[50%]">
         <Image
           src="/proverb/proverb3.png"
           alt="ことわざ3"
-          width={48}
-          height={48}
+          width={150}
+          height={150}
+          className="absolute top-[50%] right-[-150px] transform -translate-y-1/2"
         />
-      </div>
-      <div className="absolute bottom-0 right-0 transform translate-x-[50%] translate-y-[50%]">
         <Image
           src="/proverb/proverb4.png"
           alt="ことわざ4"
-          width={48}
-          height={48}
+          width={150}
+          height={150}
+          className="absolute bottom-[-150px] left-[50%] transform -translate-x-1/2"
         />
-      </div>
-      <div className="absolute top-1/2 left-0 transform translate-x-[-50%] translate-y-[-50%]">
-        <Image src="/proverb/flower.png" alt="花1" width={48} height={48} />
-      </div>
-      <div className="absolute top-1/2 right-0 transform translate-x-[50%] translate-y-[-50%]">
-        <Image src="/proverb/flower.png" alt="花2" width={48} height={48} />
+        <Image
+          src="/proverb/proverb5.png"
+          alt="ことわざ5"
+          width={150}
+          height={150}
+          className="absolute top-[-120px] left-[70%] transform -translate-x-1/2"
+        />
+        <Image
+          src="/proverb/proverb6.png"
+          alt="ことわざ6"
+          width={150}
+          height={150}
+          className="absolute bottom-[-120px] left-[30%] transform -translate-x-1/2"
+        />
+        <Image
+          src="/proverb/flower.png"
+          alt="花"
+          width={150}
+          height={150}
+          className="absolute top-[-120px] left-[30%] transform -translate-x-1/2"
+        />
+        <Image
+          src="/proverb/flower.png"
+          alt="花"
+          width={150}
+          height={150}
+          className="absolute bottom-[-120px] left-[70%] transform -translate-x-1/2"
+        />
       </div>
     </div>
   );

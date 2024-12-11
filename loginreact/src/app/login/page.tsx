@@ -43,7 +43,7 @@ const App = () => {
       setLoginSuccess(true);
       setLoginError(null);
       // HomePageにリダイレクトする
-      router.push("/HomePage");
+      router.push("/main");
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error(error.response?.data.message); // エラーメッセージを表示
