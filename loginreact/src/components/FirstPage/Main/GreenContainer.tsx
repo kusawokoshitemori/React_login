@@ -1,5 +1,7 @@
 import React from "react";
 import GreenTextBox from "../Components/GreenTextBox";
+import FirstButtonSubmit from "../Components/FirstButtonSubmit";
+import FirstButtonLogin from "../Components/FirstButtonLogin";
 
 const GreenContainer = () => {
   return (
@@ -7,6 +9,8 @@ const GreenContainer = () => {
       <div>
         <GreenTextBox text="今すぐことわざを共有してコミュニティに参加しよう" />
         {/* ボタン2つ「新規登録はこちら」「既に登録している方はこちら」 */}
+        <FirstButtonSubmit />
+        <FirstButtonLogin />
       </div>
     </div>
   );
