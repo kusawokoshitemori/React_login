@@ -1,8 +1,12 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 const FirstButtonSubmit: React.FC = () => {
+  const router = useRouter();
+
   const handleClick = () => {
-    console.log("あ");
+    router.push("/login"); // /register ページに移動
   };
   return (
     <button

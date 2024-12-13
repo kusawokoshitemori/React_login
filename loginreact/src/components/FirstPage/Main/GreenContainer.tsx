@@ -11,7 +11,6 @@ const GreenContainer = () => {
         {/* ボタン2つ「新規登録はこちら」「既に登録している方はこちら」 */}
         <div className="w-3/4  flex flex-col md:flex-row items-center justify-between mx-auto my-12">
           <SubmitContainer />
-
           <LoginContainer />
         </div>
       </div>

@@ -1,8 +1,12 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 const FirstButtonLogin = () => {
+  const router = useRouter();
+
   const handleClick = () => {
-    console.log("あ");
+    router.push("/register"); // /register ページに移動
   };
   return (
     <button
