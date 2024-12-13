@@ -5,7 +5,6 @@ import { validationSchema } from "../utils/validationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { useState } from "react";
 
 interface LoginForm {
@@ -110,9 +109,6 @@ const App = () => {
           <p className="text-red-600 text-xs mt-2">{loginError}</p>
         )}
       </form>
-      <Link href="/register" className="text-blue-600 hover:underline">
-        新規登録
-      </Link>
     </div>
   );
 };
