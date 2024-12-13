@@ -5,7 +5,7 @@ import FirstButtonSubmit from "./FirstButtonSubmit";
 
 const SubmitContainer = () => {
   return (
-    <div className="flex flex-col items-center w-4/5 md:w-2/5 border-2 border-black p-4">
+    <div className="flex flex-col items-center w-4/5 md:w-2/5 border-2 border-black p-4 bg-gradient-to-r from-blue-100 to-blue-300 rounded-lg shadow-lg">
       <FirstButtonSubmit />
       <p
         className="text-3xl"
