@@ -14,16 +14,29 @@ const BlueContainer = () => {
       </div>
 
       <div
-        className="flex justify-between m-auto pb-96"
+        className="flex flex-col xl:flex-row justify-between m-auto pb-96"
         style={{ width: "90%" }}
       >
-        <Image
-          src="/postingPhoto.png"
-          alt="アプリ画面の様子"
-          width={1024}
-          height={768}
-        />
-        <div className="flex flex-col justify-center items-center">
+        {/* md以上で表示する画像 */}
+        <div className="relative hidden md:block md:basis-2/3 w-full">
+          <Image
+            src="/postingPhotoPC.png"
+            alt="アプリ画面の様子（PC版）"
+            layout="responsive"
+            width={1024}
+            height={768}
+          />
+        </div>
+        <div className="relative block md:hidden w-full">
+          <Image
+            src="/postingPhotoMobile.png"
+            alt="アプリ画面の様子（モバイル版）"
+            layout="responsive"
+            width={768}
+            height={1024}
+          />
+        </div>
+        <div className="flex flex-col justify-center items-center basis-1/3">
           <div className="mb-4">
             <BlueTextBox text="あなたのことわざを簡単シェア" />
           </div>

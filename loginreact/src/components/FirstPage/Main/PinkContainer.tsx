@@ -13,7 +13,7 @@ const PinkContainer = () => {
           height={768}
         />
 
-        <Image
+        {/* <Image
           src="/proverb/proverb1.png"
           alt="ことわざ1"
           width={150}
@@ -54,7 +54,7 @@ const PinkContainer = () => {
           width={150}
           height={150}
           className="absolute bottom-[-120px] left-[30%] transform -translate-x-1/2"
-        />
+        /> */}
         <Image
           src="/proverb/flower.png"
           alt="花"
