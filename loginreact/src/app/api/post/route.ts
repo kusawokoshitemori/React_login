@@ -1,24 +1,30 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextResponse } from "next/server";
 import { supabase } from "@/services/supabaseClient";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (req.method === "POST") {
-    const { proverb, explanation } = req.body;
+// POSTメソッドに対応する関数
+export async function POST(req: Request) {
+  try {
+    const { proverb, explanation } = await req.json(); // リクエストのJSONデータをパース
 
     const { data, error } = await supabase
       .from("proverbs")
       .insert([{ proverb, explanation }]);
 
     if (error) {
-      res.status(500).json({ message: "投稿に失敗しました", error });
-    } else {
-      res.status(200).json({ message: "投稿が成功しました", data });
+      return NextResponse.json(
+        { message: "投稿に失敗しました", error },
+        { status: 500 }
+      );
     }
-  } else {
-    res.setHeader("Allow", ["POST"]);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
+
+    return NextResponse.json({
+      message: "投稿が成功しました",
+      data,
+    });
+  } catch (error) {
+    return NextResponse.json(
+      { message: "予期しないエラーが発生しました", error },
+      { status: 500 }
+    );
   }
 }
