@@ -2,9 +2,13 @@ import React, { useState } from "react";
 import Image from "next/image";
 import useAuth from "@/hooks/useAuth";
 import { updateBio } from "@/app/utils/profile/updateBio";
-import { updateImage } from "@/app/utils/profile/updateImage";
+// import { updateImage } from "@/app/utils/profile/updateImage";
 
-const ChangeProfile = ({ closeModal }) => {
+interface ChangeProfileProps {
+  closeModal: () => void; // closeModalの型を明示的に指定
+}
+
+const ChangeProfile: React.FC<ChangeProfileProps> = ({ closeModal }) => {
   const [bio, setBio] = useState(""); // 名前の状態管理
   const [image, setImage] = useState<File | null>(null); // アップロード画像の状態
   const [imagePreview, setImagePreview] = useState<string | null>(null); // 画像プレビュー用
@@ -46,7 +50,7 @@ const ChangeProfile = ({ closeModal }) => {
 
       if (image) {
         console.log("送信する画像:", image);
-        await updateImage(user.id, image);
+        // await updateImage(user.id, image);
       }
 
       alert("プロフィールが送信されました！");
