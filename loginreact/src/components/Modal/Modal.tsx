@@ -1,7 +1,12 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import ReactDOM from "react-dom";
 
-const Modal = ({ closeModal, children }) => {
+interface ModalProps {
+  closeModal: () => void; // モーダルを閉じるための関数
+  children: ReactNode; // モーダル内に表示するコンテンツ
+}
+
+const Modal = ({ closeModal, children }: ModalProps) => {
   return ReactDOM.createPortal(
     <div
       className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50"
