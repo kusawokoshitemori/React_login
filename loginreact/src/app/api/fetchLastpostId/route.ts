@@ -1,6 +1,7 @@
 import { supabase } from "@/services/supabaseClient";
+import { NextResponse } from "next/server";
 
-export async function fetchLastPostId() {
+export async function GET() {
   const { data, error } = await supabase
     .from("posts")
     .select("id")
@@ -9,8 +10,13 @@ export async function fetchLastPostId() {
 
   if (error) {
     console.error("Error fetching latest post ID:", error);
-    return null;
+    return NextResponse.json(
+      { error: "最新の投稿IDを取得できませんでした。" },
+      { status: 500 }
+    );
   }
 
-  return data && data.length > 0 ? data[0].id : null;
+  return NextResponse.json({
+    lastPostId: data && data.length > 0 ? data[0].id : null,
+  });
 }

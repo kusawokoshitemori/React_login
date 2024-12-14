@@ -6,7 +6,7 @@ const FirstButtonLogin = () => {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push("/register"); // /register ページに移動
+    router.push("/login"); // /login ページに移動
   };
   return (
     <button

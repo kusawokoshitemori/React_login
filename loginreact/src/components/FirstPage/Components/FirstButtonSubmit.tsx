@@ -6,7 +6,7 @@ const FirstButtonSubmit: React.FC = () => {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push("/login"); // /register ページに移動
+    router.push("/register"); // /register ページに移動
   };
   return (
     <button

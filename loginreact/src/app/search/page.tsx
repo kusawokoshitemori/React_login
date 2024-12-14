@@ -10,7 +10,6 @@ import React, {
 import Contents from "@/components/contents";
 import MainHeader from "@/components/MainHeader";
 import MainFooter from "@/components/MainFooter";
-import { fetchLastPostId } from "../api/fetchLastpostId/route";
 import useIntersectionObserver from "../utils/IntersectionObserver";
 import useAuth from "@/hooks/useAuth";
 
@@ -22,11 +21,25 @@ const SearchScreen = () => {
   // 最新のIdから配列を作る
   const [LastPost, setLastPost] = useState(3);
   useEffect(() => {
-    const fetchPoatId = async () => {
-      const latestPostId = await fetchLastPostId();
-      setLastPost(latestPostId);
+    const fetchPostId = async () => {
+      try {
+        // APIエンドポイントを呼び出して最新の投稿IDを取得
+        const response = await fetch("/api/fetchLastpostId");
+
+        if (response.ok) {
+          const data = await response.json();
+          setLastPost(data.lastPostId); // APIから取得したIDをsetLastPostにセット
+        } else {
+          console.error("Error fetching latest post ID:", response.statusText);
+          setLastPost(0);
+        }
+      } catch (error) {
+        console.error("Error fetching latest post ID:", error);
+        setLastPost(0);
+      }
     };
-    fetchPoatId();
+
+    fetchPostId();
   }, []);
 
   const generatePostIds = (startId: number, count: number) => {
