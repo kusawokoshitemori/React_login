@@ -22,18 +22,19 @@ const BlueContainer = () => {
           <Image
             src="/postingPhotoPC.png"
             alt="アプリ画面の様子（PC版）"
-            layout="responsive"
             width={1024}
             height={768}
+            style={{ width: "100%", height: "auto" }}
           />
         </div>
+        {/* md未満で表示する画像 */}
         <div className="relative block md:hidden w-full">
           <Image
             src="/postingPhotoMobile.png"
             alt="アプリ画面の様子（モバイル版）"
-            layout="responsive"
             width={768}
             height={1024}
+            style={{ width: "100%", height: "auto" }}
           />
         </div>
         <div className="flex flex-col justify-center items-center basis-1/3">
