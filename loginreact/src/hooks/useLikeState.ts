@@ -10,9 +10,7 @@ const useLikeState = (postId: number, PlayerId: string | null) => {
 
     const getLikeState = async () => {
       try {
-        const response = await fetch(
-          `/api/getLikeState?postId=${postId}&PlayerId=${PlayerId}`
-        );
+        const response = await fetch(`/api/getLikeState/${PlayerId}/${postId}`);
         if (!response.ok) {
           throw new Error(`Error: ${response.statusText}`);
         }

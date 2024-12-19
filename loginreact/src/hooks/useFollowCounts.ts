@@ -12,21 +12,21 @@ const useFollowCounts = ({ userId, pushFollow }: FollowCountProps) => {
   const [followersCount, setFollowersCount] = useState(0);
 
   useEffect(() => {
-    const fetchCounts = async () => {
-      try {
-        const response = await axios.get(`/api/follow?userId=${userId}`);
-
-        setFollowersCount(response.data.followersCount);
-        setFollowCount(response.data.followCount);
-      } catch (error) {
-        console.error(
-          "フォロワー数またはフォロー数の取得に失敗しました",
-          error
-        );
-      }
-    };
-
     if (userId) {
+      const fetchCounts = async () => {
+        try {
+          const response = await axios.get(`/api/follow/${userId}`);
+          if (response.data.success) {
+            setFollowersCount(response.data.followersCount);
+            setFollowCount(response.data.followCount);
+          }
+        } catch (error) {
+          console.error(
+            "フォロワー数またはフォロー数の取得に失敗しました",
+            error
+          );
+        }
+      };
       fetchCounts();
     }
   }, [userId]);

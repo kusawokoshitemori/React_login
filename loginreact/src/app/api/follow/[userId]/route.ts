@@ -2,10 +2,12 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/services/supabaseClient";
 
-export async function GET(req: Request) {
+export async function GET(
+  req: Request,
+  { params }: { params: { userId: string } }
+) {
   try {
-    const { searchParams } = new URL(req.url);
-    const userId = searchParams.get("userId");
+    const userId = params.userId;
 
     if (!userId) {
       return NextResponse.json(

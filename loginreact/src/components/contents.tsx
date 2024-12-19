@@ -111,24 +111,15 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
       const getIslikedState = async () => {
         try {
           const response = await fetch(
-            `/api/getLikeState?user_id=${PlayerUser?.id}&post_id=${postId}`,
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
+            `/api/getLikeState/${postId}/${PlayerUser}`
           );
-
           if (!response.ok) {
-            throw new Error(`エラー,${response.status}`);
+            throw new Error(`Error: ${response.statusText}`);
           }
-
-          // ここでデータを取得する
           const data = await response.json();
           setIsLiked(data.isLiked);
         } catch (error) {
-          console.error("エラー", error);
+          console.error("データの取得に失敗しました", error);
         }
       };
 
