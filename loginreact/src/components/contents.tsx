@@ -111,7 +111,7 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
       const getIslikedState = async () => {
         try {
           const response = await fetch(
-            `/api/getLikeState/${postId}/${PlayerUser}`
+            `/api/getLikeState/${PlayerUser.id}/${postId}`
           );
           if (!response.ok) {
             throw new Error(`Error: ${response.statusText}`);
