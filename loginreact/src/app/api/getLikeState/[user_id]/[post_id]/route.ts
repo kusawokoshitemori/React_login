@@ -20,8 +20,8 @@ export async function GET(
       .from("likes")
       .select("*")
       .eq("user_id", user_id)
-      .eq("post_id", post_id);
-    // .single();
+      .eq("post_id", post_id)
+      .maybeSingle();
 
     if (fetchError) {
       if (fetchError.code !== "PGRST116") {
@@ -31,19 +31,13 @@ export async function GET(
           { status: 500 }
         );
       }
-      console.log("!!!!!データが存在しない");
-      console.error("Error occurred:", fetchError.message);
-      console.log("Returned data:", fetchData);
       // "PGRST116" は「データが存在しない」エラーなので、その場合は正常なレスポンスを返す
       return NextResponse.json({ isLiked: false }, { status: 200 });
     }
     // ここでデータを送信する
-    if (fetchData && fetchData.length > 0) {
-      console.log("イイねされてるはず");
-      console.log("Returned data:", fetchData);
+    if (fetchData) {
       return NextResponse.json({ isLiked: true }, { status: 200 }); // `true` を返す
     } else {
-      console.log("イイねされてないはず");
       return NextResponse.json({ isLiked: false }, { status: 200 }); // `false` を返す
     }
   } catch (error) {
