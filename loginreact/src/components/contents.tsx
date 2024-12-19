@@ -61,7 +61,7 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
             .from("posts")
             .select("*")
             .eq("id", postId)
-            .single();
+            .maybeSingle();
 
           if (postError) {
             console.error("Error fetching post:", postError);
@@ -71,12 +71,17 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
           console.log("Fetched post:", postData);
           setPost(postData as Post);
 
+          if (!postData) {
+            console.log("postData.useridがnullまたはundefinedです");
+            return; // useridが無効な場合は処理を終了
+          }
+
           // ユーザー名を取得
           const { data: userData, error: userError } = await supabase
             .from("users")
             .select("name")
             .eq("id", postData.userid)
-            .single();
+            .maybeSingle();
 
           if (userError) {
             console.error("Error fetching user:", userError);
