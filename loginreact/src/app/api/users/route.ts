@@ -1,10 +1,13 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/services/supabaseClient";
 
-export async function GET(req: Request) {
+// パラメータをパスから取得
+export async function GET(
+  req: Request,
+  { params }: { params: { userId: string } }
+) {
   try {
-    const { searchParams } = new URL(req.url);
-    const userId = searchParams.get("userId");
+    const userId = params.userId;
 
     if (!userId) {
       return NextResponse.json(
@@ -13,11 +16,12 @@ export async function GET(req: Request) {
       );
     }
 
+    // Supabaseからデータを取得
     const { data: fetchData, error: fetchError } = await supabase
       .from("users")
       .select("introduce")
       .eq("id", userId)
-      .single(); // 一つだけのデータを期待
+      .single();
 
     if (fetchError) {
       console.error("Supabaseのエラーが発生しました", fetchError.message);
@@ -26,14 +30,18 @@ export async function GET(req: Request) {
         { status: 500 }
       );
     }
-    // ここでデータを送信する
+
+    // データを返却
     if (fetchData) {
       return NextResponse.json({
         success: true,
         introduce: fetchData.introduce,
       });
     } else {
-      return NextResponse.json({ success: false, message: "userIdが必要です" });
+      return NextResponse.json({
+        success: false,
+        message: "指定されたユーザーが見つかりません",
+      });
     }
   } catch (error) {
     console.error("予期しないエラーが発生しました", error);

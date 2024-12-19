@@ -1,3 +1,4 @@
+import { NextResponse } from "next/server";
 import { supabase } from "@/services/supabaseClient";
 
 export async function GET() {
@@ -10,15 +11,15 @@ export async function GET() {
 
     if (error) {
       console.error("データ取得エラー:", error);
-      return new Response(JSON.stringify({ error: error.message }), {
+      return new NextResponse(JSON.stringify({ error: error.message }), {
         status: 500,
       });
     }
 
-    return new Response(JSON.stringify(data), { status: 200 });
+    return new NextResponse(JSON.stringify(data), { status: 200 });
   } catch (error) {
     console.error("サーバーエラー:", error);
-    return new Response(JSON.stringify({ error: "サーバーエラー" }), {
+    return new NextResponse(JSON.stringify({ error: "サーバーエラー" }), {
       status: 500,
     });
   }
