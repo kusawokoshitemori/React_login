@@ -2,12 +2,15 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/services/supabaseClient";
 
+// NextRequestをインポート
+import { NextRequest } from "next/server";
+
 export async function GET(
-  req: Request,
-  { params }: { params: { userId: string } }
+  req: NextRequest, // NextRequestを使う
+  { params }: { params: { userId: string } } // paramsを第二引数から取得
 ) {
   try {
-    const userId = params.userId;
+    const { userId } = params; // paramsからuserIdを取得
 
     if (!userId) {
       return NextResponse.json(
@@ -16,7 +19,7 @@ export async function GET(
       );
     }
 
-    //フォローの数を返す
+    // フォローの数を返す
     const { count: followCount, error: followError } = await supabase
       .from("follows")
       .select("*", { count: "exact" })
@@ -30,7 +33,7 @@ export async function GET(
       );
     }
 
-    //フォロワーの数を返す
+    // フォロワーの数を返す
     const { count: followersCount, error: followersError } = await supabase
       .from("follows")
       .select("*", { count: "exact" }) // フォロワー数をカウント
