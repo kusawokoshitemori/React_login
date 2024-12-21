@@ -4,10 +4,10 @@ import axios from "axios";
 
 interface FollowCountProps {
   userId: string;
-  pushFollow: number;
+  pushFollow?: number;
 }
 
-const useFollowCounts = ({ userId, pushFollow }: FollowCountProps) => {
+const useFollowCounts = ({ userId, pushFollow = 0 }: FollowCountProps) => {
   const [followCount, setFollowCount] = useState(0);
   const [followersCount, setFollowersCount] = useState(0);
 

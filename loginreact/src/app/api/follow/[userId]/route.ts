@@ -1,17 +1,11 @@
-// src/app/api/follows/route.ts
+// src/app/api/follow/[userId]/route.ts
 import { NextResponse } from "next/server";
 import { supabase } from "@/services/supabaseClient";
 
-// NextRequestをインポート
-import { NextRequest } from "next/server";
+export async function GET(req: Request, { params }: { params: any }) {
+  const { userId } = params;
 
-export async function GET(
-  req: NextRequest, // NextRequestを使う
-  { params }: { params: { userId: string } } // paramsを第二引数から取得
-) {
   try {
-    const { userId } = params; // paramsからuserIdを取得
-
     if (!userId) {
       return NextResponse.json(
         { error: "userIdが指定されていません" },
@@ -19,7 +13,7 @@ export async function GET(
       );
     }
 
-    // フォローの数を返す
+    //フォローの数を返す
     const { count: followCount, error: followError } = await supabase
       .from("follows")
       .select("*", { count: "exact" })
@@ -33,7 +27,7 @@ export async function GET(
       );
     }
 
-    // フォロワーの数を返す
+    //フォロワーの数を返す
     const { count: followersCount, error: followersError } = await supabase
       .from("follows")
       .select("*", { count: "exact" }) // フォロワー数をカウント
