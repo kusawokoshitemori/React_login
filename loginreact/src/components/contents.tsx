@@ -44,13 +44,14 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
     // クリックしたら/profile/${user.id}に移動する
     const router = useRouter();
     const handleClick = () => {
-      if (post?.userid) {
-        if (PlayerUser?.id && post?.userid == PlayerUser.id) {
-          router.push("/profile");
-          return;
-        }
-        router.push(`/profile/${post?.userid}`);
+      if (!post) return;
+      if (!PlayerUser) return;
+      if (!post.userid) return;
+      if (PlayerUser.id && post.userid == PlayerUser.id) {
+        router.push("/profile");
+        return;
       }
+      router.push(`/profile/${post.userid}`);
     };
 
     useEffect(() => {

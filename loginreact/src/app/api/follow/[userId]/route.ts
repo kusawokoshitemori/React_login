@@ -2,8 +2,11 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/services/supabaseClient";
 
-export async function GET(req: Request, { params }: { params: any }) {
-  const { userId } = params;
+export async function GET(
+  req: Request,
+  { params }: { params: { userId: string } }
+) {
+  const userId = await params.userId;
 
   try {
     if (!userId) {

@@ -9,24 +9,23 @@ import MainFooter from "@/components/MainFooter";
 import Contents from "@/components/contents";
 import { supabase } from "@/services/supabaseClient";
 import { useEffect, useState } from "react";
+import React from "react";
+import { useParams } from "next/navigation";
 
 // Post型の定義
 interface Post {
   id: number;
   proverb: string;
   explanation?: string;
-  created_at: string; // 日時の型を指定
+  created_at: string;
   userid: string;
   good: number;
   comment: number;
 }
 
-type Props = {
-  params: { userId: string };
-};
-
-const Profile = ({ params }: Props) => {
-  const { userId } = params;
+const Profile = () => {
+  const params = useParams();
+  const userId = params.userId;
 
   const [posts, setPosts] = useState<Post[]>([]); // 投稿の配列を管理
   const [loading, setLoading] = useState(true); // ローディング状態を管理
@@ -54,6 +53,8 @@ const Profile = ({ params }: Props) => {
   }, [userId]);
 
   const [isFollow, setIsFollow] = useState(false);
+
+  if (typeof userId !== "string") return;
 
   return (
     <div className="w-full h-screen">
