@@ -4,9 +4,10 @@ import { supabase } from "@/services/supabaseClient";
 
 export async function GET(
   req: Request,
-  { params }: { params: { userId: string } }
+  { params }: { params: Promise<Record<string, string>> }
 ) {
-  const userId = await params.userId;
+  const resolvedParams = await params;
+  const userId = resolvedParams.userId;
 
   try {
     if (!userId) {

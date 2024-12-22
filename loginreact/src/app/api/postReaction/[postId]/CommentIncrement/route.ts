@@ -4,9 +4,10 @@ import { supabase } from "@/services/supabaseClient";
 // POSTメソッド用のハンドラーを名前付きエクスポートで定義
 export async function POST(
   req: Request,
-  { params }: { params: { postId: string } }
+  { params }: { params: Promise<Record<string, string>> }
 ) {
-  const { postId } = params;
+  const resolvedParams = await params;
+  const postId = resolvedParams.postId;
 
   if (!postId) {
     return NextResponse.json(

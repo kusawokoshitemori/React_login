@@ -3,12 +3,12 @@ import { supabase } from "@/services/supabaseClient";
 
 export async function GET(
   req: Request,
-  { params }: { params: { user_id: number; post_id: number } }
+  { params }: { params: Promise<Record<string, number>> }
 ) {
+  const resolvedParams = await params; // Promiseを解決
+  const user_id = resolvedParams.user_id;
+  const post_id = resolvedParams.post_id;
   try {
-    const user_id = params.user_id;
-    const post_id = params.post_id;
-
     if (!user_id || !post_id) {
       return NextResponse.json(
         { error: "user_idとpost_idが存在しません" },

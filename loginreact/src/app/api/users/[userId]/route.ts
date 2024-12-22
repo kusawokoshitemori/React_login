@@ -4,11 +4,11 @@ import { supabase } from "@/services/supabaseClient";
 // パラメータをパスから取得
 export async function GET(
   req: Request,
-  { params }: { params: { userId: string } }
+  { params }: { params: Promise<Record<string, string>> }
 ) {
+  const resolvedParams = await params;
+  const userId = resolvedParams.userId;
   try {
-    const userId = params.userId;
-
     if (!userId) {
       return NextResponse.json(
         { error: "userIdが指定されていません" },
