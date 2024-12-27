@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 interface RegisterForm {
   name: string;
@@ -26,6 +27,8 @@ const Register = () => {
     mode: "onChange",
     resolver: zodResolver(schema),
   });
+  // ここでページ遷移するuseRouterを使う準備
+  const router = useRouter();
 
   const onSubmit = async (data: RegisterForm) => {
     try {
@@ -35,6 +38,15 @@ const Register = () => {
         password: data.password,
       });
       console.log(response.data.message); // 登録成功メッセージを表示
+
+      // 登録したユーザー情報でトークンを取得
+      const tokenResponse = await axios.post("/api/registerToken", {
+        email: data.email, // メールアドレスを使ってトークンを取得
+      });
+
+      console.log(tokenResponse.data.message); // トークン生成成功メッセージ
+      localStorage.setItem("token", tokenResponse.data.token); // トークン保存
+      router.push("/main"); // メインページへ遷移
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error(error.response?.data.message); // エラーメッセージを表示

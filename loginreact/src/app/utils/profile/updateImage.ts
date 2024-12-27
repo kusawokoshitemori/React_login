@@ -2,39 +2,23 @@
 
 // export const updateImage = async (
 //   userId: string,
-//   imageFile: File
-// ): Promise<void> => {
-//   try {
-//     const fileName = `aaa`; //${userId}/${Date.now()}_${imageFile.name}
-//     const { data, error } = await supabase.storage
-//       .from("profile-images")
-//       .upload(fileName, imageFile);
+//   file: File
+// ): Promise<string | null> => {
+//   // ここにファイルが無かったらreturnする処理
+//   const filePath = `${userId}/${Date.now()}-${file.name}`; // ユーザーIDで管理
+//   const { data, error } = await supabase.storage
+//     .from("avatars")
+//     .upload(filePath, file);
 
-//     if (error) {
-//       console.log(error);
-//       throw new Error(`画像アップロードエラー: ${error.message}`);
-//     }
-
-//     const { data: publicUrlData } = supabase.storage
-//       .from("profile-images")
-//       .getPublicUrl(fileName);
-
-//     if (!publicUrlData?.publicUrl) throw new Error("画像URL取得エラー");
-
-//     const profileImageUrl = publicUrlData.publicUrl;
-
-//     // URLをDBに保存
-//     const { error: updateError } = await supabase
-//       .from("users")
-//       .update({ profile_image_url: profileImageUrl })
-//       .eq("id", userId);
-
-//     if (updateError)
-//       throw new Error(`プロフィール画像URL更新エラー: ${updateError.message}`);
-
-//     console.log("プロフィール画像が更新されました！");
-//   } catch (err: any) {
-//     console.error(err.message);
-//     throw err;
+//   if (error) {
+//     console.error("アップロードエラー:", error);
+//     return null;
 //   }
+//   console.log("できたよ", data);
+//   return null;
 // };
+// //   const { publicUrl } = supabase.storage
+// //     .from("profile-images")
+// //     .getPublicUrl(fileName);
+// //   console.log(`公開URL: ${publicUrl}`);
+// //   return publicUrl || null;

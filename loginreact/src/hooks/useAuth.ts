@@ -16,7 +16,7 @@ const useAuth = () => {
     try {
       const token = localStorage.getItem("token"); // トークンを取得
       if (!token) {
-        console.error("トークンが存在しません");
+        console.log("トークンが存在しません");
         return;
       }
 
