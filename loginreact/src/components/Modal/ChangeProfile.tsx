@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import useAuth from "@/hooks/useAuth";
 import { updateBio } from "@/app/utils/profile/updateBio";
-//import { updateImage } from "@/app/utils/profile/updateImage";
+import { updateImage } from "@/app/utils/profile/updateImage";
 
 interface ChangeProfileProps {
   closeModal: () => void; // closeModalの型を明示的に指定
@@ -50,7 +50,7 @@ const ChangeProfile: React.FC<ChangeProfileProps> = ({ closeModal }) => {
 
       if (image) {
         console.log("送信する画像:", image);
-        //await updateImage(user.id, image);
+        await updateImage(user.id, image);
       }
 
       alert("プロフィールが送信されました！");
