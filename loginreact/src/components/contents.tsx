@@ -7,6 +7,7 @@ import CommentSection from "./comment/CommentSection";
 import useAuth from "@/hooks/useAuth";
 import { handleLike } from "@/lib/handleLike";
 import { useRouter } from "next/navigation";
+import Avatar from "./Avataer";
 
 interface Post {
   id: number;
@@ -27,10 +28,10 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
     const PlayerUser = useAuth();
     const [isOpenDetail, setIsOpenDetail] = useState(false);
     const [isOpenComment, setIsOpenComment] = useState(false);
-    const [post, setPost] = useState<Post | null>(null); // 投稿, 名前を管理
+    const [post, setPost] = useState<Post | null>(null);
     const [user, setUser] = useState<User | null>(null);
     const [comments, setComments] = useState<{ content: string }[]>([]);
-    const [isLiked, setIsLiked] = useState<boolean | null>(null); // イイねをしているかの状態管理
+    const [isLiked, setIsLiked] = useState<boolean | null>(null);
     const [likeNumber, setLikeNumber] = useState(0);
     const [commentNumber, setCommentNumber] = useState(0);
 
@@ -154,6 +155,7 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
         setLikeNumber((prev) => prev + 1);
       }
     };
+    if (!user) return;
 
     return (
       <div
@@ -165,13 +167,7 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
           className="w-full flex items-center border-b-4 border-green-500 cursor-pointer"
           onClick={handleClick}
         >
-          <Image
-            src="/karukaru.png"
-            alt="test用画像"
-            width={50}
-            height={50}
-            className="rounded-full mr-4 ml-1 m-1"
-          />
+          <Avatar userId={user!.id} />
           <p className="whitespace-nowrap text-lg">
             {user ? user.name : "名前を取得中..."}
           </p>

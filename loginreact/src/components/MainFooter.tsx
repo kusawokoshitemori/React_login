@@ -48,8 +48,8 @@ const MainFooter = () => {
         <Link href="/profile">
           <div className="flex flex-col items-center">
             <Image
-              src="/karukaru.png"
-              alt="家のアイコン"
+              src="/person.png"
+              alt="人のアイコン"
               width={80}
               height={80}
               className="rounded-full"
