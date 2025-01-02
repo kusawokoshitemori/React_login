@@ -167,7 +167,7 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
           className="w-full flex items-center border-b-4 border-green-500 cursor-pointer"
           onClick={handleClick}
         >
-          <Avatar userId={user!.id} />
+          <Avatar userId={post.userid} />
           <p className="whitespace-nowrap text-lg">
             {user ? user.name : "名前を取得中..."}
           </p>
