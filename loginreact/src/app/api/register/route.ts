@@ -14,6 +14,14 @@ export async function POST(request: Request) {
     .insert([{ name, email, password: hashedPassword }]);
 
   if (error) {
+    // エラーコードが23505の場合、メールアドレスが重複している
+    if (error.code === "23505") {
+      return NextResponse.json(
+        { message: "そのメールアドレスは既に登録されています。" },
+        { status: 400 }
+      );
+    }
+
     console.error("Supabase Error:", error);
     return NextResponse.json(
       { message: "ユーザー登録に失敗しました。" },

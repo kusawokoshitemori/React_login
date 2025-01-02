@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface RegisterForm {
   name: string;
@@ -27,6 +28,10 @@ const Register = () => {
     mode: "onChange",
     resolver: zodResolver(schema),
   });
+  // ログインできているかを管理するやつ。できてなかったらメッセージを表示
+  const [loginSuccess, setLoginSuccess] = useState<boolean | null>(null);
+  const [loginError, setLoginError] = useState<string | null>(null);
+
   // ここでページ遷移するuseRouterを使う準備
   const router = useRouter();
 
@@ -43,15 +48,20 @@ const Register = () => {
       const tokenResponse = await axios.post("/api/registerToken", {
         email: data.email, // メールアドレスを使ってトークンを取得
       });
+      setLoginSuccess(true);
+      setLoginError(null);
 
       console.log(tokenResponse.data.message); // トークン生成成功メッセージ
       localStorage.setItem("token", tokenResponse.data.token); // トークン保存
       router.push("/main"); // メインページへ遷移
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.error(error.response?.data.message); // エラーメッセージを表示
+        setLoginSuccess(false);
+        setLoginError(
+          error.response?.data.message || "ユーザー登録に失敗しました。"
+        );
       } else {
-        console.error("Unexpected error:", error);
+        setLoginError("予期しないエラーが発生しました");
       }
     }
   };
@@ -105,6 +115,9 @@ const Register = () => {
         >
           登録
         </button>
+        {loginSuccess === false && (
+          <p className="text-red-600 text-xs mt-2">{loginError}</p>
+        )}
       </form>
     </div>
   );
