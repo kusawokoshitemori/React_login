@@ -8,7 +8,7 @@ interface AvatarProps {
 
 const Avatar: React.FC<AvatarProps> = ({ userId }) => {
   const [filePath, setFilePath] = useState<string | null>(null);
-  const defaultImage = "/heart_red.png";
+  const defaultImage = "/person.png";
 
   useEffect(() => {
     const fetchData = async () => {
