@@ -1,13 +1,22 @@
 "use client";
 
+import { useEffect } from "react";
+import useAuth from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
 import FirstHeader from "@/components/FirstPage/FirstHeader";
 import FirstMain from "@/components/FirstPage/Main/FirstMain";
 import FirstFooter from "@/components/FirstPage/FirstFooter";
-import useRedirectOnAuth from "@/hooks/useRedirectOnAuth";
 import Head from "next/head";
 
 const FirstPage = () => {
-  useRedirectOnAuth("/main");
+  const router = useRouter();
+  const user = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      router.push("/main");
+    }
+  }, [user, router]);
 
   return (
     <div className="w-full h-screen">

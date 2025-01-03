@@ -11,6 +11,7 @@ import { supabase } from "@/services/supabaseClient";
 import { useEffect, useState } from "react";
 import React from "react";
 import { useParams } from "next/navigation";
+import useRedirectOnAuth from "@/hooks/useRedirectOnAuth";
 
 // Post型の定義
 interface Post {
@@ -24,6 +25,7 @@ interface Post {
 }
 
 const Profile = () => {
+  useRedirectOnAuth();
   const params = useParams();
   const userId = params.userId;
 

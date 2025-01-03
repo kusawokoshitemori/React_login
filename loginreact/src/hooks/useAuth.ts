@@ -42,7 +42,7 @@ const useAuth = () => {
 
   useEffect(() => {
     fetchUser();
-  }, []);
+  });
 
   return user;
 };

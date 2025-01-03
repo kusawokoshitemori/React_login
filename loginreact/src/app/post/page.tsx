@@ -6,6 +6,7 @@ import { supabase } from "../../services/supabaseClient";
 import useAuth from "../../hooks/useAuth";
 import MainHeader from "@/components/MainHeader";
 import MainFooter from "@/components/MainFooter";
+import useRedirectOnAuth from "@/hooks/useRedirectOnAuth";
 
 //formの型定義
 interface ProverbFormData {
@@ -14,6 +15,7 @@ interface ProverbFormData {
 }
 
 const ProverbForm = () => {
+  useRedirectOnAuth();
   const [textMessage, setTextMessage] = useState("");
   const {
     register,

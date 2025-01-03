@@ -15,8 +15,10 @@ import { saveRecommendPosts } from "@/lib/saveRecommendPosts";
 import useIntersectionObserver from "../utils/IntersectionObserver";
 import { isTimeExceeded } from "../utils/timeUtils";
 import useAuth from "@/hooks/useAuth";
+import useRedirectOnAuth from "@/hooks/useRedirectOnAuth";
 
 const Main = () => {
+  useRedirectOnAuth();
   const PlayerUser = useAuth();
   const [loading, setLoading] = useState(true);
   const [isArrayLoading, setIsArrayLoading] = useState(true);

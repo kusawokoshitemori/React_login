@@ -12,6 +12,7 @@ import { supabase } from "@/services/supabaseClient";
 import { useEffect, useState } from "react";
 import Modal from "@/components/Modal/Modal"; // モーダルウィンドウ
 import ChengeProfile from "@/components/Modal/ChangeProfile";
+import useRedirectOnAuth from "@/hooks/useRedirectOnAuth";
 
 // Post型の定義
 interface Post {
@@ -25,6 +26,7 @@ interface Post {
 }
 
 const Profile = () => {
+  useRedirectOnAuth();
   const user = useAuth();
   const [posts, setPosts] = useState<Post[]>([]); // 投稿の配列を管理
   const [loading, setLoading] = useState(true); // ローディング状態を管理

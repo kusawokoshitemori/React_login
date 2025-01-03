@@ -12,8 +12,10 @@ import MainHeader from "@/components/MainHeader";
 import MainFooter from "@/components/MainFooter";
 import useIntersectionObserver from "../utils/IntersectionObserver";
 import useAuth from "@/hooks/useAuth";
+import useRedirectOnAuth from "@/hooks/useRedirectOnAuth";
 
 const SearchScreen = () => {
+  useRedirectOnAuth();
   const PlayerUser = useAuth();
   const loaderRef = useRef<HTMLDivElement | null>(null); // Intersection Observer用
   const [newArrayLoading, setNewArrayLoading] = useState(true);
