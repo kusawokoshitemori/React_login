@@ -51,7 +51,6 @@ const Register = () => {
       setLoginSuccess(true);
       setLoginError(null);
 
-      console.log(tokenResponse.data.message); // トークン生成成功メッセージ
       localStorage.setItem("token", tokenResponse.data.token); // トークン保存
       router.push("/main"); // メインページへ遷移
     } catch (error) {

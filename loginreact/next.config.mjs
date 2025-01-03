@@ -2,7 +2,15 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: [new URL(process.env.NEXT_PUBLIC_SUPABASE_STORAGE_URL).hostname],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: new URL(process.env.NEXT_PUBLIC_SUPABASE_STORAGE_URL)
+          .hostname,
+        port: "",
+        pathname: "/**",
+      },
+    ],
   },
 };
 
