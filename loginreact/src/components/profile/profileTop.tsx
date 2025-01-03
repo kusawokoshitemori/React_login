@@ -8,7 +8,7 @@ interface ProfileTopProps {
 }
 
 const ProfileTop: React.FC<ProfileTopProps> = ({ openModal }) => {
-  const PlayerUser = useAuth();
+  const { user: PlayerUser } = useAuth();
   if (!PlayerUser) return;
   return (
     <div>
