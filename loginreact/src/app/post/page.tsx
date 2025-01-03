@@ -29,7 +29,7 @@ const ProverbForm = () => {
     },
   });
 
-  const user = useAuth(); // ユーザー情報を取得
+  const { user } = useAuth();
 
   const onSubmit: SubmitHandler<ProverbFormData> = async (data) => {
     if (!user) {

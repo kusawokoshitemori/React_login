@@ -19,7 +19,7 @@ import useRedirectOnAuth from "@/hooks/useRedirectOnAuth";
 
 const Main = () => {
   useRedirectOnAuth();
-  const PlayerUser = useAuth();
+  const { user: PlayerUser } = useAuth();
   const [loading, setLoading] = useState(true);
   const [isArrayLoading, setIsArrayLoading] = useState(true);
   const loaderRef = useRef<HTMLDivElement | null>(null); // Intersection Observer用

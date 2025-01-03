@@ -3,14 +3,14 @@ import { useRouter } from "next/navigation";
 import useAuth from "@/hooks/useAuth";
 
 const useRedirectOnAuth = () => {
-  const user = useAuth();
+  const { user, userLoading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!user) {
+    if (!user && !userLoading) {
       router.push("/");
     }
-  }, [user, router]);
+  }, [user, router, userLoading]);
 };
 
 export default useRedirectOnAuth;

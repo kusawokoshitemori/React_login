@@ -27,7 +27,7 @@ interface Post {
 
 const Profile = () => {
   useRedirectOnAuth();
-  const user = useAuth();
+  const { user } = useAuth();
   const [posts, setPosts] = useState<Post[]>([]); // 投稿の配列を管理
   const [loading, setLoading] = useState(true); // ローディング状態を管理
 
