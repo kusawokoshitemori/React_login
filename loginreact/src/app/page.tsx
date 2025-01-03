@@ -10,13 +10,13 @@ import Head from "next/head";
 
 const FirstPage = () => {
   const router = useRouter();
-  const user = useAuth();
+  const { user, userLoading } = useAuth();
 
   useEffect(() => {
-    if (user) {
+    if (user && !userLoading) {
       router.push("/main");
     }
-  }, [user, router]);
+  }, [user, router, userLoading]);
 
   return (
     <div className="w-full h-screen">
