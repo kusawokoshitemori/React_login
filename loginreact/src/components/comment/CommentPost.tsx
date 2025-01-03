@@ -16,7 +16,7 @@ const CommentPost = ({
   setCommentNumber,
   setComments,
 }: CommentPostProps) => {
-  const user = useAuth();
+  const { user } = useAuth();
 
   const [content, setContent] = useState("");
   const handleClick = async () => {

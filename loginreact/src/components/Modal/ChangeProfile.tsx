@@ -12,7 +12,7 @@ const ChangeProfile: React.FC<ChangeProfileProps> = ({ closeModal }) => {
   const [bio, setBio] = useState(""); // 名前の状態管理
   const [image, setImage] = useState<File | null>(null); // アップロード画像の状態
   const [imagePreview, setImagePreview] = useState<string | null>(null); // 画像プレビュー用
-  const user = useAuth();
+  const { user } = useAuth();
 
   if (user == null) {
     return null;

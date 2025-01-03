@@ -25,7 +25,7 @@ interface User {
 
 const Contents = forwardRef<HTMLDivElement, { postId: number }>(
   ({ postId }, ref) => {
-    const PlayerUser = useAuth();
+    const { user: PlayerUser } = useAuth();
     const [isOpenDetail, setIsOpenDetail] = useState(false);
     const [isOpenComment, setIsOpenComment] = useState(false);
     const [post, setPost] = useState<Post | null>(null);

@@ -19,7 +19,7 @@ const ButtonFollow: React.FC<ButtonProps> = ({
   setIsFollow,
   setPushFollow,
 }) => {
-  const PlayerUser = useAuth(); // フォローする人
+  const { user: PlayerUser } = useAuth(); // フォローする人
   const OtherUserId = userId; // フォローする対象
 
   // フォローの状態を調べる
