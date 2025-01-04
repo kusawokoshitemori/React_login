@@ -9,7 +9,7 @@ const FirstHeader = () => {
     <div className="bg-green-300 flex items-center h-24">
       <Image
         src="/original_proverb.png"
-        alt="アイコン"
+        alt="ことわざの輪 アイコン"
         width={100}
         height={100}
       ></Image>
@@ -22,7 +22,7 @@ const FirstHeader = () => {
           <Link href="register">
             <Image
               src="/New_registration.png"
-              alt="新規登録"
+              alt="ことわざの輪 新規登録"
               width={100}
               height={100}
               className="group-hover:opacity-100 transition-opacity duration-300"
@@ -34,7 +34,7 @@ const FirstHeader = () => {
           >
             <Image
               src="/speech_bubble_new.png"
-              alt="吹き出し"
+              alt="ことわざの輪 吹き出し"
               width={100}
               height={100}
             />
@@ -45,7 +45,7 @@ const FirstHeader = () => {
           <Link href="login">
             <Image
               src="/login.png"
-              alt="ログイン"
+              alt="ことわざの輪 ログイン"
               width={100}
               height={100}
               className="group-hover:opacity-100 transition-opacity duration-300"
@@ -57,7 +57,7 @@ const FirstHeader = () => {
           >
             <Image
               src="/speech_bubble_login.png"
-              alt="吹き出し"
+              alt="ことわざの輪 吹き出し"
               width={100}
               height={100}
             />

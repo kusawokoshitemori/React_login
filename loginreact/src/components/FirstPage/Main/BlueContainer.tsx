@@ -7,7 +7,7 @@ const BlueContainer = () => {
       <div className="flex justify-center items-center">
         <Image
           src="/textSubmit.png"
-          alt="ことわざを発信しよう"
+          alt="ことわざ 発信"
           width={512}
           height={512}
         />
@@ -21,7 +21,7 @@ const BlueContainer = () => {
         <div className="relative hidden md:block md:basis-2/3 w-full">
           <Image
             src="/postingPhotoPC.png"
-            alt="アプリ画面の様子（PC版）"
+            alt="ことわざの輪（PC版）"
             width={1024}
             height={768}
             style={{ width: "100%", height: "auto" }}
@@ -31,7 +31,7 @@ const BlueContainer = () => {
         <div className="relative block md:hidden w-full">
           <Image
             src="/postingPhotoMobile.png"
-            alt="アプリ画面の様子（モバイル版）"
+            alt="ことわざの輪（モバイル版）"
             width={768}
             height={1024}
             style={{ width: "100%", height: "auto" }}
