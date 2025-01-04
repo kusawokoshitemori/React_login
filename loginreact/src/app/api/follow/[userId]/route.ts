@@ -1,4 +1,3 @@
-// src/app/api/follow/[userId]/route.ts
 import { NextResponse } from "next/server";
 import { supabase } from "@/services/supabaseClient";
 
@@ -9,6 +8,8 @@ export async function GET(
   const resolvedParams = await params;
   const userId = resolvedParams.userId;
 
+  console.log("動いているかのチェック");
+
   try {
     if (!userId) {
       return NextResponse.json(
@@ -17,7 +18,7 @@ export async function GET(
       );
     }
 
-    //フォローの数を返す
+    // フォローの数を返す
     const { count: followCount, error: followError } = await supabase
       .from("follows")
       .select("*", { count: "exact" })
@@ -31,10 +32,10 @@ export async function GET(
       );
     }
 
-    //フォロワーの数を返す
+    // フォロワーの数を返す
     const { count: followersCount, error: followersError } = await supabase
       .from("follows")
-      .select("*", { count: "exact" }) // フォロワー数をカウント
+      .select("*", { count: "exact" })
       .eq("followee_id", userId);
 
     if (followersError) {
@@ -45,14 +46,12 @@ export async function GET(
       );
     }
 
-    // ここでデータを送信する
-    if (followCount && followersCount) {
-      return NextResponse.json({
-        success: true,
-        followCount,
-        followersCount,
-      });
-    }
+    // フォロー数とフォロワー数を返す
+    return NextResponse.json({
+      success: true,
+      followCount: followCount || 0, // null の場合 0 を返す
+      followersCount: followersCount || 0,
+    });
   } catch (error) {
     console.error("予期しないエラーが発生しました", error);
     return NextResponse.json(
