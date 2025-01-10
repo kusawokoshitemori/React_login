@@ -6,10 +6,8 @@ export const getRecommendedPosts = async () => {
       throw new Error(`HTTPエラー: ${response.status}`);
     }
     const data = await response.json();
-    console.log("取得したデータ:", data);
     return data;
-  } catch (error) {
-    console.error("エラー:", error);
+  } catch {
     return null;
   }
 };

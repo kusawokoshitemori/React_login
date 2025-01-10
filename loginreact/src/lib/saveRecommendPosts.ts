@@ -11,11 +11,7 @@ export const saveRecommendPosts = async (recommendArray: number[]) => {
     });
 
     if (!saveArray.ok) {
-      console.error("おすすめの配列を保存することに失敗しました");
     } else {
-      console.log("おすすめの配列を保存できました");
     }
-  } catch (error) {
-    console.error("エラーが発生しました:", error);
-  }
+  } catch {}
 };

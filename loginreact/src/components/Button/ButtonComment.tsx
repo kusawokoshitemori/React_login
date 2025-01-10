@@ -1,9 +1,7 @@
 "use client";
 
 const ButtonComment = () => {
-  const handleClick = () => {
-    console.log("クリックしたよ");
-  };
+  const handleClick = () => {};
 
   return (
     <button

@@ -9,7 +9,6 @@ export async function GET() {
     .limit(1);
 
   if (error) {
-    console.error("Error fetching latest post ID:", error);
     return NextResponse.json(
       { error: "最新の投稿IDを取得できませんでした。" },
       { status: 500 }

@@ -14,7 +14,6 @@ export async function POST(request: Request) {
       .single();
 
     if (error) {
-      console.error("Supabase Error:", error);
       return NextResponse.json(
         { message: "ユーザー情報の取得に失敗しました。" },
         { status: 500 }
@@ -32,8 +31,7 @@ export async function POST(request: Request) {
       message: "トークンが正常に生成されました。",
       token,
     });
-  } catch (err) {
-    console.error("エラー:", err);
+  } catch {
     return NextResponse.json(
       { message: "サーバーエラーが発生しました。" },
       { status: 500 }

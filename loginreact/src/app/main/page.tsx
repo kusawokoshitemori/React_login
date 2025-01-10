@@ -22,11 +22,11 @@ const Main = () => {
   const { user: PlayerUser } = useAuth();
   const [loading, setLoading] = useState(true);
   const [isArrayLoading, setIsArrayLoading] = useState(true);
-  const loaderRef = useRef<HTMLDivElement | null>(null); // Intersection Observer用
+  const loaderRef = useRef<HTMLDivElement | null>(null);
   const [newArrayLoading, setNewArrayLoading] = useState(true);
 
   // おすすめの投稿のIDを格納する配列
-  const [recommendedPosts, setRecommendedPosts] = useState<number[]>([]); // 初期値
+  const [recommendedPosts, setRecommendedPosts] = useState<number[]>([]);
 
   // おすすめの投稿のIDを取得するコード
   useEffect(() => {
@@ -40,29 +40,19 @@ const Main = () => {
 
       if (recommendArray && Array.isArray(recommendArray) && createdAt) {
         setRecommendedPosts(recommendArray); // データが取得できた場合、状態を更新
-        console.log("おすすめ投稿:", recommendArray);
-        console.log("取得時間:", createdAt);
-      } else {
-        console.log("投稿の取得に失敗しました"); // エラーがあった場合、エラーメッセージを設定
       }
-
       // ここにおすすめの投稿の配列を作るやつ
       if (createdAt && isTimeExceeded(createdAt)) {
         const saveRecommendScore = async () => {
           try {
             const response = await fetch("/api/saveRecommendScore", {
-              method: "GET", // POSTでもOK、データが必要ならbodyで渡す
+              method: "GET",
             });
 
             if (!response.ok) {
               throw new Error("APIリクエストが失敗しました");
             }
-
-            const result = await response.json();
-            console.log("結果:", result);
-          } catch (error) {
-            console.error(error);
-          }
+          } catch {}
         };
         saveRecommendScore();
 
@@ -77,19 +67,15 @@ const Main = () => {
               throw new Error("APIリクエストが失敗しました");
             }
             const result = await response.json();
-            console.log("makeNewRecommendedArray結果:", result);
 
             const newRecommendArray = result;
             setRecommendedPosts(newRecommendArray);
-          } catch (error) {
-            console.error(error);
           } finally {
             setIsArrayLoading(false);
           }
         };
         makeNewRecommendedArray();
       }
-      console.log("createdAt : " + createdAt);
       setLoading(false);
     };
     getPosts();
@@ -121,8 +107,6 @@ const Main = () => {
         currentLength + 5
       ); // 次の5件を取得
       setDisplayedPosts((prevPosts) => [...prevPosts, ...nextPosts]); // 5件ずつ追加
-    } else {
-      console.log("これ以上の投稿はありません");
     }
   }, [recommendedPosts, displayedPosts]);
 
@@ -166,23 +150,15 @@ const Main = () => {
       if (!response.ok) {
         throw new Error(`Error: ${response.status}`);
       }
-
-      const data = await response.json();
-      console.log(data);
-    } catch (error) {
-      console.error("Fetch error:", error);
-    }
+    } catch {}
   };
 
   // IntersectionObserverフックを使用
   useIntersectionObserver(elementRefs.current, (postId) => {
-    console.log("表示機能は動いたよ");
     if (!PlayerUser || !PlayerUser.id) {
-      console.error("NULLだからログインしてねー");
-      return; // PlayerUserがnullまたはIDがない場合は何もしない
+      return;
     }
     const userId = PlayerUser.id;
-    console.log(`userId: ${userId} postId: ${postId}`);
 
     // ここで直接APIを呼び出す
     fetchIntersectionData(userId, postId);

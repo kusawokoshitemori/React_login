@@ -20,12 +20,7 @@ const useFollowCounts = ({ userId, pushFollow = 0 }: FollowCountProps) => {
             setFollowersCount(response.data.followersCount);
             setFollowCount(response.data.followCount);
           }
-        } catch (error) {
-          console.error(
-            "フォロワー数またはフォロー数の取得に失敗しました",
-            error
-          );
-        }
+        } catch {}
       };
       fetchCounts();
     }

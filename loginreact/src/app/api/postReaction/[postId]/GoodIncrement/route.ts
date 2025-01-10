@@ -25,7 +25,6 @@ export async function POST(
       .single();
 
     if (fetchError) {
-      console.error(fetchError);
       return NextResponse.json(
         { message: "Failed to fetch good count" },
         { status: 500 }
@@ -40,7 +39,6 @@ export async function POST(
       .eq("id", postId);
 
     if (updateError) {
-      console.error(updateError);
       return NextResponse.json(
         { message: "Failed to increment good count" },
         { status: 500 }
@@ -52,8 +50,7 @@ export async function POST(
       { message: "Good count incremented successfully" },
       { status: 200 }
     );
-  } catch (error) {
-    console.error(error);
+  } catch {
     return NextResponse.json(
       { message: "An unexpected error occurred" },
       { status: 500 }

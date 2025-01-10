@@ -25,7 +25,6 @@ export async function GET(
 
     if (fetchError) {
       if (fetchError.code !== "PGRST116") {
-        console.error("Supabaseのエラーが発生しました", fetchError.message);
         return NextResponse.json(
           { error: "Supabaseのデータの取得中にエラーが発生しました" },
           { status: 500 }
@@ -40,8 +39,7 @@ export async function GET(
     } else {
       return NextResponse.json({ isLiked: false }, { status: 200 }); // `false` を返す
     }
-  } catch (error) {
-    console.log(error);
+  } catch {
     return NextResponse.json(
       { error: "予期しないエラーが発生しました" },
       { status: 500 }

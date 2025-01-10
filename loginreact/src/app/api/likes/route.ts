@@ -33,8 +33,7 @@ export async function POST(req: Request) {
       { message: "いいねが追加されました" },
       { status: 201 }
     );
-  } catch (error) {
-    console.error(error);
+  } catch {
     return NextResponse.json(
       { message: "エラーが発生しました" },
       { status: 500 }

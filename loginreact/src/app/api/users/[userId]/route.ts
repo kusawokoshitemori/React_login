@@ -24,7 +24,6 @@ export async function GET(
       .single();
 
     if (fetchError) {
-      console.error("Supabaseのエラーが発生しました", fetchError.message);
       return NextResponse.json(
         { error: "Supabaseのデータの取得中にエラーが発生しました" },
         { status: 500 }
@@ -43,8 +42,7 @@ export async function GET(
         message: "指定されたユーザーが見つかりません",
       });
     }
-  } catch (error) {
-    console.error("予期しないエラーが発生しました", error);
+  } catch {
     return NextResponse.json(
       { error: "予期しないエラーが発生しました" },
       { status: 500 }

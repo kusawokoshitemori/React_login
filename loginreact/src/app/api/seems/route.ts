@@ -21,7 +21,6 @@ export async function POST(req: Request) {
       .single();
 
     if (fetchError && fetchError.code !== "PGRST116") {
-      console.error("Supabase Fetch Error:", fetchError.message);
       return NextResponse.json(
         { error: "データの取得中にエラーが発生しました。" },
         { status: 500 }
@@ -37,7 +36,6 @@ export async function POST(req: Request) {
         .eq("post_id", post_id);
 
       if (updateError) {
-        console.error("Supabase Update Error:", updateError.message);
         return NextResponse.json(
           { error: "viewed_atの更新中にエラーが発生しました。" },
           { status: 500 }
@@ -55,7 +53,6 @@ export async function POST(req: Request) {
         .insert([{ user_id, post_id, viewed_at: new Date() }]);
 
       if (insertError) {
-        console.error("Supabase Insert Error:", insertError.message);
         return NextResponse.json(
           { error: "新規レコードの挿入中にエラーが発生しました。" },
           { status: 500 }
@@ -67,8 +64,7 @@ export async function POST(req: Request) {
         { status: 201 }
       );
     }
-  } catch (error) {
-    console.error("Unexpected Error:", error);
+  } catch {
     return NextResponse.json(
       { error: "予期しないエラーが発生しました。" },
       { status: 500 }

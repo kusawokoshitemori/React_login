@@ -13,11 +13,7 @@ export const handleAddFollow = async (
     });
 
     if (!response.ok) {
-      console.log("フォローの追加に失敗しました");
       return;
     }
-    console.log("フォローしました");
-  } catch (error) {
-    console.error("エラーが発生しました", error);
-  }
+  } catch {}
 };

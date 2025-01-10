@@ -12,8 +12,6 @@ export async function POST(req: Request) {
       .match({ follower_id: PlayerUser, followee_id: OtherUserId });
 
     if (error) {
-      console.error("フォロー解除に失敗しました:", error.message);
-
       // エラーのレスポンスを返す
       return NextResponse.json(
         { error: "フォロー解除に失敗しました" },
@@ -21,16 +19,12 @@ export async function POST(req: Request) {
       );
     }
 
-    console.log("フォロー解除に成功しました");
-
     // 正常なレスポンスを返す
     return NextResponse.json(
       { success: true, message: "フォロー解除に成功しました" },
       { status: 200 }
     );
-  } catch (error) {
-    console.error("予期しないエラーが発生しました:", error);
-
+  } catch {
     // エラーのレスポンスを返す
     return NextResponse.json(
       { error: "予期しないエラーが発生しました" },

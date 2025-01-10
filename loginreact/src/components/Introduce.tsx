@@ -14,9 +14,7 @@ const Introduce = ({ userId }: { userId: string }) => {
           if (response.data.success) {
             setIntroduce(response.data.introduce); // 自己紹介記憶
           }
-        } catch (error) {
-          console.error("自己紹介文の取得に失敗しました", error);
-        }
+        } catch {}
       };
       fetchIntroduce();
     }

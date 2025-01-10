@@ -7,9 +7,6 @@ export async function GET(
 ) {
   const resolvedParams = await params;
   const userId = resolvedParams.userId;
-
-  console.log("動いているかのチェック");
-
   try {
     if (!userId) {
       return NextResponse.json(
@@ -25,7 +22,6 @@ export async function GET(
       .eq("follower_id", userId);
 
     if (followError) {
-      console.error("Supabaseのエラーが発生しました", followError.message);
       return NextResponse.json(
         { error: "フォロー数の取得中にエラーが発生しました" },
         { status: 500 }
@@ -39,7 +35,6 @@ export async function GET(
       .eq("followee_id", userId);
 
     if (followersError) {
-      console.error("Supabaseのエラーが発生しました", followersError.message);
       return NextResponse.json(
         { error: "フォロワー数の取得中にエラーが発生しました" },
         { status: 500 }
@@ -52,8 +47,7 @@ export async function GET(
       followCount: followCount || 0, // null の場合 0 を返す
       followersCount: followersCount || 0,
     });
-  } catch (error) {
-    console.error("予期しないエラーが発生しました", error);
+  } catch {
     return NextResponse.json(
       { error: "予期しないエラーが発生しました" },
       { status: 500 }

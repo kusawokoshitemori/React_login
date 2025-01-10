@@ -16,9 +16,7 @@ const useLikeState = (postId: number, PlayerId: string | null) => {
         }
         const data = await response.json();
         setIsLiked(data.isLiked);
-      } catch (error) {
-        console.error("データの取得に失敗しました", error);
-      }
+      } catch {}
     };
 
     getLikeState();

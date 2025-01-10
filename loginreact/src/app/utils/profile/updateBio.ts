@@ -11,13 +11,10 @@ export const updateBio = async (
       .eq("id", userId);
 
     if (error) throw new Error(`自己紹介文更新エラー: ${error.message}`);
-    console.log("自己紹介文が更新されました！");
   } catch (err: unknown) {
     if (err instanceof Error) {
-      console.error(err.message); // Errorオブジェクトのmessageプロパティにアクセス
       throw err; // 再スロー
     } else {
-      console.error("予期しないエラー:", err);
       throw new Error("予期しないエラーが発生しました");
     }
   }

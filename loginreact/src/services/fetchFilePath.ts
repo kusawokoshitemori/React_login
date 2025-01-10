@@ -9,13 +9,11 @@ export const fetchFilePath = async (userId: string): Promise<string | null> => {
       .single(); // 単一のレコードを取得
 
     if (error) {
-      console.error("ファイルパス取得エラー:", error);
       return null;
     }
 
     return data?.profile_image_url || null; // ファイルパスを返す
-  } catch (err) {
-    console.error("ファイルパス取得中にエラー:", err);
+  } catch {
     return null;
   }
 };

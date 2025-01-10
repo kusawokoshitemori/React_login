@@ -7,7 +7,6 @@ export async function GET() {
       .select("id , created_at , good , comment");
 
     if (error) {
-      console.error("データ取得エラー:", error);
       return new Response(JSON.stringify({ error: error.message }), {
         status: 500,
       });
@@ -36,19 +35,14 @@ export async function GET() {
 
     // RecommendScoreをデータベースに保存
     for (const post of updatedPosts) {
-      const { error: updateError } = await supabase
+      const {} = await supabase
         .from("posts")
         .update({ recommendScore: post.recommendScore })
         .eq("id", post.id);
-
-      if (updateError) {
-        console.error("RecommendScore保存エラー:", updateError);
-      }
     }
 
     return new Response(JSON.stringify(data), { status: 200 });
-  } catch (error) {
-    console.error("サーバーエラー:", error);
+  } catch {
     return new Response(JSON.stringify({ error: "サーバーエラー" }), {
       status: 500,
     });

@@ -25,7 +25,6 @@ export async function POST(
       .single();
 
     if (fetchError) {
-      console.error(fetchError);
       return NextResponse.json(
         { message: "postsテーブルのcommentを取れなかった" },
         { status: 500 }
@@ -40,7 +39,6 @@ export async function POST(
       .eq("id", postId);
 
     if (updateError) {
-      console.error(updateError);
       return NextResponse.json(
         { message: "コメントの数を増やせなかった" },
         { status: 500 }
@@ -52,8 +50,7 @@ export async function POST(
       { message: "コメントの数増やせた" },
       { status: 200 }
     );
-  } catch (error) {
-    console.error(error);
+  } catch {
     return NextResponse.json(
       { message: "コメント増やす時にエラー" },
       { status: 500 }

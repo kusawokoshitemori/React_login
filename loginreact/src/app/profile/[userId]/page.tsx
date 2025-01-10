@@ -42,9 +42,7 @@ const Profile = () => {
           .eq("userid", userId); // userIdに基づいて投稿を取得
 
         if (error) {
-          console.error("Error fetching posts:", error);
         } else {
-          console.log("Fetched posts:", data);
           setPosts(data as Post[]); // 取得した投稿の配列をセット
         }
         setLoading(false); // ローディングを終了

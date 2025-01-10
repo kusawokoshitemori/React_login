@@ -37,7 +37,6 @@ const CommentPost = ({
         .insert([{ content, user_id: userId, post_id: postId }]);
 
       if (error) {
-        console.error("Error inserting data:", error);
         alert("コメントの保存に失敗しました");
         return;
       }
@@ -51,10 +50,7 @@ const CommentPost = ({
       setComments((prevComments) => [...prevComments, { content: content }]);
 
       setContent(""); // フォームをリセット
-    } catch (error) {
-      console.error("Error:", error);
-      alert("サーバーエラーが発生しました");
-    }
+    } catch {}
   };
 
   return (

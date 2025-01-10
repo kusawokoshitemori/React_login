@@ -17,7 +17,6 @@ const useAuth = () => {
     try {
       const token = localStorage.getItem("token"); // トークンを取得
       if (!token) {
-        console.log("トークンが存在しません");
         setUserLoading(false);
         return;
       }
@@ -28,7 +27,6 @@ const useAuth = () => {
         },
       });
 
-      console.log("Axios Response:", response); // レスポンスを確認
       if (response.data && response.data.user) {
         setUser({
           id: response.data.user.id, // response.data.user から取得
@@ -36,8 +34,7 @@ const useAuth = () => {
           name: response.data.user.name,
         });
       }
-    } catch (error) {
-      console.error("ユーザー情報の取得に失敗しました", error);
+    } catch {
       setUser(null);
     } finally {
       setUserLoading(false); // API呼び出しが完了したらローディングを終了

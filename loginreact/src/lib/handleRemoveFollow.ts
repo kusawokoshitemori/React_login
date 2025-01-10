@@ -13,11 +13,7 @@ export const handleRemoveFollow = async (
     });
 
     if (!response.ok) {
-      console.log("フォローを外すのに失敗しました");
       return;
     }
-    console.log("フォローを外しました");
-  } catch (error) {
-    console.error("エラーが発生しました", error);
-  }
+  } catch {}
 };

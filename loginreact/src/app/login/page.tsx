@@ -34,7 +34,6 @@ const App = () => {
         email: data.email,
         password: data.password,
       });
-      console.log(response.data.message); // ログイン成功メッセージを表示
 
       // JWTトークンをlocalStorageに保存
       localStorage.setItem("token", response.data.token);
@@ -45,11 +44,9 @@ const App = () => {
       router.push("/main");
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.error(error.response?.data.message); // エラーメッセージを表示
         setLoginSuccess(false);
         setLoginError(error.response?.data.message || "ログインに失敗しました");
       } else {
-        console.error("Unexpected error:", error);
         setLoginError("予期しないエラーが発生しました");
       }
     }

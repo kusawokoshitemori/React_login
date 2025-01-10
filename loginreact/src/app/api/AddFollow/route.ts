@@ -12,23 +12,18 @@ export async function POST(req: Request) {
 
     // エラーがあればレスポンスを返す
     if (error) {
-      console.error("フォロー中にエラーが発生しました", error.message);
       return NextResponse.json(
         { error: "フォローに失敗しました" },
         { status: 500 }
       );
     }
 
-    console.log("フォローができました");
-
     // 正常なレスポンスを返す
     return NextResponse.json(
       { success: true, message: "フォローが完了しました" },
       { status: 200 }
     );
-  } catch (error) {
-    console.error("予期しないエラーが発生しました", error);
-
+  } catch {
     // エラーのレスポンスを返す
     return NextResponse.json(
       { error: "予期しないエラーが発生しました" },

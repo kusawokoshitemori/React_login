@@ -18,15 +18,12 @@ export const checkUserSession = async () => {
   } = await supabase.auth.getSession();
 
   if (error) {
-    console.error("セッション取得エラー:", error.message);
     throw new Error("セッション取得に失敗しました。");
   }
 
   if (!session) {
-    console.log("ユーザーが認証されていません。");
     return null; // 認証されていない場合はnullを返す
   }
 
-  console.log("現在のユーザー:", session.user);
   return session.user; // 認証されている場合はユーザー情報を返す
 };

@@ -8,11 +8,8 @@ export const handleLogin = async (email: string, password: string) => {
   });
 
   if (response.error) {
-    console.error("ログインエラー:", response.error.message);
     return null;
   }
-
-  console.log(response.data); // ログイン成功データを表示
 
   const token = response.data.session?.access_token;
   if (token) {
@@ -24,7 +21,6 @@ export const handleLogin = async (email: string, password: string) => {
     });
 
     if (sessionError) {
-      console.error("セッション設定エラー:", sessionError.message);
       return null;
     }
 
@@ -42,15 +38,12 @@ export const checkUserSession = async () => {
   } = await supabase.auth.getSession();
 
   if (error) {
-    console.error("セッション取得エラー:", error.message);
     return null;
   }
 
   if (!session) {
-    console.log("ユーザーが認証されていません。");
     return null;
   }
 
-  console.log("現在のユーザー:", session.user);
   return session.user;
 };

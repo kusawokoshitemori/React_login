@@ -33,7 +33,6 @@ const ProverbForm = () => {
 
   const onSubmit: SubmitHandler<ProverbFormData> = async (data) => {
     if (!user) {
-      console.error("ユーザーが認証されていません");
       return;
     }
     const { error } = await supabase.from("posts").insert([
@@ -47,10 +46,7 @@ const ProverbForm = () => {
     ]);
 
     if (error) {
-      console.error("Error inserting data:", error.message);
     } else {
-      console.log("データが正常に挿入されました");
-
       // 送信後の処理をここに追加
       await reset({ proverb: "", explanation: "" });
       setTextMessage("データが正常に送信されました！"); // メッセージの表示

@@ -44,12 +44,10 @@ const ChangeProfile: React.FC<ChangeProfileProps> = ({ closeModal }) => {
 
     try {
       if (bio) {
-        console.log("送信する自己紹介文:", bio);
         await updateBio(user.id, bio);
       }
 
       if (image) {
-        console.log("送信する画像:", image);
         await updateImage(user.id, image);
       }
 
@@ -57,10 +55,7 @@ const ChangeProfile: React.FC<ChangeProfileProps> = ({ closeModal }) => {
       setBio("");
       setImage(null);
       setImagePreview(null);
-    } catch (error) {
-      console.error("プロフィール更新中にエラーが発生しました:", error);
-      alert("画像の変更機能は未実装です。");
-    }
+    } catch {}
   };
 
   return (

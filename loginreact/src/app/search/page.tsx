@@ -32,11 +32,9 @@ const SearchScreen = () => {
           const data = await response.json();
           setLastPost(data.lastPostId); // APIから取得したIDをsetLastPostにセット
         } else {
-          console.error("Error fetching latest post ID:", response.statusText);
           setLastPost(0);
         }
-      } catch (error) {
-        console.error("Error fetching latest post ID:", error);
+      } catch {
         setLastPost(0);
       }
     };
@@ -50,14 +48,12 @@ const SearchScreen = () => {
 
   const [searchedPosts, setSearchedPosts] = useState<number[]>([]);
   useEffect(() => {
-    console.log(LastPost);
     const newSearchArray = generatePostIds(LastPost, 5);
     setSearchedPosts(newSearchArray);
   }, [LastPost]);
 
   const fetchMorePosts = useCallback(() => {
     if (!searchedPosts || searchedPosts.length === 0) {
-      console.log("searchedPosts が初期化されていません");
       return;
     }
 
@@ -67,18 +63,12 @@ const SearchScreen = () => {
     if (lastId >= 3) {
       const newPosts = generatePostIds(lastId - 1, 5); // さらに5件追加
       setSearchedPosts((prevPosts) => [...prevPosts, ...newPosts]);
-      console.log(searchedPosts, "動いている");
-    } else {
-      console.log(searchedPosts, "動いてはない");
     }
   }, [searchedPosts]);
 
   useEffect(() => {
     if (searchedPosts.length == 0) {
-      console.log(searchedPosts);
       fetchMorePosts();
-    } else {
-      console.log(searchedPosts, "ここ通った");
     }
   }, [searchedPosts, fetchMorePosts]);
 
@@ -118,12 +108,7 @@ const SearchScreen = () => {
       if (!response.ok) {
         throw new Error(`Error: ${response.status}`);
       }
-
-      const data = await response.json();
-      console.log(data);
-    } catch (error) {
-      console.error("エラー", error);
-    }
+    } catch {}
   };
   const elementRefs = useRef<RefObject<HTMLDivElement>[]>(
     searchedPosts.map(() => React.createRef<HTMLDivElement>())
@@ -131,13 +116,10 @@ const SearchScreen = () => {
 
   // IntersectionObserverフックを使用
   useIntersectionObserver(elementRefs.current, (postId) => {
-    console.log("表示機能は動いたよ");
     if (!PlayerUser || !PlayerUser.id) {
-      console.error("NULLだからログインしてねー");
       return; // PlayerUserがnullまたはIDがない場合は何もしない
     }
     const userId = PlayerUser.id;
-    console.log(`userId: ${userId} postId: ${postId}`);
 
     // ここで直接APIを呼び出す
     fetchIntersectionData(userId, postId);

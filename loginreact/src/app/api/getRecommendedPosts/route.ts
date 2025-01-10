@@ -10,15 +10,13 @@ export async function GET() {
       .limit(1);
 
     if (error) {
-      console.error("データ取得エラー:", error);
       return new NextResponse(JSON.stringify({ error: error.message }), {
         status: 500,
       });
     }
 
     return new NextResponse(JSON.stringify(data), { status: 200 });
-  } catch (error) {
-    console.error("サーバーエラー:", error);
+  } catch {
     return new NextResponse(JSON.stringify({ error: "サーバーエラー" }), {
       status: 500,
     });

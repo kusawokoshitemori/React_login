@@ -21,7 +21,6 @@ export async function POST(req: Request) {
       .single();
 
     if (error) {
-      console.error("Error fetching name:", error);
       return NextResponse.json(
         { error: "Failed to fetch user name" },
         { status: 500 }
@@ -33,8 +32,7 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ name: data.name });
-  } catch (err) {
-    console.error("Unexpected error:", err);
+  } catch {
     return NextResponse.json(
       { error: "Unexpected server error" },
       { status: 500 }

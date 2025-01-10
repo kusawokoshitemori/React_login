@@ -1,9 +1,7 @@
 "use client";
 
 const ButtonPostMove = () => {
-  const handleClick = () => {
-    console.log("クリックしたよ");
-  };
+  const handleClick = () => {};
 
   return (
     <button

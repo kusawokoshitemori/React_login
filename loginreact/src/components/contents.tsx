@@ -66,15 +66,12 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
             .maybeSingle();
 
           if (postError) {
-            console.error("Error fetching post:", postError);
             return;
           }
 
-          console.log("Fetched post:", postData);
           setPost(postData as Post);
 
           if (!postData) {
-            console.log("postData.useridがnullまたはundefinedです");
             return; // useridが無効な場合は処理を終了
           }
 
@@ -86,9 +83,7 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
             .maybeSingle();
 
           if (userError) {
-            console.error("Error fetching user:", userError);
           } else {
-            console.log("Fetched user:", userData);
             setUser(userData as User);
           }
 
@@ -99,14 +94,11 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
             .eq("post_id", postId);
 
           if (commentsError) {
-            console.error("コメントの取得に失敗しました:", commentsError);
             return;
           }
 
           setComments(commentsData);
-        } catch (error) {
-          console.error("Error in fetchData:", error);
-        }
+        } catch {}
       };
 
       fetchData();
@@ -125,9 +117,7 @@ const Contents = forwardRef<HTMLDivElement, { postId: number }>(
           }
           const data = await response.json();
           setIsLiked(data.isLiked);
-        } catch (error) {
-          console.error("データの取得に失敗しました", error);
-        }
+        } catch {}
       };
 
       getIslikedState();
